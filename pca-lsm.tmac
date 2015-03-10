@@ -1,0 +1,12 @@
+.\" last modified 2015-03-04
+.
+.de leadingSpacesMacro
+.ie \\n[obeyLines] .br
+.el \{\
+.nr obeyLines 1
+.ns
+.LP
+.\}
+\h'\\n[lsn]n'
+..
+.lsm leadingSpacesMacro

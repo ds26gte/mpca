@@ -1,0 +1,26 @@
+.\" last change 2015-03-10
+.\" Dorai Sitaram
+.
+.\" Generalization of .TAG in groff's www.tmac, in order
+.\" to allow forward references
+.
+.\" don't load more than once
+.if d pca-tag:set-up .nx
+.
+.if '\*[AUXF]'' .ds AUXF .trofftemp
+.
+.de pca-tag:set-up
+. if \\n[pca-tag:already-set-up] .return
+. nr pca-tag:already-set-up 1
+. so \\*[AUXF].aux
+. if \\n[.U] .open pca-tag:port \\*[AUXF].aux
+..
+.
+.de TAG
+. pca-tag:set-up
+. ie '\\$2'' .ds pca-tag:value \\n[PN]
+. el .ds pca-tag:value \\$2
+. ds TAG_\\$1 \\*[pca-tag:value]
+. if !\\n[.U] .return
+. write pca-tag:port .ds TAG_\\$1 \\*[pca-tag:value]
+..

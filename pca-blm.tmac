@@ -1,0 +1,20 @@
+.\" last modified 2015-03-04
+.
+.de blankLineMacro
+.ec
+.if !\\n[.u] \{\
+.sp .5v
+.eo
+.return
+.\}
+.ie \\n[obeyLines] \{\
+.nr obeyLines 0
+.LP
+.\}
+.el .ie \\n[nextGrafWithoutIndent] \{\
+.nr nextGrafWithoutIndent 0
+.LP
+.\}
+.el .PP
+..
+.blm blankLineMacro

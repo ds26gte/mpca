@@ -1,0 +1,37 @@
+.\" last modified 2015-03-04
+.\" Dorai Sitaram
+.
+.de IMG
+.  ds imageAlign -C\"
+.  ie '\\$1'-R' \{\
+.    ds imageAlign -R\"
+.    shift
+.  \}
+.  el \{\
+.    if '\\$1'-L' \{\
+.      ds imageAlign -L\"
+.      shift
+.    \}
+.  \}
+.  if '\\$1'-C' .shift
+.
+.  ds imageFile \\$1\"
+.  shift
+.
+.  ie '\\$1'' .nr imageWidth (\\n[LL] * 4 / 5)
+.  el .nr imageWidth (\\$1 * \\n[LL] / 100)
+.
+.  nr imageCount +1
+.  ds imageUniqueName .troff_image_\\n[imageCount]\"
+.
+.  if \\n[.U] \{\
+.    ds imageFileExt \\*[imageFile]
+.    substring imageFileExt -4
+.    ie '\\*[imageFileExt]'.svg' .sy inkscape -E \\*[imageUniqueName].eps \\*[imageFile]
+.    el .sy convert \\*[imageFile] \\*[imageUniqueName].eps
+.  \}
+.
+.  in 0
+.  PSPIC \\*[imageAlign] \\*[imageUniqueName].eps \\n[imageWidth]u
+.  nr nextGrafWithoutIndent 1
+..

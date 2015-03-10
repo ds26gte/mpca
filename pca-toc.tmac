@@ -1,0 +1,35 @@
+.\" last modified 2015-03-04
+.\" Dorai Sitaram
+.
+.if d writeTocLine .nx
+.
+.if '\*[AUXF]'' .ds AUXF .trofftemp
+.
+.if !r TOCD .nr TOCD 1
+.
+.de writeTocLine
+.if !\\n[enableTocEntries] .return
+.if !\\n[.U] .return
+.nr headerLevel \\$1
+.shift
+.if (\\n[headerLevel] > \\n[TOCD]) .return
+.if !\\n[tocOpened] \{\
+.nr tocOpened 1
+.open tocPort \\*[AUXF].toc
+.\}
+.write tocPort .tocLine \\n[headerLevel] \\n[%] \\$*
+..
+.
+.de tocLine
+.nr headerLevel \\$1
+.ds pageNum \\$2
+.shift 2
+.IP " " \\n[headerLevel]m
+\\$*, \\*[pageNum]
+..
+.
+.de TOC
+.so \\*[AUXF].toc
+.nr nextGrafWithoutIndent 1
+.nr enableTocEntries 1
+..
