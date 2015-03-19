@@ -1,4 +1,4 @@
-.\" last modified 2015-03-04
+.\" last modified 2015-03-19
 .\" Dorai Sitaram
 .
 .\" don't source if not groff
@@ -8,13 +8,13 @@
 .if n .nx
 .
 .\" don't source more than once
-.if d index:setUpIndex .nx
+.if d index:set_up_index .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
 .\" Index
 .
-.nr index:indexAlreadySetUp 0
+.nr index:index_already_set_up 0
 .
 .de index:item0
 .in 0i
@@ -28,19 +28,19 @@
 .in +.5i
 ..
 .
-.de index:setUpIndex
-.if \\n[index:indexAlreadySetUp] .return
-.nr index:indexAlreadySetUp 1
+.de index:set_up_index
+.if \\n[index:index_already_set_up] .return
+.nr index:index_already_set_up 1
 .nr index:location 0
 .sy if test -f \\*[AUXF].idx; then mv \\*[AUXF].idx z\\*[AUXF].idx; fi
 .sy if test -f z\\*[AUXF].idx -a ! -f \\*[AUXF].ind; then makeindex -s \\*[AUXF].mst -r z\\*[AUXF].idx; fi
 .sy if test -f z\\*[AUXF].ind; then mv z\\*[AUXF].ind \\*[AUXF].ind; fi
 .sy rm -f z\\*[AUXF].idx z\\*[AUXF].ilg
-.open index:mstPort \\*[AUXF].mst
-.write index:mstPort preamble ".
-.write index:mstPort .if n .nx
-.write index:mstPort .if d index:hook .index:hook
-.write index:mstPort .de see
+.open index:mst_port \\*[AUXF].mst
+.write index:mst_port preamble ".
+.write index:mst_port .if n .nx
+.write index:mst_port .if d index:hook .index:hook
+.write index:mst_port .de see
 .\" in the following
 .\" 8 \s in .de body
 .\" 4 \s when .write is called
@@ -48,34 +48,34 @@
 .\" 1 \s when the string is unslashed
 .\" so use 4 \s when you want a character like newline
 .\" otherwise use 8 times the required nr of \s
-.write index:mstPort \\\\\\\\fIsee\\\\\\\\fR \\\\\\\\\\\\\\\\$1
-.write index:mstPort ..
-.write index:mstPort .de seealso
-.write index:mstPort \\\\\\\\fIsee also\\\\\\\\fR \\\\\\\\\\\\\\\\$1
-.write index:mstPort .."
-.\"write index:mstPort .ns"
-.write index:mstPort postamble "\\\\n"
-.write index:mstPort group_skip "\\\\n.sp .5v"
-.write index:mstPort item_0  "\\\\n.index:item0\\\\n\\\\\\\\&"
-.write index:mstPort item_1  "\\\\n.index:item1\\\\n\\\\\\\\&"
-.write index:mstPort item_01 "\\\\n.index:item1\\\\n\\\\\\\\&"
-.write index:mstPort item_x1 "\\\\n.index:item1\\\\n\\\\\\\\&"
-.write index:mstPort item_2  "\\\\n.index:item2\\\\n\\\\\\\\&"
-.write index:mstPort item_12 "\\\\n.index:item2\\\\n\\\\\\\\&"
-.write index:mstPort item_x2 "\\\\n.index:item2\\\\n\\\\\\\\&"
-.write index:mstPort delim_r "-"
-.write index:mstPort indent_space ""
-.write index:mstPort encap_prefix "\\\\\\\\*["
-.write index:mstPort encap_infix  " "
-.write index:mstPort encap_suffix "]"
-.close index:mstPort
-.open index:idxPort \\*[AUXF].idx
+.write index:mst_port \\\\\\\\fIsee\\\\\\\\fR \\\\\\\\\\\\\\\\$1
+.write index:mst_port ..
+.write index:mst_port .de seealso
+.write index:mst_port \\\\\\\\fIsee also\\\\\\\\fR \\\\\\\\\\\\\\\\$1
+.write index:mst_port .."
+.\"write index:mst_port .ns"
+.write index:mst_port postamble "\\\\n"
+.write index:mst_port group_skip "\\\\n.sp .5v"
+.write index:mst_port item_0  "\\\\n.index:item0\\\\n\\\\\\\\&"
+.write index:mst_port item_1  "\\\\n.index:item1\\\\n\\\\\\\\&"
+.write index:mst_port item_01 "\\\\n.index:item1\\\\n\\\\\\\\&"
+.write index:mst_port item_x1 "\\\\n.index:item1\\\\n\\\\\\\\&"
+.write index:mst_port item_2  "\\\\n.index:item2\\\\n\\\\\\\\&"
+.write index:mst_port item_12 "\\\\n.index:item2\\\\n\\\\\\\\&"
+.write index:mst_port item_x2 "\\\\n.index:item2\\\\n\\\\\\\\&"
+.write index:mst_port delim_r "-"
+.write index:mst_port indent_space ""
+.write index:mst_port encap_prefix "\\\\\\\\*["
+.write index:mst_port encap_infix  " "
+.write index:mst_port encap_suffix "]"
+.close index:mst_port
+.open index:idx_port \\*[AUXF].idx
 ..
 .
 .de IX
 .if !\\n[.U] .return
-.index:setUpIndex
-.write index:idxPort \\\\indexentry{\\$*}{\\n[%]}
+.index:set_up_index
+.write index:idx_port \\\\indexentry{\\$*}{\\n[%]}
 ..
 .
 .de INDX

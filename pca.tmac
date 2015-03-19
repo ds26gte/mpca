@@ -1,4 +1,4 @@
-.\" last modified 2015-03-10
+.\" last modified 2015-03-18
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -11,13 +11,6 @@
 .
 .mso pca-sec.tmac
 .
-.mso pca-verb.tmac
-.
-.de IMG
-.mso pca-img.tmac
-.IMG \\$*
-..
-.
 .de TOC
 .mso pca-toc.tmac
 .TOC
@@ -26,11 +19,6 @@
 .de IX
 .mso pca-ix.tmac
 .IX \\$*
-..
-.
-.de TAG
-.mso pca-tag.tmac
-.TAG \\$*
 ..
 .
 .am par@init
@@ -48,14 +36,22 @@
 .de NAV
 ..
 .
+.if !d DC \{\
+.mso pca-verb.tmac
+.
 .de DC
 .mso pca-dc.tmac
 .DC \\$*
 ..
 .
+.de IMG
+.mso pca-img.tmac
+.IMG \\$*
+..
+.de TAG
+.mso pca-tag.tmac
+.TAG \\$*
+..
+.\}
+.
 .char \[u2216] \[u005C]
-.
-.char \[uFE4F] *
-.
-.char ⌈ \\fC
-.char ⌋ \\fP

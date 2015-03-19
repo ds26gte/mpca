@@ -1,35 +1,36 @@
-.\" last modified 2015-03-04
+.\" last modified 2015-03-19
 .\" Dorai Sitaram
 .
-.if d writeTocLine .nx
+.if !\n(.g .nx
+.
+.if d write_toc_line .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
-.if !r TOCD .nr TOCD 1
-.
-.de writeTocLine
-.if !\\n[enableTocEntries] .return
+.de write_toc_line
+.if !\\n[enable_toc_entries] .return
 .if !\\n[.U] .return
-.nr headerLevel \\$1
+.nr header_level \\$1
 .shift
-.if (\\n[headerLevel] > \\n[TOCD]) .return
-.if !\\n[tocOpened] \{\
-.nr tocOpened 1
-.open tocPort \\*[AUXF].toc
+.if (\\n[header_level] > \\n[GROWPS]) .return
+.if !\\n[toc_opened] \{\
+.nr toc_opened 1
+.open toc:port \\*[AUXF].toc
 .\}
-.write tocPort .tocLine \\n[headerLevel] \\n[%] \\$*
+.write toc:port .TOCLINE \\n[header_level] \\n[%] \\$*
 ..
 .
-.de tocLine
-.nr headerLevel \\$1
-.ds pageNum \\$2
+.de TOCLINE
+.nr header_level \\$1
+.if (\\n[header_level] > \\n[GROWPS]) .return
+.ds pg_no \\$2
 .shift 2
-.IP " " \\n[headerLevel]m
-\\$*, \\*[pageNum]
+.IP " " \\n[header_level]m
+\\$*, \\*[pg_no]
 ..
 .
 .de TOC
 .so \\*[AUXF].toc
-.nr nextGrafWithoutIndent 1
-.nr enableTocEntries 1
+.nr next_graf_without_indent 1
+.nr enable_toc_entries 1
 ..
