@@ -1,3 +1,5 @@
+.= mpca
+
 mpca is a Groff macro package that conservatively extends the ms
 package.  Its features include:
 
