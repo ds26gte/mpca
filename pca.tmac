@@ -1,4 +1,4 @@
-.\" last modified 2015-03-20
+.\" last modified 2015-04-08
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -23,6 +23,16 @@
 .IX \\$*
 ..
 .
+.de EX
+.mso pca-verb.tmac
+.EX
+..
+.
+.de ```
+.mso pca-verb.mac
+.```
+..
+.
 .am par@init
 .nr FL \\n[LL]
 ..
@@ -39,7 +49,6 @@
 ..
 .
 .if !d DC \{\
-.mso pca-verb.tmac
 .
 .de DC
 .mso pca-dc.tmac
