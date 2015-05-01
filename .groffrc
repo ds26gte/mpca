@@ -1,7 +1,11 @@
-.\" last modified 2015-04-07
+.\" last modified 2015-04-30
 .
 .mso hp1320.tmac
+.mso .groffontrc
 .
 .nr PI 1.5m
 .
 .nr GROWPS 3
+.
+.nr LL +.5i
+.nr PO -.25i
