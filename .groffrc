@@ -1,4 +1,4 @@
-.\" last modified 2015-05-05
+.\" last modified 2015-05-30
 .
 .mso .groffontrc
 .
@@ -6,8 +6,10 @@
 .
 .nr GROWPS 3
 .
+.if d @init \{\
 .am @init
 .mso hp1320.tmac
 .nr LL +.5i
 .nr PO -.25i
 ..
+.\}
