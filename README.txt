@@ -11,19 +11,19 @@ package.  Its features include:
 • image insertion (.svg, .jpeg, etc)
 • page references both backward and forward
 
-Place the pca*.tmac files in your home directory or somewhere on
+Place the pca*.tmac files in your home directory or somewhere in
 your GROFF_TMAC_PATH.
 
 mpca may be loaded into your groff source as
 
-.mso pca
+  .mso pca
 
-or invoked as the groff command-line option
+or invoked as a groff command-line option:
 
--mpca
+  groff -mpca ...
 
-If using the index or table-of-contents features, you have to use
-the -U groff command-line option for the first run, as groff
+If using the indexing or table-of-contents features, you have to
+use the -U groff command-line option for the first run, as groff
 needs to be in “unsafe” mode so that mpca can create the external
 auxiliary files needed.
 
