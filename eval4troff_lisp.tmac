@@ -1,0 +1,39 @@
+.\" last modified 2015-06-10
+.
+.ds eval4troff:file \\*[AUXF].lisp
+.
+.de eval4troff:process_snippets
+.  \" change this to suit the Common Lisp impl
+.  sy touch \\*[eval4troff:file]
+.  sy if   test "$LISP" = clisp; then clisp \\*[eval4troff:file]; \
+   elif test "$LISP" = clozure; then ccl -l \\*[eval4troff:file] -e '(ccl:quit)'; \
+   elif test "$LISP" = cmu; then lisp -quiet -load \\*[eval4troff:file] -eval '(ext:quit)'; \
+   elif test "$LISP" = ecl; then ecl -shell \\*[eval4troff:file]; \
+   elif test "$LISP" = sbcl; then sbcl --noinform --load \\*[eval4troff:file] --eval '(sb-ext:quit)'; \
+   elif test "$(uname -s)" = Linux -o "$(uname -s)" = SunOS; then sbcl --noinform --load \\*[eval4troff:file] --eval '(sb-ext:quit)'; \
+   elif test "$(uname -s)" = Darwin; then ccl -l \\*[eval4troff:file] -e '(ccl:quit)'; \
+   else clisp \\*[eval4troff:file]; \
+   fi
+..
+.
+.de eval4troff:start_snippets
+.  write eval4troff:port (defvar *eval4troff-stdout* *standard-output*)
+.  write eval4troff:port (defun eval4troff-preamble (f)
+.  write eval4troff:port   (setq *standard-output*
+.  write eval4troff:port     (open f :direction :output :if-exists :supersede)))
+.  write eval4troff:port (defun eval4troff-postamble ()
+.  write eval4troff:port   (format t "\\\\\\\\c~%")
+.  write eval4troff:port   (format t ".ds eval4troff:status done~%")
+.  write eval4troff:port   (close *standard-output*)
+.  write eval4troff:port   (setq *standard-output* *eval4troff-stdout*))
+..
+.
+.ig ##
+(defrequest "eval4troff:process_snippets"
+  (lambda ()
+    (read-troff-line)
+    (let ((f (concatenate 'string
+                (funcall (gethash "AUXF" *string-table*))
+                ".lisp")))
+      (when (probe-file f) (load f)))))
+.##

@@ -1,4 +1,4 @@
-.\" last modified 2015-06-09
+.\" last modified 2015-06-10
 .\" Dorai Sitaram
 .
 .\" don't load if not groff
@@ -88,12 +88,3 @@
 \[rh]eval\[lh]
 ..
 .
-.ig ##
-(defrequest "eval4troff:snippets"
-  (lambda ()
-    (read-troff-line)
-    (let ((f (concatenate 'string
-                (funcall (gethash "AUXF" *string-table*))
-                ".lisp")))
-      (when (probe-file f) (load f)))))
-.##

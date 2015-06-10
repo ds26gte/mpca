@@ -1,0 +1,22 @@
+.\" last modified 2015-06-10
+.
+.ds eval4troff:file \\*[AUXF].js
+.
+.de eval4troff:process_snippets
+.  sy touch \\*[eval4troff:file]
+.  sy nodejs \\*[eval4troff:file]
+..
+.
+.de eval4troff:start_snippets
+.  write eval4troff:port var troff;
+.  write eval4troff:port var eval4troff_fs = require('fs');
+.  write eval4troff:port function eval4troff_preamble(f) {
+.  write eval4troff:port   troff = eval4troff_fs.createWriteStream(f);
+.  write eval4troff:port }
+.  write eval4troff:port function eval4troff_postamble() {
+.  write eval4troff:port   troff.write('\\\\\\\\c\\\\n')
+.  write eval4troff:port   troff.write('.ds eval4troff:status done\\\\n')
+.  write eval4troff:port   troff.end();
+.  write eval4troff:port }
+..
+.

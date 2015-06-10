@@ -1,4 +1,4 @@
-.\" last modified 2015-06-09
+.\" last modified 2015-06-10
 .\" Dorai Sitaram
 .
 .\" don't load if not groff
@@ -7,16 +7,13 @@
 .
 .\" don't load more than once
 .
-.if d eval4troff:snippets .nx
-.
-.if !\n[.troff2page] \{\
-.de eval4troff:snippets
-.  sy touch \\*[eval4troff:file]
-.  sy nodejs \\*[eval4troff:file]
-..
-.\}
+.if d eval4troff:process_snippets .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
+.
+.if '\*[eval4trofflang]'' .ds eval4trofflang lisp
+.
+.mso eval4troff_\*[evaltrofflang].tmac
 .
 .nr eval4troff:already_setup 0
 .
@@ -25,19 +22,9 @@
 .  nr eval4troff:already_setup 1
 .  nr eval4troff:count 0
 .  if !\\n[.U] .return
-.  ds eval4troff:file \\*[AUXF].js
-.  eval4troff:snippets
+.  eval4troff:process_snippets
 .  open eval4troff:port \\*[eval4troff:file]
-.  write eval4troff:port var troff;
-.  write eval4troff:port var eval4troff_fs = require('fs');
-.  write eval4troff:port function eval4troff_preamble(f) {
-.  write eval4troff:port   troff = eval4troff_fs.createWriteStream(f);
-.  write eval4troff:port }
-.  write eval4troff:port function eval4troff_postamble() {
-.  write eval4troff:port   troff.write('\\\\\\\\c\\\\n')
-.  write eval4troff:port   troff.write('.ds eval4troff:status done\\\\n')
-.  write eval4troff:port   troff.end();
-.  write eval4troff:port }
+.  eval4troff:start_snippets
 ..
 .
 .ds eval4troff:status try
@@ -79,7 +66,3 @@
 .  \}
 \[rh]eval\[lh]
 ..
-.
-.ig ##
-.\" define eval4troff:snippets for troff2page.js
-.##
