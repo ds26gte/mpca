@@ -28,6 +28,12 @@
 .  write eval4troff:port   (setq *standard-output* *eval4troff-stdout*))
 ..
 .
+.de eval4troff:write_snippet
+.  write  eval4troff:port (eval4troff-preamble "\\*[AUXF]_eval_\\n[eval4troff:count].tmp")
+.  writem eval4troff:port eval4troff:text
+.  write  eval4troff:port (eval4troff-postamble)
+..
+.
 .ig ##
 (defrequest "eval4troff:process_snippets"
   (lambda ()

@@ -20,3 +20,8 @@
 .  write eval4troff:port }
 ..
 .
+.de eval4troff:write_snippet
+.  write  eval4troff:port eval4troff_preamble('\\*[AUXF]_eval_\\n[eval4troff:count].tmp')
+.  writem eval4troff:port eval4troff:text
+.  write  eval4troff:port eval4troff_postamble()
+..

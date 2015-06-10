@@ -13,7 +13,7 @@
 .
 .if '\*[eval4trofflang]'' .ds eval4trofflang lisp
 .
-.mso eval4troff_\*[evaltrofflang].tmac
+.mso eval4troff_\*[eval4trofflang].tmac
 .
 .nr eval4troff:already_setup 0
 .
@@ -37,14 +37,8 @@
 .de endeval
 .  ec
 .  eval4troff:so_snippet
-.  eval4troff:write_snippet
-..
-.
-.de eval4troff:write_snippet
 .  if !\\n[.U] .return
-.  write eval4troff:port eval4troff_preamble('\\*[eval4troff:snippet_file]')
-.  writem eval4troff:port eval4troff:text
-.  write eval4troff:port eval4troff_postamble()
+.  eval4troff:write_snippet
 ..
 .
 .de eval4troff:so_snippet
