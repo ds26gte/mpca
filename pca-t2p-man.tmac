@@ -1,6 +1,8 @@
 .\" last modified
 .\" Dorai Sitaram
 .
+.\" to be fixed
+.
 .if !\n[.troff2page] .nx
 .
 .\" these macros are relevant only for troff2page,
@@ -8,27 +10,27 @@
 .\" of contents for man pages.
 .\" Place this file in GROFF_TMAC_PATH, cwd, or home
 .
-.if d process_toc_line .nx
+.if d write_toc_line .nx
 .
 .mso pca-toc.tmac
 .
-.rn TH TH_orig
+.rn TH pca-t2p-man:TH:orig
 .
 .de TH
-.TH_orig \\$*
+.pca-t2p-man:TH:orig \\$*
 .TOC
 ..
 .
-.rn SH SH_orig
+.rn SH pca-t2p-man:SH:orig
 .
 .de SH
-.process_toc_line 1 \\$*
-.SH_orig \\$*
+.write_toc_line 1 \\$*
+.pca-t2p-man:SH:orig \\$*
 ..
 .
-.rn SS SS_orig
+.rn SS pca-t2p-man:SS:orig
 .
 .de SS
-.process_toc_line 2 \\$*
-.SS_orig \\$*
+.write_toc_line 2 \\$*
+.pca-t2p-man:SS:orig \\$*
 ..
