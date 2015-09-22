@@ -1,43 +1,81 @@
-.\" last modified 2015-03-25
+.\" last modified 2015-09-22
 .\" Dorai Sitaram
-.
-.if !\n(.g .nx
 .
 .if d process_toc_line .nx
 .
+.\"mso ms.tmac
+.\"mso pca-blm.tmac
+.\"mso pca-lsm.tmac
+.
+.nr GROWPS 3
+.
 .if '\*[AUXF]'' .ds AUXF .trofftemp
-.
-.de process_toc_line
-.if !\\n[enable_toc_entries] .return
-.if !\\n[.U] .return
-.nr header_level \\$1
-.shift
-.if (\\n[header_level] > \\n[GROWPS]) .return
-.if !\\n[toc_opened] \{\
-.nr toc_opened 1
-.open toc:port \\*[AUXF].toc
-.write toc:port .if d toc:hook .toc:hook
-.\}
-.write_toc_line \\$*
-..
-.
-.de write_toc_line
-.write toc:port .TOCLINE \\n[header_level] \\n[%] \\$*
-..
-.
-.de TOCLINE
-.nr header_level \\$1
-.if (\\n[header_level] > \\n[GROWPS]) .return
-.ds pg_no \\$2
-.shift 2
-.IP " " \\n[header_level]m
-\\$*, \\*[pg_no]
-..
 .
 .de TOC
 .so \\*[AUXF].toc
 .nr next_graf_without_indent 1
 .nr enable_toc_entries 1
+..
+.
+.de SEC
+.@SH \\$*
+..
+.
+.if !\n[.U] .nx
+.
+.rn @SH @pca-toc.tmac:SH:orig
+.
+.de SEC
+.@pca-toc.tmac:SH:orig \\$*
+..
+.
+.de @SH
+.ie '\\$1'' .nr header_level \\n[GROWPS]
+.el .nr header_level \\$1
+.nr go_ahead 1
+.ie !\\n[enable_toc_entries] .nr go_ahead 0
+.el .if (\\n[header_level] > \\n[GROWPS]) .nr go_ahead 0
+.ie \\n[go_ahead] \{\
+.nr inside_section_p 1
+.di section_title
+.\}
+.el \{\
+.@pca-toc.tmac:SH:orig \\n[header_level]
+.\}
+..
+.
+.als SH @SH
+.
+.\"rn ZH @SH
+.
+.de process_toc_line
+.if !\\n[toc_opened] \{\
+.nr toc_opened 1
+.open toc:port \\*[AUXF].toc
+.write toc:port .if d toc:hook .toc:hook
+.\}
+.write_toc_line
+..
+.
+.de write_toc_line
+.write toc:port .IP " " \\n[header_level]m
+.write toc:port \\*[section_title]
+.write toc:port \\&... \\n[%]
+..
+.
+.de section_postlude
+.nr inside_section_p 0
+.if !\n[.troff2page] .br
+.di
+.nr toc_count +1
+.open toc:port_snippet \\*[AUXF]_snippet_\\n[toc_count].tmp
+.asciify section_title
+.write toc:port_snippet \\*[section_title]
+.close toc:port_snippet
+.process_toc_line
+.@pca-toc.tmac:SH:orig \\n[header_level]
+.so \\*[AUXF]_snippet_\\n[toc_count].tmp
+.nr next_graf_without_indent 0
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-toc.tmac
