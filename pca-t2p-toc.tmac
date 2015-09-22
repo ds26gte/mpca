@@ -1,4 +1,4 @@
-.\" last modified 2015-03-25
+.\" last modified 2015-09-22
 .\" Dorai Sitaram
 .
 .if !\n[.troff2page] .nx
@@ -13,18 +13,22 @@
 ..
 .
 .de write_toc_line
+.nr toc_item_indent \\n[header_level]
+.nr toc_item_indent -1
 .nr section_anchor_count +1
 .TAG sec_\\n[section_anchor_count]
-.write toc:port .TOCLINE \\n[header_level] TAG_sec_\\n[section_anchor_count] \\$*
+.write toc:port \h'\\n[toc_item_indent]m'
+.write toc:port \\*[toc:sec_url \\n[section_anchor_count]]
 ..
 .
-.de TOCLINE
-.nr toc_item_indent \\$1
-.nr toc_item_indent -1
-.ds toc_item_tag \\$2
-.shift 2
-.ds toc_item_text \\$*
-\h'\\n[toc_item_indent]m'
-\\*[url #\\*[toc_item_tag] "\\$*"]
+.ig ##
+(defstring  "toc:sec_url"
+  (lambda (n)
+    (let ((div (gethash "section_title" *diversion-table*)))
+      (let ((s (verbatim (retrieve-diversion div))))
+        (let ((r (url-string-value (concatenate 'string "#TAG_sec_" n) s)))
+          r)))))
+.##
 .br
 ..
+.
