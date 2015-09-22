@@ -13,22 +13,31 @@
 ..
 .
 .de write_toc_line
-.nr toc_item_indent \\n[header_level]
+.TAG sec_\\n[toc_count]
+.write toc:port .TOCLINE \\n[header_level] \\n[toc_count]
+..
+.
+.de TOCLINE
+.nr toc_item_indent \\$1
 .nr toc_item_indent -1
-.nr section_anchor_count +1
-.TAG sec_\\n[section_anchor_count]
-.write toc:port \h'\\n[toc_item_indent]m'
-.write toc:port \\*[toc:sec_url \\n[section_anchor_count]]
+.nr section_anchor_count \\$2
+\h'\\n[toc_item_indent]m'
+\\*[toc:sec_url \\n[section_anchor_count]]
+.br
 ..
 .
 .ig ##
 (defstring  "toc:sec_url"
   (lambda (n)
-    (let ((div (gethash "section_title" *diversion-table*)))
-      (let ((s (verbatim (retrieve-diversion div))))
-        (let ((r (url-string-value (concatenate 'string "#TAG_sec_" n) s)))
-          r)))))
+    (let ((f (concatenate 'string (funcall (gethash "AUXF" *string-table*)) "_snippet_" n ".tmp")))
+      (let ((o (make-string-output-stream)))
+        (with-open-file (i f :direction :input)
+          (loop
+            (let ((x (read-line i nil)))
+              (unless x (return))
+              (princ x o) (terpri o))))
+        (url-string-value (concatenate 'string "#TAG_sec_" n)
+          (get-output-stream-string o))))))
 .##
 .br
 ..
-.

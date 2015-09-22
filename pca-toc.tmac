@@ -36,6 +36,12 @@
 .ie !\\n[enable_toc_entries] .nr go_ahead 0
 .el .if (\\n[header_level] > \\n[GROWPS]) .nr go_ahead 0
 .ie \\n[go_ahead] \{\
+.if !\\n[toc_opened] \{\
+.nr toc_opened 1
+.open toc:port \\*[AUXF].toc
+.write toc:port .if d toc:hook .toc:hook
+.\}
+.nr toc_count +1
 .nr inside_section_p 1
 .di section_title
 .\}
@@ -48,15 +54,6 @@
 .
 .\"rn ZH @SH
 .
-.de process_toc_line
-.if !\\n[toc_opened] \{\
-.nr toc_opened 1
-.open toc:port \\*[AUXF].toc
-.write toc:port .if d toc:hook .toc:hook
-.\}
-.write_toc_line
-..
-.
 .de write_toc_line
 .write toc:port .IP " " \\n[header_level]m
 .write toc:port \\*[section_title]
@@ -67,12 +64,11 @@
 .nr inside_section_p 0
 .if !\n[.troff2page] .br
 .di
-.nr toc_count +1
 .open toc:port_snippet \\*[AUXF]_snippet_\\n[toc_count].tmp
 .asciify section_title
 .write toc:port_snippet \\*[section_title]
 .close toc:port_snippet
-.process_toc_line
+.write_toc_line
 .@pca-toc.tmac:SH:orig \\n[header_level]
 .so \\*[AUXF]_snippet_\\n[toc_count].tmp
 .nr next_graf_without_indent 0
