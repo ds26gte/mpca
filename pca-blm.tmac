@@ -1,4 +1,4 @@
-.\" last modified 2015-09-20
+.\" last modified 2015-09-22
 .
 .if d blank_line_macro .nx
 .
@@ -11,6 +11,10 @@
 .\}
 .ie \\n[obey_lines] \{\
 .nr obey_lines 0
+.LP
+.\}
+.el .ie \\n[inside_section_p] \{\
+.section_postlude
 .LP
 .\}
 .el .ie \\n[next_graf_without_indent] \{\
