@@ -1,0 +1,35 @@
+.\" last modified 2015-09-23
+.\" Dorai Sitaram
+.
+.\" load in -ms if you want to use -man-style SH (and SS) alongside
+.\" the usual -ms SH
+.
+.ie \n[.troff2page] .if d SS .nx
+.el .if !d par@init .nx
+.
+.rn @SH pca-manly-sh:orig-ms-@SH
+.
+.de @SH
+.nr pca-manly-sh:-man-style-SH 0
+.ie '\\$*'' .pca-manly-sh:orig-ms-@SH
+.el \{\
+.  ds pca-manly-sh:arg1 \\$1
+.  shift
+.  ie \B'\\*[pca-manly-sh:arg1]' \{\
+.    ie '\\$*'' .pca-manly-sh:orig-ms-@SH \\*[pca-manly-sh:arg1] \\$*
+.    el .nr pca-manly-sh:-man-style-SH 1
+.  \}
+.  el .nr pca-manly-sh:-man-style-SH 1
+.\}
+.if \\n[pca-manly-sh:-man-style-SH] \{\
+.pca-manly-sh:orig-ms-@SH 1
+\&\\*[pca-manly-sh:arg1] \\$*
+.\}
+..
+.
+.als SH @SH
+.
+.de SS
+.pca-manly-sh:orig-ms-@SH 2
+\&\\$*
+..
