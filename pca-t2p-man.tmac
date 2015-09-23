@@ -14,18 +14,15 @@
 .
 .de TH
 .pca-t2p-man:TH:orig \\$*
-.so \\*[AUXF].toc
-.nr next_graf_without_indent 1
-.nr enable_toc_entries 1
-..
-.
-.de MAN_TOC_PREAMBLE
 .ig ##
 (when (and (> *last-page-number* 0)
            (not (gethash "TAG_troff2page_toc" *node-table*)))
   (flag-missing-piece :toc))
 .##
 .TAG troff2page_toc
+.so \\*[AUXF].toc
+.nr next_graf_without_indent 1
+.nr enable_toc_entries 1
 ..
 .
 .de MAN_TOC_LINE
@@ -43,7 +40,6 @@
 .if !\\n[toc_opened] \{\
 .nr toc_opened 1
 .open toc:port \\*[AUXF].toc
-.write toc:port .MAN_TOC_PREAMBLE
 .\}
 .nr toc_count +1
 .TAG sec_\\n[toc_count]
