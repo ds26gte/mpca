@@ -1,4 +1,4 @@
-.\" last modified 2015-09-22
+.\" last modified 2015-09-23
 .\" Dorai Sitaram
 .
 .if !\n[.troff2page] .nx
@@ -39,6 +39,7 @@
 ..
 .
 .de man_write_toc_line
+.if !\\n[enable_toc_entries] .return
 .if !\\n[toc_opened] \{\
 .nr toc_opened 1
 .open toc:port \\*[AUXF].toc
