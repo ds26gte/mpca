@@ -8,11 +8,11 @@
 .de TOC
 .so \\*[AUXF].toc
 .nr next_graf_without_indent 1
-.nr enable_toc_entries 1
-.if !\\n[toc_opened] \{\
-.nr toc_opened 1
-.open toc:port \\*[AUXF].toc
-.write toc:port .if d toc:hook .toc:hook
+.nr pca-toc:enable-toc-entries 1
+.if !\\n[pca-toc:port-open-p] \{\
+.nr pca-toc:port-open-p 1
+.open pca-toc:port \\*[AUXF].toc
+.write pca-toc:port .if d pca-toc:hook .pca-toc:hook
 .\}
 ..
 .
@@ -22,45 +22,64 @@
 .
 .if !\n[.U] .nx
 .
-.rn @SH @pca-toc.tmac:SH:orig
-.
-.de SEC
-.@pca-toc.tmac:SH:orig \\$*
-..
+.rn @SH pca-toc:orig-@SH
 .
 .de @SH
-.ie '\\$1'' .nr header_level \\n[GROWPS]
-.el .nr header_level \\$1
-.nr go_ahead 1
-.ie !\\n[enable_toc_entries] .nr go_ahead 0
-.el .if (\\n[header_level] > \\n[GROWPS]) .nr go_ahead 0
-.ie \\n[go_ahead] \{\
-.nr toc_count +1
+.ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
+.el .nr pca-toc:header-level \\$1
+.nr pca-toc:create-toc-entry 1
+.ie !\\n[pca-toc:enable-toc-entries] .nr pca-toc:create-toc-entry 0
+.el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
+.ie \\n[pca-toc:create-toc-entry] \{\
+.nr pca-toc:count +1
 .nr inside_section_p 1
-.di section_title
+.di pca-toc:header-text
 .\}
-.el .@pca-toc.tmac:SH:orig \\n[header_level]
+.el .pca-toc:orig-@SH \\n[pca-toc:header-level]
 ..
 .
 .als SH @SH
 .
+.rn @NH pca-toc:orig-@NH
+.
+.de @NH
+.nr pca-toc:header-level \\$1
+.nr pca-toc:create-toc-entry 1
+.ie !\\n[pca-toc:enable-toc-entries] .nr pca-toc:create-toc-entry 0
+.el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
+.ie \\n[pca-toc:create-toc-entry] \{\
+.nr pca-toc:count +1
+.nr inside_section_p 1
+.nr pca-toc:inside-NH-p 1
+.di pca-toc:header-text
+.\}
+.el .pca-toc:orig-@NH \\n[pca-toc:header-level]
+..
+.
+.als NH @NH
+.
 .de write_toc_line
-.write toc:port .IP " " \\n[header_level]m
-.write toc:port \\*[section_title]
-.write toc:port \\&... \\n[%]
+.write pca-toc:port .IP " " \\n[pca-toc:header-level]m
+.if \\n[pca-toc:inside-NH-p] \{\
+.write pca-toc:port \\*[SN-STYLE]
+.nr pca-toc:inside-NH-p 0
+.\}
+.write pca-toc:port \\*[pca-toc:header-text]
+.write pca-toc:port \\&... \\n[%]
 ..
 .
 .de section_postlude
 .nr inside_section_p 0
 .if !\n[.troff2page] .br
 .di
-.open toc:port_snippet \\*[AUXF]_snippet_\\n[toc_count].tmp
-.asciify section_title
-.write toc:port_snippet \\*[section_title]
+.open toc:port_snippet \\*[AUXF]_snippet_\\n[pca-toc:count].tmp
+.asciify pca-toc:header-text
+.write toc:port_snippet \\*[pca-toc:header-text]
 .close toc:port_snippet
+.ie \\n[pca-toc:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
+.el .pca-toc:orig-@SH \\n[pca-toc:header-level]
+.so \\*[AUXF]_snippet_\\n[pca-toc:count].tmp
 .write_toc_line
-.@pca-toc.tmac:SH:orig \\n[header_level]
-.so \\*[AUXF]_snippet_\\n[toc_count].tmp
 .nr next_graf_without_indent 0
 ..
 .
