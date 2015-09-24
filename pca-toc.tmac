@@ -1,4 +1,4 @@
-.\" last modified 2015-09-23
+.\" last modified 2015-09-24
 .\" Dorai Sitaram
 .
 .if d section_postlude .nx
@@ -9,6 +9,11 @@
 .so \\*[AUXF].toc
 .nr next_graf_without_indent 1
 .nr enable_toc_entries 1
+.if !\\n[toc_opened] \{\
+.nr toc_opened 1
+.open toc:port \\*[AUXF].toc
+.write toc:port .if d toc:hook .toc:hook
+.\}
 ..
 .
 .de SEC
@@ -30,11 +35,6 @@
 .ie !\\n[enable_toc_entries] .nr go_ahead 0
 .el .if (\\n[header_level] > \\n[GROWPS]) .nr go_ahead 0
 .ie \\n[go_ahead] \{\
-.if !\\n[toc_opened] \{\
-.nr toc_opened 1
-.open toc:port \\*[AUXF].toc
-.write toc:port .if d toc:hook .toc:hook
-.\}
 .nr toc_count +1
 .nr inside_section_p 1
 .di section_title
