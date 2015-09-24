@@ -1,8 +1,8 @@
-.= Adding OpenType Fonts to groff
+.SH Adding OpenType Fonts to groff
 
 The following is summarized from posts by Pierre-Jean Fichet in
-2010 in the groff mailing list
-:https://lists.gnu.org/archive/html/groff/2010-09/msg00000.html.
+2010 in the groff mailing list,
+https://lists.gnu.org/archive/html/groff/2010–09/msg00000.html.
 
 groff comes with a set of fonts in its default font directory,
 which is something like ‘/usr/share/groff/current/font’.  This
@@ -66,7 +66,7 @@ document, using the command
 
   .fam baskervald
 
-.== Using single-style fonts
+.SS Using single-style fonts
 
 You may prefer to use just one style of an OTF, perhaps because
 the OTF comes in only one style.  Let’s say we want to set the
@@ -97,4 +97,4 @@ add the corresponding line from ‘download.addition’ to
 
 -----
 
-Last modified: 2015-04-30
+Last modified: 2015–09–24
