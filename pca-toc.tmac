@@ -78,6 +78,7 @@
 .close toc:port_snippet
 .ie \\n[pca-toc:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
 .el .pca-toc:orig-@SH \\n[pca-toc:header-level]
+.if d TAG .TAG sec_\\n[pca-toc:count]
 .so \\*[AUXF]_snippet_\\n[pca-toc:count].tmp
 .write_toc_line
 .nr next_graf_without_indent 0
