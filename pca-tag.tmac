@@ -1,4 +1,4 @@
-.\" last change 2015-03-23
+.\" last change 2015-09-27
 .\" Dorai Sitaram
 .
 .\" Generalization of .TAG in groff's www.tmac, in order
@@ -12,7 +12,7 @@
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
-.nr pca-tag:already_set_up 0
+.nr pca-tag:already-set-up 0
 .
 .ie \n[.U] \{\
 .sy test -f \*[AUXF].aux
@@ -20,15 +20,15 @@
 .\}
 .el .so \*[AUXF].aux
 .
-.de pca-tag:set_up
-. if \\n[pca-tag:already_set_up] .return
-. nr pca-tag:already_set_up 1
+.de pca-tag:set-up
+. if \\n[pca-tag:already-set-up] .return
+. nr pca-tag:already-set-up 1
 . if !\\n[.U] .return
 . open pca-tag:port \\*[AUXF].aux
 ..
 .
 .de TAG
-. pca-tag:set_up
+. pca-tag:set-up
 . \" if 2nd arg present, use that value instead of current pageno
 . ie '\\$2'' .ds pca-tag:value \\n[PN]
 . el .ds pca-tag:value \\$2

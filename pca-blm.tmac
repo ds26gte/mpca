@@ -1,30 +1,30 @@
-.\" last modified 2015-09-22
+.\" last modified 2015-09-27
 .
-.if d blank_line_macro .nx
+.if d pca-blm:blank-line-macro .nx
 .
-.de blank_line_macro
+.de pca-blm:blank-line-macro
 .ec
 .if !\\n[.u] \{\
 .sp .5v
 .eo
 .return
 .\}
-.ie \\n[obey_lines] \{\
-.nr obey_lines 0
+.ie \\n[pca:obeylines] \{\
+.nr pca:obeylines 0
 .LP
 .\}
-.el .ie \\n[inside_section_p] \{\
-.section_postlude
+.el .ie \\n[pca:inside-section-p] \{\
+.pca:section-postlude
 .LP
 .\}
-.el .ie \\n[next_graf_without_indent] \{\
-.nr next_graf_without_indent 0
+.el .ie \\n[pca:next-graf-without-indent] \{\
+.nr pca:next-graf-without-indent 0
 .LP
 .\}
 .el .PP
 ..
-.blm blank_line_macro
+.blm pca-blm:blank-line-macro
 .
 .am @SH
-.nr next_graf_without_indent 1
+.nr pca:next-graf-without-indent 1
 ..
