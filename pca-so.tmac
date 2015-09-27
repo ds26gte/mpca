@@ -1,0 +1,49 @@
+.\" last modified 2015-09-27
+.\" Dorai Sitaram
+.
+.if d pca-so:orig-so .nx
+.
+.mso pca-toc.tmac
+.
+.rn so pca-so:orig-so
+.
+.de so
+.tm loading \\$1
+.ie !(\\n[.$] == 1) \{\
+.tm special .so
+.if !\\n[pca:toc-port-open-p] \{\
+.tm doing TOC \\n[pca-so:doing-TOC]
+.if !\\n[pca-so:doing-TOC] \{\
+.nr pca-so:doing-TOC 1
+.TOC
+.\}
+.\}
+.ds pca-so:input-file \\$1
+.shift
+.nr pca-toc:header-level 1
+.ds pca-toc:header-text \\$*
+.nr pca-toc:count +1
+.pca-so:write-toc-line
+.\}
+.el .ds pca-so:input-file \\$1
+.tm doing regular .so \\*[pca-so:input-file]
+.pca-so:orig-so \\*[pca-so:input-file]
+..
+.
+.de pca-so:write-toc-line
+.pca-toc:write-toc-line
+..
+.
+.if \n[.troff2page] \{\
+.de pca-so:write-toc-line
+.if d TAG .TAG sec_\\n[pca-toc:count]
+.write pca:toc-port .TOCLINE-PLAIN \\n[pca-toc:count] \\*[pca-toc:header-text]
+..
+.
+.de TOCLINE-PLAIN
+.nr pca-so:sec-count \\$1
+.shift
+\\*[url #TAG_sec_\\n[pca-so:sec-count] "\\$*']
+.br
+..
+.\}
