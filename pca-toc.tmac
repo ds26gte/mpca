@@ -1,4 +1,4 @@
-.\" last modified 2015-09-27
+.\" last modified 2015-09-28
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -8,7 +8,7 @@
 .de TOC
 .so \\*[AUXF].toc
 .nr pca:next-graf-without-indent 1
-.nr pca-toc:enable-toc-entries 1
+.nr pca-toc::sec-triggers-toc-entry-p 1
 .if !\\n[pca:toc-port-open-p] \{\
 .nr pca:toc-port-open-p 1
 .open pca:toc-port \\*[AUXF].toc
@@ -16,26 +16,27 @@
 .\}
 ..
 .
-.de SEC
-.@SH \\$*
-..
-.
 .if !\n[.U] .nx
 .
-.rn @SH pca-toc:orig-@SH
-.
-.de @SH
+.de pca-toc:sec-with-toc-entry
 .ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
 .el .nr pca-toc:header-level \\$1
 .nr pca-toc:create-toc-entry 1
-.ie !\\n[pca-toc:enable-toc-entries] .nr pca-toc:create-toc-entry 0
+.ie !\\n[pca-toc::sec-triggers-toc-entry-p] .nr pca-toc:create-toc-entry 0
 .el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
 .ie \\n[pca-toc:create-toc-entry] \{\
 .nr pca-toc:count +1
 .nr pca:inside-section-p 1
 .di pca-toc:header-text
 .\}
+.el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
 .el .pca-toc:orig-@SH \\n[pca-toc:header-level]
+..
+.
+.rn @SH pca-toc:orig-@SH
+.
+.de @SH
+.pca-toc:sec-with-toc-entry \\$*
 ..
 .
 .als SH @SH
@@ -43,17 +44,8 @@
 .rn @NH pca-toc:orig-@NH
 .
 .de @NH
-.nr pca-toc:header-level \\$1
-.nr pca-toc:create-toc-entry 1
-.ie !\\n[pca-toc:enable-toc-entries] .nr pca-toc:create-toc-entry 0
-.el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
-.ie \\n[pca-toc:create-toc-entry] \{\
-.nr pca-toc:count +1
-.nr pca:inside-section-p 1
 .nr pca:inside-NH-p 1
-.di pca-toc:header-text
-.\}
-.el .pca-toc:orig-@NH \\n[pca-toc:header-level]
+.pca-toc:sec-with-toc-entry \\$*
 ..
 .
 .als NH @NH
