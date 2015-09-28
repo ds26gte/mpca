@@ -1,4 +1,4 @@
-.\" last modified 2015-09-27
+.\" last modified 2015-09-28
 .\" Dorai Sitaram
 .
 .if d pca-so:orig-so .nx
@@ -8,14 +8,12 @@
 .rn so pca-so:orig-so
 .
 .de so
-.tm loading \\$1
 .ie !(\\n[.$] == 1) \{\
-.tm special .so
 .if !\\n[pca:toc-port-open-p] \{\
-.tm doing TOC \\n[pca-so:doing-TOC]
 .if !\\n[pca-so:doing-TOC] \{\
 .nr pca-so:doing-TOC 1
 .TOC
+.nr pca-toc::sec-triggers-toc-entry-p 0
 .\}
 .\}
 .ds pca-so:input-file \\$1
@@ -26,7 +24,6 @@
 .pca-so:write-toc-line
 .\}
 .el .ds pca-so:input-file \\$1
-.tm doing regular .so \\*[pca-so:input-file]
 .pca-so:orig-so \\*[pca-so:input-file]
 ..
 .
@@ -43,7 +40,7 @@
 .de TOCLINE-PLAIN
 .nr pca-so:sec-count \\$1
 .shift
-\\*[url #TAG_sec_\\n[pca-so:sec-count] "\\$*']
+\\*[url #TAG_sec_\\n[pca-so:sec-count] "\\$*"]
 .br
 ..
 .\}
