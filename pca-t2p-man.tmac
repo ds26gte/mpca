@@ -1,12 +1,17 @@
 .\" last modified 2015-09-27
 .\" Dorai Sitaram
 .
-.if !\n[.troff2page] .nx
-.
 .\" these macros are relevant only for troff2page,
 .\" which uses them to create and insert a table
 .\" of contents for man pages.
 .\" Place this file in GROFF_TMAC_PATH, cwd, or home
+.
+.if !\n[.troff2page] .nx
+.
+.ig ##
+(unless (eq *macro-package* :man)
+  (troff2page-string ".nx"))
+.##
 .
 .if d TOCLINE-PLAIN .nx
 .
