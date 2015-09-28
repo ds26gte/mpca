@@ -1,4 +1,4 @@
-.\" last modified 2015-09-27
+.\" last modified 2015-09-28
 .\" Dorai Sitaram
 .
 .if !\n[.troff2page] .nx
@@ -49,7 +49,7 @@
             (let ((x (read-line i nil)))
               (unless x (return))
               (princ x o) (terpri o))))
-        (url-string-value (concatenate 'string "#TAG_sec_" n)
+        (url-to-html (concatenate 'string "#TAG_sec_" n)
           (get-output-stream-string o))))))
 .##
 .br
