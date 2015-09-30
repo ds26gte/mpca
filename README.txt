@@ -1,14 +1,18 @@
-.= mpca
+.SH mpca
 
 mpca is a Groff macro package that conservatively extends the ms
 package.  Its features include:
 
 • blank lines as paragraph separators
+
 • index
+
 • table of contents
+
 • code display
-• section macros
+
 • image insertion (.svg, .jpeg, etc)
+
 • page references both backward and forward
 
 Place the pca*.tmac files in your home directory or somewhere in
