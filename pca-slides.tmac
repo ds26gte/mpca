@@ -34,14 +34,10 @@
     var keyTimeout = 500;
     var keyStack = new Array();
     var usingIEp = document.all ? true : false;
-    console.log('usingIEp = ' + usingIEp);
 
     function currentFile() {
       var k = String(document.location).split('/');
-      var f = k[k.length - 1];
-      console.log('currentFile = ' + f);
-      return f;
-      //return k[k.length - 1];
+      return k[k.length - 1];
     }
 
     function currentFileIndex() {
