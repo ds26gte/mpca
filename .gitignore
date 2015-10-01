@@ -1,9 +1,9 @@
 *-Z-*
 *.1
 *.html
-*.ms
 *.pdf
 *.ps
 *.txt.so
 *~
 .troff*
+?.ms

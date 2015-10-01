@@ -7,8 +7,9 @@
 
 (unless *slides* (flag-missing-piece :slides))
 
+(write-aux `(setq *slides* t))
+
 (when (>= *last-page-number* 0)
-  (write-aux `(setq *slides* t))
 
   (let ((jsf (concatenate 'string *jobname* "-Z-J.js")))
     (if (probe-file jsf)
