@@ -10,11 +10,11 @@
 (write-aux `(!slides))
 
 (let ((jsf (concatenate 'string *jobname* "-Z-J.js")))
-  (write-aux
-    `(!header
-       ,(concatenate 'string "<script src=\"" jsf "\"></script>")))
-
-  (unless (probe-file jsf) (flag-missing-piece :slides))
+  (if (probe-file jsf)
+      (write-aux
+        `(!header
+           ,(concatenate 'string "<script src=\"" jsf "\"></script>")))
+      (flag-missing-piece :slides))
 
   (with-open-file (o jsf :direction :output :if-exists :supersede)
     (when (>= *last-page-number* 0)

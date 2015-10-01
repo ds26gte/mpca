@@ -1,5 +1,7 @@
 *-Z-*
 *.html
+*.ms
+*.pdf
 *.ps
 *~
 .troff*
