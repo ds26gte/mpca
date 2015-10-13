@@ -1,7 +1,7 @@
-.\" last modified 2015-09-24
+.\" last modified 2015-10-13
 .\" Dorai Sitaram
 .
-.\" load in -ms if you want to use -man-style SH (and SS) alongside
+.\" load in -ms if you want to use -man-style SH (and SS and TH) alongside
 .\" the usual -ms SH
 .
 .ie \n[.troff2page] .if d SS .nx
@@ -34,4 +34,9 @@
 .de SS
 .pca-manly-sh:orig-ms-@SH 2
 \&\\$*
+..
+.
+.de TH
+.TL
+\&\\$1
 ..
