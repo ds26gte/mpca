@@ -1,6 +1,14 @@
-.\" last modified 2015-09-23
+.\" last modified 2015-10-25
 .
 .\" add customization here that will be picked up by pca.tmac
+.
+.\" load only once
+.if d dot-groffrc-loaded .nx
+.
+.\" load only if pca.tmac also loaded
+.if !d pca-blm:blank-line-macro .nx
+.
+.ds dot-groffrc-loaded 1
 .
 .mso pca-manly-sh.tmac
 .
