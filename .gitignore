@@ -2,6 +2,7 @@
 *.1
 *.html
 *.pdf
+*.png
 *.ps
 *.txt.so
 *~
