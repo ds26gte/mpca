@@ -1,0 +1,20 @@
+To use just the table-of-contents (ToC) capability, make sure the
+macro file pca-toc.tmac is in your home directory or
+GROFF_TMAC_PATH.
+
+Use
+
+ .TOC
+
+at the spot in your doc.ms where you want the ToC. Add your own
+header (e.g., “Contents”, or “Table of Contents”).
+
+ToC entries are generated for the usual section headers (SH,
+NH). The depth of the ToC is governed by the number register
+GROWPS, only SH/NH headers at a level less than or equal to
+GROWPS will go into the ToC.
+
+As with the index, groff needs to be run a couple times, first to
+create the external toc aux file and later to include it in the
+document. You have to use groff's -U (unsafe) option the first
+time so it is allowed to create the aux file.
