@@ -1,4 +1,4 @@
-.\" last modified 2015-03-25
+.\" last modified 2015-11-12
 .\" Dorai Sitaram
 .
 .\" don't source if not groff
@@ -79,9 +79,15 @@
 ..
 .
 .de INDX
+.nr index:source_INDX 1
+.if \\n[.U] \{\
 .sy test -f \\*[AUXF].ind
-.ie \\n[systat] .tm \\*[AUXF].ind not yet created
-.el .so \\*[AUXF].ind
+.if \\n[systat] \{\
+.tm \\*[AUXF].ind not yet created
+.nr index:source_INDX 0
+.\}
+.\}
+.if \\n[index:source_INDX] .so \\*[AUXF].ind
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-ix.tmac
