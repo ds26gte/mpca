@@ -1,4 +1,4 @@
-.SH Adding OpenType Fonts to groff
+.TH "Adding OpenType Fonts to groff"
 
 The following is summarized from posts by Pierre-Jean Fichet in
 2010 in the groff mailing list,
@@ -41,8 +41,13 @@ used by groff, and the suffix ‘R’ denotes that it is the
 
 Similarly, convert the other Baskervald OTFs, taking care to use
 the same prefix (‘baskervald’) and the suffixes ‘I’, ‘B’, and
-‘BI’ for the italic, bold and bold-italic styles.  The
-‘download.addition’ file should now contain
+‘BI’ for the italic, bold and bold-italic styles. I.e.,
+
+  otf2groff.sh BaskervaldADFStd-Italic.otf baskervaldI
+  otf2groff.sh BaskervaldADFStd-Bold.otf baskervaldB
+  otf2groff.sh BaskervaldADFStd-BoldItalic.otf baskervaldBI
+
+The ‘download.addition’ file should now contain
 
   BaskervaldADFStd BaskervaldADFStd.pfa
   BaskervaldADFStd-Bold BaskervaldADFStd-Bold.pfa
@@ -97,4 +102,4 @@ add the corresponding line from ‘download.addition’ to
 
 -----
 
-Last modified: 2015–09–24
+Last modified: 2015–10–23
