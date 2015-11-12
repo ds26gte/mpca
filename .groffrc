@@ -1,8 +1,6 @@
-.\" last modified 2015-09-23
+.\" last modified 2015-11-12
 .
 .\" add customization here that will be picked up by pca.tmac
-.
-.mso pca-manly-sh.tmac
 .
 .mso .groffontrc
 .
