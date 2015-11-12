@@ -1,6 +1,8 @@
 To use just the table-of-contents (ToC) capability, make sure the
 macro file pca-toc.tmac is in your home directory or
-GROFF_TMAC_PATH.
+GROFF_TMAC_PATH, and in your -ms document (call it doc.ms), use
+
+ .mso pca-toc.tmac
 
 Use
 
