@@ -1,3 +1,5 @@
+= Indexing for -ms documents
+
 To use just the index capability, make sure the macro file
 `pca-ix.tmac` is in your home directory or `GROFF_TMAC_PATH`, and
 that you have the `makeindex` program.
