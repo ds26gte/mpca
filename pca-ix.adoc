@@ -1,0 +1,38 @@
+To use just the index capability, make sure the macro file
+`pca-ix.tmac` is in your home directory or `GROFF_TMAC_PATH`, and
+that you have the `makeindex` program.
+
+In your -ms document (call it `doc.ms`), use
+
+ .mso pca-ix.tmac
+
+Use
+
+ .INDX
+
+at the spot in your `doc.ms` where you want the generated index.
+Add your own header (e.g., “Index”).
+
+Index entries are embedded in `doc.ms` as
+
+ .IX text to be indexed
+
+This will be go into the generated index in the correct
+lexicographic order.
+
+If the lex order needs to be massaged, use the `@` separator (this
+is just as in LaTeX). E.g.,
+
+  .IX m@-m, groff option
+
+This identifies an index entry for “-m, groff option” but
+alphabetizes it as though it were “m” rather than something that
+starts with a hyphen.
+
+Use the `!` separator to create index subentries. Again, this is as
+in LaTeX.
+
+You have to run groff a couple times, first to create the
+external index aux file and later to include it in the document.
+You have to use groff’s `-U` (unsafe) option the first time so it
+is allowed to create the aux file.
