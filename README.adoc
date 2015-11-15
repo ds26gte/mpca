@@ -32,7 +32,7 @@ auxiliary files needed.
 
 You can use just the indexing or ToC facilities in pca.tmac
 without committing to the rest of it; see
-link:pca-ix.adoc[pca-ix.adoc] and link:pca-toc.adoc[pca-toc.adoc]
+link:pca-ix.adoc[] and link:pca-toc.adoc[]
 respectively.
 
 mpca stands for “Macros for the Prevention of Cruelty to
