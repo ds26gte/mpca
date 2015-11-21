@@ -4,6 +4,7 @@
 *.pdf
 *.png
 *.ps
+*.sav
 *.txt.so
 *~
 .troff*
