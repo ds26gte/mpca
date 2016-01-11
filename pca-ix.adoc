@@ -6,18 +6,18 @@ that you have the `makeindex` program.
 
 In your -ms document (call it `doc.ms`), use
 
- .mso pca-ix.tmac
+  .mso pca-ix.tmac
 
 Use
 
- .INDX
+  .INDX
 
 at the spot in your `doc.ms` where you want the generated index.
 Add your own header (e.g., “Index”).
 
 Index entries are embedded in `doc.ms` as
 
- .IX text to be indexed
+  .IX text to be indexed
 
 This will be go into the generated index in the correct
 lexicographic order.

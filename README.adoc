@@ -7,7 +7,7 @@ package.  Its features include:
 - indexing
 - table of contents
 - code display
-- image insertion (.svg, .jpeg, &c)
+- image insertion (.svg, .jpeg, etc.)
 - page references both backward and forward
 
 Place the `pca*.tmac` files in your home directory or somewhere in
