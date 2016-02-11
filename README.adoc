@@ -9,6 +9,7 @@ package.  Its features include:
 - code display
 - image insertion (.svg, .jpeg, etc.)
 - page references both backward and forward
+- eval, i.e., extending groff using JavaScript or Common Lisp
 
 Place the `pca*.tmac` files in your home directory or somewhere in
 your `GROFF_TMAC_PATH`. mpca may be loaded into your groff source
@@ -20,14 +21,14 @@ or invoked as a groff command-line option:
 
   groff -mpca ...
 
-If using the indexing or table-of-contents features, you have to
+If using the indexing, table-of-contents, or eval features, you have to
 use the `-U` groff command-line option for the first run, as groff
 needs to be in “unsafe” mode so that mpca can create the external
 auxiliary files needed.
 
-You can use just the indexing or ToC facilities in `pca.tmac`
+You can use just the indexing or ToC or eval facilities in `pca.tmac`
 without committing to the rest of it; see
-link:pca-ix.adoc[] and link:pca-toc.adoc[]
+link:pca-ix.adoc[], link:pca-toc.adoc[], and link:pca-eval.adoc[]
 respectively.
 
 mpca stands for “Macros for the Prevention of Cruelty to
