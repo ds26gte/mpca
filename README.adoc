@@ -1,35 +1,397 @@
 = mpca
 
-mpca is a Groff macro package that conservatively extends the ms
-package.  Its features include:
+== Introduction
 
-- blank lines as paragraph separators
-- indexing
-- table of contents
-- code display
-- image insertion (.svg, .jpeg, etc.)
-- page references both backward and forward
-- eval, i.e., extending groff using JavaScript or Common Lisp
+The venerable typesetter groff is ubiquitous. It lets you
+create documents in plain text with your favorite text editor.
+However, there are other factors that chip away at these core
+advantages.
 
-Place the `pca*.tmac` files in your home directory or somewhere in
-your `GROFF_TMAC_PATH`. mpca may be loaded into your groff source
-as
+To wit: Source documents look very busy, even when one isn’t
+using any special features, most notably because markup is
+required for paragraph separation. Basic features like cross
+references, table of contents and index are not immediately
+available. Writing even relatively simple macros can be
+forbidding.
 
-  .mso pca
+The `mpca` macro package is an extension of the
+standard `ms` package that lets you write fairly clean source
+documents, and provides workable defaults for basic needs that
+can be overridden as needed.
 
-or invoked as a groff command-line option:
+`mpca` is an _unobtrusive_ extension to `ms`. You only need to
+use features as you need them.
 
-  groff -mpca ...
-
-If using the indexing, table-of-contents, or eval features, you have to
-use the `-U` groff command-line option for the first run, as groff
-needs to be in “unsafe” mode so that mpca can create the external
-auxiliary files needed.
-
-You can use just the indexing or ToC or eval facilities in `pca.tmac`
-without committing to the rest of it; see
-link:pca-ix.adoc[], link:pca-toc.adoc[], and link:pca-eval.adoc[]
-respectively.
-
-mpca stands for “Macros for the Prevention of Cruelty to
+`mpca` may stand for “Macros for the Prevention of Cruelty to
 Authors”.
+
+== Installation
+
+Get the `mpca` package from GitHub:
+
+  git clone https://github.com/ds26gte/mpca
+
+The directory `mpca` contains the macro file `pca.tmac` and
+several subfiles `pca-*.tmac`. Copy all of them to a directory in
+your `GROFF_TMAC_PATH`. (If you’re just experimenting,
+you could just copy them to your home directory.)
+
+== Invocation
+
+To use `mpca`, you can simply source `pca.tmac` in your document:
+
+  .mso pca.tmac
+
+Alternatively, you can use the `groff` command-line option `-m`,
+e.g.,
+
+  % groff -mpca doc.ms > doc.ps
+
+Other `groff` options can be added as usual.
+
+Let’s now go into the `mpca` features that you can use in your document.
+
+== Init file
+
+`mpca` will source a macro file `.groffrc` if it can find it in
+your `GROFF_TMAC_PATH` or home directory.
+
+`~/.groffrc` is a good place to put minor customizations that are
+relevant only to your system. (I find I need to slightly tweak
+the page-offset register (`PO`) to suit my printer — this tweak needn’t
+or shouldn’t be enshrined in my document.)
+
+== Blank lines
+
+Stop using `.PP` and `.LP` (unless you really want to)!  Simply
+separate your paragraphs by a blank line.
+
+`mpca` takes care to indent paragraphs only when needed. Thus,
+the first paragraph after a sectioning macro is not indented.
+Also blank lines within code displays don’t cause indentation.
+
+== Verbatim display
+
+Use `.EX` to start and `.EE` to end a verbatim display, typically
+used for program listings. Inside the listing, you can use
+the backslash (``\``) without triggering a troff escape. The
+only restriction is you can’t use a period (``.``) in the first
+column of any line in the display. E.g.,
+
+  .EX
+    (defun fact (n)
+      (if (= n 0) 1
+          (* n (fact (- n 1)))))
+  .EE
+
+You can turn the troff escape on and again off within your display with
+calls to `.ec` and `.eo` respectively. The lines containing these
+calls must of course hae `.` in the first column and will not be
+displayed.
+
+== Image
+
+The `.IMG` macro can be used to insert image files. The syntax
+follows that of the `.IMG` macro in the `www.tmac`, but (a) isn’t
+restricted to HTML output. E.g.,
+
+  .IMG t2p.png
+
+sources the image `t2p.png`.
+You can specify the image alignment with an optional first argument: `-L`
+for left, `-R` for right, `-C` for centered. If no alignment is
+specified, `-C` is assumed.
+
+`.IMG` relies on the external programs `convert` (from
+ImageMagick) and `inkscape`. (`inkscape` is needed for SVG
+images.)
+
+== Page cross-references
+
+The `.TAG` macro manages cross-references. E.g.,
+
+  .TAG sec:groffcl
+
+associates the label `TAG_sec:groffcl` with the number of the
+current page. The _string_ `\*[TAG_sec:groffcl]` is defined to
+typeset as that page number. Thus, in a hand-crafted table of
+contents, you could use
+
+  Extending groff using Common Lisp, \*[TAG_sec:groffcl]
+
+`.TAG` takes an optional second argument. The label is then
+associated with the text of the second argument instead of the
+current page number.
+
+NOTE: ``mpca``’s `.TAG` overrides a similarly named macro in
+      the file `www.tmac` in the groff distribution, which only
+      allows backward references.
+
+IMPORTANT: `.TAG` requires two runs of `groff`. Please see the
+           section on aux files.
+
+== Table of contents
+
+The `.TOC` macro inserts a table of contents (ToC). Add your own header
+(e.g., “Contents”, or “Table of Contents”).
+
+`.TOC` does not require
+you to modify how you use your sectioning macros — it automatically
+draws its
+information from the distribution of the `.NH`
+and `.SH` macros within your document. It is thus a solution to
+the following statement from the groff manual:
+
+[quote]
+Altering the ‘NH’ macro to automatically build the table of contents
+is perhaps initially more difficult, but would save a great deal of time
+in the long run if you use ‘ms’ regularly.
+
+ToC entries are generated for the usual `ms` section headers (`.SH`,
+`.NH`). The _depth_ of the ToC is governed by the number register
+`GROWPS`: Only those `.SH`/`.NH` headers at a level less than or
+equal to `GROWPS` will go into the ToC.
+
+== Index
+
+The `.IX` macro is used to generate index entries:
+
+  .IX item to be indexed
+
+marks the text “item to be indexed” as an indexable item. The sorted index made
+from these entries can be sourced into the input document via
+
+  .so \*[AUXF].ind
+
+Adding a section header on top is up to you.
+
+The sorted index is constructed using the external program
+`makeindex`.  `makeindex` is included in TeX distributions, but
+you can also obtain it as
+link:http://stuff.mit.edu/afs/sipb/project/tex-dev/src/tar/makeindex.tar.gz[a
+standalone package].
+
+The syntax for `.IX` calls is essentially the same
+as for LaTeX,
+except that in groff we use
+
+  .IX item
+
+where in LaTeX one would use
+
+  \index{item}
+
+The metacharacters `@`, `!`, `"`, and `|` can be used
+to respectively specify
+
+1. alternate alphabetization,
+2. subitems,
+3. literal metacharacters, and
+4. encapsulation of the page number.
+
+E.g.,
+
+  .IX m@-m, groff option
+
+identifies an index entry for “-m, groff option” but alphabetizes
+it as though it were “m” rather than something that starts with a
+hyphen.
+
+For full details on the other metacharacters, consult the
+link:http::/tex.loria.fr/bibdex/makeindex.pdf[makeindex
+documenation].
+
+== Eval
+
+The macro `.eval` allows you to insert Common Lisp or JavaScript
+code in your document to guide its transformation via groff. In
+other words, it lets you you use CL or JS to extend groff instead
+of relying purely on groff macros. We will first describe the
+CL version of `.eval`.
+
+=== Common Lisp
+
+`.eval` does only one thing: It allows you to place arbitrary
+Lisp code until the following `.endeval`, and the text written to
+standard output by this Lisp is substituted for the `.eval ...
+.endeval`. The usefulness of this tactic will be apparent from an
+example. Consider the following document, `tau.ms`:
+
+  The ratio of the circumference of a circle to
+  its radius is \(*t \(~=
+  .eval
+  ;following prints tau, because cos(tau/2) = -1
+  (princ (* 2 (acos -1)))
+  (princ ".")
+  (terpri)
+  .endeval
+
+Run it through `mpca`:
+
+  groff -z -U -mpca tau.ms
+
+The `-z` avoids generating ouput, because we’re not ready for it
+yet. The `-U` runs `groff` in “unsafe” mode, i.e., it allows the
+writing of aux files.
+
+You will find that the `groff` call produces a message like the
+following
+
+  .trofftemp.lisp missing for this run
+  Rerun groff with -U
+
+Call `groff` again as folows:
+
+  groff -U -mpca tau.ms > tau.ps
+
+`tau.ps` will now look like
+
+[quote]
+The ratio of the circumference of a circle to
+its radius is τ ≈ 6.2831855.
+
+Here’s how it works. The first `groff` call produces a Lisp file
+`\*[AUXF].lisp` that collects all the `.eval` code in the
+document. The second `groff` call invokes Lisp to create an aux
+file for each `.eval` and sources it back into the document.
+
+It should be clear that Lisp code via `.eval` can serve as a very
+powerful _second extension language_ for groff.  Here is a more
+substantial example of `.eval`’s use: Consider defining
+color names using the HSL (Hue/Saturation/Lightness) scheme rather than the
+RGB and CMYK schemes provided by groff.  For instance, we would like to
+define the color Venetian red using its HSL spec (357°, 49%,
+24%), which to many is a more intuitive description than RGB
+(91, 31, 34).
+
+While there is an
+link:http://en.wikipedia.org/wiki/HSL_color_space[algorithm] to convert HSL to RGB,
+implementing it using groff’s limited arithmetic is tedious.  Instead,
+we’ll define a
+much easier Lisp procedure to do the same, and put it inside an
+`.eval`:
+
+----
+  .eval
+  (defun between-0-and-1 (n)
+    (cond ((< n 0) (+ n 1))
+          ((> n 1) (- n 1))
+          (t n)))
+
+  (defun tc-to-c (tc p q)
+    (cond ((< tc 1/6)
+           (+ p (* (- q p) 6 tc)))
+          ((and (<= 1/6 tc) (< tc 1/2))
+           q)
+          ((and (<= 1/2 tc) (< tc 2/3))
+           (+ p (* (- q p) 6 (- 2/3 tc))))
+          (t p)))
+
+  (defun hsl-to-rgb (h s l)
+    (setq h (/ (mod h 360) 360))
+    (let* ((q (cond ((< l 1/2) (* l (+ 1 s)))
+                    (t (+ l s (* -1 l s)))))
+           (p (- (* 2 l) q))
+           (tr (between-0-and-1 (+ h 1/3)))
+           (tg (between-0-and-1 h))
+           (tb (between-0-and-1 (- h 1/3))))
+      (values (tc-to-c tr p q)
+              (tc-to-c tg p q)
+              (tc-to-c tb p q))))
+
+  (defun def-hsl-color (name h s l)
+    (multiple-value-bind (r g b) (hsl-to-rgb h s l)
+      (format t ".defcolor ~a rgb ~a ~a ~a~%" name r g b)))
+  .endeval
+----
+
+Here, the Lisp procedure `def-hsl-color` takes an HSL spec and
+writes out the equivalent RGB groff definition.
+
+We can call this Lisp procedure inside another `.eval` to define
+`venetianred` using its HSL spec:
+
+  .eval
+  (def-hsl-color "venetianred" 357 .49 .24)
+  .endeval
+
+The color name `venetianred` can now be used like any other groff
+color name, e.g.,
+
+  Prismacolor’s burnt ochre pencil is a close match for Derwent’s
+  \m[venetianred]Venetian red\m[], and either can be used to
+  emulate the sanguine chalk drawings of the Old Masters.
+
+This will set the text “Venetian red” _in_ Venetian red.
+
+=== JavaScript
+
+You can use JavaScript instead of Common Lisp inside `.eval`. To
+do this, set
+
+  .ds pca-eval-lang js
+
+in your document before the first use of `.eval`.  Thus, the
+`tau.ms` file, translated to JavaScript, will now read:
+
+  .ds pca-eval-lang js
+  The ratio of the circumference of a circle to
+  its radius is \(*t \(~=
+  .eval
+  // following prints tau, because cos(tau/2) = -1
+  groff.write('' + 2*Math.acos(-1));
+  groff.write('.\n');
+  .endeval
+
+We write to the stream `groff` rather than to standard output.
+
+== Aux files
+
+`mpca` uses auxiliary (aux) files to implement its
+cross-referencing, ToC, indexing,
+and eval features.
+
+The troff string `\*[AUXF]` is used to construct the names of
+these auxiliary files. By default this is quietly set to `.trofftemp`.
+You can change it to something else (provided it satisfies
+file-naming conventions) in your document before the first use of
+any macros that use or write aux files.
+
+Aux files are created in one run of `groff` and slurped back in
+during a second run. Thus `groff` needs to be run twice for the
+defined feature to take effect. Furthermore, the first run of
+`groff` must be run in “unsafe” mode (`groff` option `-U`) as
+`groff` won’t create external files in “safe” mode.
+
+== Using only some of mpca’s features
+
+You may pick and choose individual features of `mpca`
+without committing to the rest of it.
+To do this source one or more of the following
+macro files: `pca-img.tmac` (for images), `pca-tag.tmac` (cross-references),
+`pca-toc.tmac` (ToC), `pca-ix.tmac` (index), and
+`pca-eval.tmac` (eval).  E.g.,
+
+  .mso pca-eval.tmac
+
+If the feature uses aux files, you will need to run `groff`
+twice, once in unsafe mode,
+as described in the section on aux files.
+
+== troff2page
+
+TIP: You may ignore this section if you don’t use the program
+     link:https://github.com/ds26gte/troff2page[troff2page].
+
+If you do use troff2page to convert your `mpca`
+documents to HTML, you need to add the `pca-t2p-*.tmac`
+macro files from that package to your `GROFF_TMAC_PATH`. These
+provide troff2page-specific alterations to the `mpca` macros
+that make the translation efficient and/or HTML-relevant. E.g.,
+the ToC, cross-references, and index are converted into
+hyperlinks.
+
+The `mpca` macros will automatically load these
+``troff2page``-specific macros (provided they’re available in
+`GROFF_TMAC_PATH`!) when the typesetter is `troff2page` rather
+than `groff` proper.
