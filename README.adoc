@@ -199,7 +199,7 @@ hyphen.
 
 For full details on the other metacharacters, consult the
 link:http::/tex.loria.fr/bibdex/makeindex.pdf[makeindex
-documenation].
+documentation].
 
 == Eval
 
