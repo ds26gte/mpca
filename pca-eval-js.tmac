@@ -1,27 +1,28 @@
-.\" last modified 2015-06-10
+.\" last modified 2016-02-12
 .
-.ds eval4troff:file \\*[AUXF].js
+.ds pca-eval:file \\*[AUXF].js
 .
-.de eval4troff:process_snippets
-.  sy touch \\*[eval4troff:file]
-.  sy nodejs \\*[eval4troff:file]
+.de pca-eval:process-snippets
+.  sy if test -f \\*[pca-eval:file]; then nodejs \\*[pca-eval:file]; fi
 ..
 .
-.de eval4troff:start_snippets
-.  write eval4troff:port var troff;
-.  write eval4troff:port var eval4troff_fs = require('fs');
-.  write eval4troff:port function eval4troff_preamble(f) {
-.  write eval4troff:port   troff = eval4troff_fs.createWriteStream(f);
-.  write eval4troff:port }
-.  write eval4troff:port function eval4troff_postamble() {
-.  write eval4troff:port   troff.write('\\\\\\\\c\\\\n')
-.  write eval4troff:port   troff.write('.ds eval4troff:status done\\\\n')
-.  write eval4troff:port   troff.end();
-.  write eval4troff:port }
+.de pca-eval:start-snippets
+.  write pca-eval:stream var groff;
+.  write pca-eval:stream var pca_eval_js_fs = require('fs');
+.
+.  write pca-eval:stream function pca_eval_js_preamble(f) {
+.  write pca-eval:stream   groff = pca_eval_js_fs.createWriteStream(f);
+.  write pca-eval:stream }
+.
+.  write pca-eval:stream function pca_eval_js_postamble() {
+.  write pca-eval:stream   groff.write('\\\\\\\\c\\\\n');
+.  write pca-eval:stream   groff.write('.ds pca-eval:status done\\\\n');
+.  write pca-eval:stream   groff.end();
+.  write pca-eval:stream }
 ..
 .
-.de eval4troff:write_snippet
-.  write  eval4troff:port eval4troff_preamble('\\*[AUXF]_eval_\\n[eval4troff:count].tmp')
-.  writem eval4troff:port eval4troff:text
-.  write  eval4troff:port eval4troff_postamble()
+.de pca-eval:write-snippet
+.  write  pca-eval:stream pca_eval_js_preamble('\\*[AUXF]-eval-\\n[pca-eval:count].tmp');
+.  writem pca-eval:stream pca-eval:text
+.  write  pca-eval:stream pca_eval_js_postamble();
 ..

@@ -1,4 +1,4 @@
-.\" last modified 2016-02-11
+.\" last modified 2016-02-12
 .\" Dorai Sitaram
 .
 .\" don't load if not groff
@@ -7,60 +7,61 @@
 .
 .\" don't load more than once
 .
-.if d eval4troff:process_snippets .nx
+.if d pca-eval:process-snippets .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
 .\" if pca-eval-lang is neither lisp or js, assume lisp
 .
 .ie '\*[pca-eval-lang]'' .ds pca-eval-lang lisp
-.el .ie '\*[pca-eval-lang]'lisp' .nop
-.el .ie '\*[pca-eval-lang]'js' .nop
+.el .ie '\*[pca-eval-lang]'lisp' .\"
+.el .ie '\*[pca-eval-lang]'js' .\"
 .el .ds pca-eval-lang lisp
 .
 .mso pca-eval-\*[pca-eval-lang].tmac
 .
-.nr eval4troff:already_setup 0
+.nr pca-eval:already-set-up 0
 .
-.de eval4troff:setup
-.  if \\n[eval4troff:already_setup] .return
-.  nr eval4troff:already_setup 1
-.  nr eval4troff:count 0
+.de pca-eval:set-up
+.  if \\n[pca-eval:already-set-up] .return
+.  nr pca-eval:already-set-up 1
+.  nr pca-eval:count 0
 .  if !\\n[.U] .return
-.  eval4troff:process_snippets
-.  open eval4troff:port \\*[eval4troff:file]
-.  eval4troff:start_snippets
+.  pca-eval:process-snippets
+.  open pca-eval:stream \\*[pca-eval:file]
+.  pca-eval:start-snippets
 ..
 .
-.ds eval4troff:status try
+.ds pca-eval:status try
 .
 .de eval
 .  eo
-.  de eval4troff:text endeval
+.  de pca-eval:text endeval
 ..
 .
 .de endeval
 .  ec
-.  eval4troff:so_snippet
+.  pca-eval:so-snippet
 .  if !\\n[.U] .return
-.  eval4troff:write_snippet
+.  pca-eval:write-snippet
+\" empty line needed here!
 ..
 .
-.de eval4troff:so_snippet
-.  eval4troff:setup
-.  nr eval4troff:count +1
-.  ds eval4troff:snippet_file \\*[AUXF]_eval_\\n[eval4troff:count].tmp
-.  if !'\\*[eval4troff:status]'rerun' \{\
-.    nr eval4troff:systat 0
+.de pca-eval:so-snippet
+.  pca-eval:set-up
+.  nr pca-eval:count +1
+.  ds pca-eval:snippet-file \\*[AUXF]-eval-\\n[pca-eval:count].tmp
+.  if !'\\*[pca-eval:status]'rerun' \{\
+.    nr pca-eval:systat 0
 .    if \\n[.U] \{\
-.      sy test -f \\*[eval4troff:snippet_file]
-.      nr eval4troff:systat \\n[systat]
+.      sy test -f \\*[pca-eval:snippet-file]
+.      nr pca-eval:systat \\n[systat]
 .    \}
-.    if !\\n[eval4troff:systat] \{\
-.      so \\*[eval4troff:snippet_file]
-.      if '\\*[eval4troff:status]'done' .return
+.    if !\\n[pca-eval:systat] \{\
+.      so \\*[pca-eval:snippet-file]
+.      if '\\*[pca-eval:status]'done' .return
 .    \}
-.    ds eval4troff:status rerun
+.    ds pca-eval:status rerun
 .    if !\\n[.troff2page] .tm Rerun groff with -U
 .  \}
 \[rh]eval\[lh]

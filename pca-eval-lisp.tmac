@@ -1,45 +1,41 @@
-.\" last modified 2015-06-10
+.\" last modified 2016-02-12
 .
-.ds eval4troff:file \\*[AUXF].lisp
+.ds pca-eval:file \\*[AUXF].lisp
 .
-.de eval4troff:process_snippets
-.  \" change this to suit the Common Lisp impl
-.  sy touch \\*[eval4troff:file]
-.  sy if   test "$LISP" = clisp; then clisp \\*[eval4troff:file]; \
-   elif test "$LISP" = clozure; then ccl -l \\*[eval4troff:file] -e '(ccl:quit)'; \
-   elif test "$LISP" = cmu; then lisp -quiet -load \\*[eval4troff:file] -eval '(ext:quit)'; \
-   elif test "$LISP" = ecl; then ecl -shell \\*[eval4troff:file]; \
-   elif test "$LISP" = sbcl; then sbcl --noinform --load \\*[eval4troff:file] --eval '(sb-ext:quit)'; \
-   elif test "$(uname -s)" = Linux -o "$(uname -s)" = SunOS; then sbcl --noinform --load \\*[eval4troff:file] --eval '(sb-ext:quit)'; \
-   elif test "$(uname -s)" = Darwin; then ccl -l \\*[eval4troff:file] -e '(ccl:quit)'; \
-   else clisp \\*[eval4troff:file]; \
+.de pca-eval:process-snippets
+.  \" change this to suit your Common Lisp implementation
+.  sy touch \\*[pca-eval:file]
+.  sy if test ! -f \\*[pca-eval:file]; then :; \
+   elif test "$LISP" = clisp; then clisp \\*[pca-eval:file]; \
+   elif test "$LISP" = clozure; then ccl -l \\*[pca-eval:file] -e '(ccl:quit)'; \
+   elif test "$LISP" = cmu; then lisp -quiet -load \\*[pca-eval:file] -eval '(ext:quit)'; \
+   elif test "$LISP" = ecl; then ecl -shell \\*[pca-eval:file]; \
+   elif test "$LISP" = sbcl; then sbcl --noinform --load \\*[pca-eval:file] --eval '(sb-ext:quit)'; \
+   elif test "$(uname -s)" = Linux -o "$(uname -s)" = SunOS; \
+     then sbcl --noinform --load \\*[pca-eval:file] --eval '(sb-ext:quit)'; \
+   elif test "$(uname -s)" = Darwin; then ccl -l \\*[pca-eval:file] -e '(ccl:quit)'; \
+   else clisp \\*[pca-eval:file]; \
    fi
 ..
 .
-.de eval4troff:start_snippets
-.  write eval4troff:port (defvar *eval4troff-stdout* *standard-output*)
-.  write eval4troff:port (defun eval4troff-preamble (f)
-.  write eval4troff:port   (setq *standard-output*
-.  write eval4troff:port     (open f :direction :output :if-exists :supersede)))
-.  write eval4troff:port (defun eval4troff-postamble ()
-.  write eval4troff:port   (format t "\\\\\\\\c~%")
-.  write eval4troff:port   (format t ".ds eval4troff:status done~%")
-.  write eval4troff:port   (close *standard-output*)
-.  write eval4troff:port   (setq *standard-output* *eval4troff-stdout*))
+.de pca-eval:start-snippets
+.  write pca-eval:stream (defvar *pca-eva-lisp-stdout* *standard-output*)
+.
+.  write pca-eval:stream (defun pca-eva-lisp-preamble (f)
+.  write pca-eval:stream   (setq *standard-output*
+.  write pca-eval:stream     (open f :direction :output :if-exists :supersede)))
+.
+.  write pca-eval:stream (defun pca-eva-lisp-postamble ()
+.  write pca-eval:stream   (format t "\\\\\\\\c~%")
+.  write pca-eval:stream   (format t ".ds pca-eval:status done~%")
+.  write pca-eval:stream   (close *standard-output*)
+.  write pca-eval:stream   (setq *standard-output* *pca-eva-lisp-stdout*))
 ..
 .
-.de eval4troff:write_snippet
-.  write  eval4troff:port (eval4troff-preamble "\\*[AUXF]_eval_\\n[eval4troff:count].tmp")
-.  writem eval4troff:port eval4troff:text
-.  write  eval4troff:port (eval4troff-postamble)
+.de pca-eval:write-snippet
+.  write  pca-eval:stream (pca-eva-lisp-preamble "\\*[AUXF]-eval-\\n[pca-eval:count].tmp")
+.  writem pca-eval:stream pca-eval:text
+.  write  pca-eval:stream (pca-eva-lisp-postamble)
 ..
 .
-.ig ##
-(defrequest "eval4troff:process_snippets"
-  (lambda ()
-    (read-troff-line)
-    (let ((f (concatenate 'string
-                (funcall (gethash "AUXF" *string-table*))
-                ".lisp")))
-      (when (probe-file f) (load f)))))
-.##
+.if \n[.troff2page] .mso pca-t2p-eval.tmac
