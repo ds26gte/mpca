@@ -246,9 +246,12 @@ Call `groff` again as folows:
 
 `tau.ps` will now look like
 
-[quote]
+❧❧❧
+
 The ratio of the circumference of a circle to
 its radius is τ ≈ 6.2831855.
+
+❧❧❧
 
 Here’s how it works. The first `groff` call produces a Lisp file
 `\*[AUXF].lisp` that collects all the `.eval` code in the
