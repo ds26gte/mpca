@@ -342,11 +342,11 @@ in your document before the first use of `.eval`.  Thus, the
   its radius is \(*t \(~=
   .eval
   // following prints tau, because cos(tau/2) = -1
-  groff.write('' + 2*Math.acos(-1));
-  groff.write('.\n');
+  troff.write('' + 2*Math.acos(-1));
+  troff.write('.\n');
   .endeval
 
-We write to the stream `groff` rather than to standard output.
+We write to the stream `troff` rather than to standard output.
 
 == Aux files
 
