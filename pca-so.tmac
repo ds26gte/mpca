@@ -1,4 +1,4 @@
-.\" last modified 2015-09-28
+.\" last modified 2016-02-14
 .\" Dorai Sitaram
 .
 .if d pca-so:orig-so .nx
@@ -9,11 +9,11 @@
 .
 .de so
 .ie !(\\n[.$] == 1) \{\
-.if !\\n[pca:toc-port-open-p] \{\
+.if !\\n[pca:toc-stream-open-p] \{\
 .if !\\n[pca-so:doing-TOC] \{\
 .nr pca-so:doing-TOC 1
 .TOC
-.nr pca-toc::sec-triggers-toc-entry-p 0
+.nr pca-toc:sec-triggers-toc-entry-p 0
 .\}
 .\}
 .ds pca-so:input-file \\$1
@@ -34,7 +34,7 @@
 .if \n[.troff2page] \{\
 .de pca-so:write-toc-line
 .if d TAG .TAG sec_\\n[pca-toc:count]
-.write pca:toc-port .TOCLINE-PLAIN \\n[pca-toc:count] \\*[pca-toc:header-text]
+.write pca:toc-stream .TOCLINE-PLAIN \\n[pca-toc:count] \\*[pca-toc:header-text]
 ..
 .
 .de TOCLINE-PLAIN
