@@ -1,4 +1,4 @@
-.\" last change 2016-02-14
+.\" last change 2016-02-16
 .\" Dorai Sitaram
 .
 .\" Generalization of .TAG in groff's www.tmac, in order
@@ -35,8 +35,8 @@
 . \" if 2nd arg present, use that value instead of current pageno
 . ie '\\$2'' .ds pca-tag:value \\n[PN]
 . el .ds pca-tag:value \\$2
-. ds TAG_\\$1 \\*[pca-tag:value]
+. ds TAG:\\$1 \\*[pca-tag:value]
 . \" continue only in unsafe mode
 . if !\\n[.U] .return
-. write pca-tag:stream .ds TAG_\\$1 \\*[pca-tag:value]
+. write pca-tag:stream .ds TAG:\\$1 \\*[pca-tag:value]
 ..
