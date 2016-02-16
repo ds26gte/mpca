@@ -1,4 +1,4 @@
-.\" last modified 2016-02-14
+.\" last modified 2016-02-15
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -6,13 +6,13 @@
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
 .de TOC
+.if d pca:toc-hook .pca:toc-hook
 .so \\*[AUXF].toc
 .nr pca:next-graf-without-indent 1
 .nr pca-toc:sec-triggers-toc-entry-p 1
 .if !\\n[pca:toc-stream-open-p] \{\
 .nr pca:toc-stream-open-p 1
 .open pca:toc-stream \\*[AUXF].toc
-.write pca:toc-stream .if d pca:toc-hook .pca:toc-hook
 .\}
 ..
 .
