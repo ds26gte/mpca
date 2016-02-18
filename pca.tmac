@@ -1,4 +1,4 @@
-.\" last modified 2016-02-11
+.\" last modified 2016-02-17
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -61,6 +61,13 @@
 .IMG \\$*
 ..
 .\}
+.
+.if !d troff2info \{\
+.de troff2info
+..
+.\}
+.
+..
 .
 .\"char \[u2216] \[u005C]
 .\"char \u[29F5] \[u005C]
