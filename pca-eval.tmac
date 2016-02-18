@@ -1,4 +1,4 @@
-.\" last modified 2016-02-12
+.\" last modified 2016-02-18
 .\" Dorai Sitaram
 .
 .\" don't load if not groff
@@ -17,8 +17,6 @@
 .el .ie '\*[pca-eval-lang]'lisp' .\"
 .el .ie '\*[pca-eval-lang]'js' .\"
 .el .ds pca-eval-lang lisp
-.
-.mso pca-eval-\*[pca-eval-lang].tmac
 .
 .nr pca-eval:already-set-up 0
 .
@@ -47,22 +45,32 @@
 \" empty line needed here!
 ..
 .
+.de pca-eval:rerun-neeeded
+.  ds pca-eval:status rerun
+.  if !\\n[.troff2page] .tm Rerun groff with -U
+..
+.
+.de pca-eval:load-snippet-if-poss
+.  nr pca-eval:systat 0
+.  if \\n[.U] \{\
+.    sy test -f \\*[pca-eval:snippet-file]
+.    nr pca-eval:systat \\n[systat]
+.  \}
+.  if !\\n[pca-eval:systat] \{\
+.    so \\*[pca-eval:snippet-file]
+.    if '\\*[pca-eval:status]'done' .return
+.  \}
+.  pca-eval:rerun-needed
+..
+.
 .de pca-eval:so-snippet
 .  pca-eval:set-up
 .  nr pca-eval:count +1
 .  ds pca-eval:snippet-file \\*[AUXF]-eval-\\n[pca-eval:count].tmp
 .  if !'\\*[pca-eval:status]'rerun' \{\
-.    nr pca-eval:systat 0
-.    if \\n[.U] \{\
-.      sy test -f \\*[pca-eval:snippet-file]
-.      nr pca-eval:systat \\n[systat]
-.    \}
-.    if !\\n[pca-eval:systat] \{\
-.      so \\*[pca-eval:snippet-file]
-.      if '\\*[pca-eval:status]'done' .return
-.    \}
-.    ds pca-eval:status rerun
-.    if !\\n[.troff2page] .tm Rerun groff with -U
+.    pca-eval:load-snippet-if-poss
 .  \}
-\[rh]eval\[lh]
+.  if '\\*[pca-eval:status]'rerun' \[rh]eval\[lh]
 ..
+.
+.mso pca-eval-\*[pca-eval-lang].tmac
