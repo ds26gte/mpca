@@ -1,4 +1,4 @@
-.\" last modified 2016-02-16
+.\" last modified 2016-02-26
 .
 .ds pca-eval:file \\*[AUXF].lisp
 .
@@ -6,15 +6,14 @@
 .  \" change this to suit your Common Lisp implementation
 .  sy touch \\*[pca-eval:file]
 .  sy if test ! -f \\*[pca-eval:file]; then :; \
-   elif test "$LISP" = clisp; then clisp \\*[pca-eval:file]; \
+   elif test "$LISP" = abcl; then abcl --batch --noinform --load \\*[pca-eval:file]; \
+   elif test "$LISP" = allegro; then alisp -L \\*[pca-eval:file] -kill; \
+   elif test "$LISP" = clisp; then clisp -q \\*[pca-eval:file]; \
    elif test "$LISP" = clozure; then ccl -l \\*[pca-eval:file] -e '(ccl:quit)'; \
-   elif test "$LISP" = cmu; then lisp -quiet -load \\*[pca-eval:file] -eval '(ext:quit)'; \
+   elif test "$LISP" = cmucl; then lisp -quiet -load \\*[pca-eval:file] -eval '(ext:quit)'; \
    elif test "$LISP" = ecl; then ecl -shell \\*[pca-eval:file]; \
-   elif test "$LISP" = sbcl; then sbcl --noinform --load \\*[pca-eval:file] --eval '(sb-ext:quit)'; \
-   elif test "$(uname -s)" = Linux -o "$(uname -s)" = SunOS; \
-     then sbcl --noinform --load \\*[pca-eval:file] --eval '(sb-ext:quit)'; \
-   elif test "$(uname -s)" = Darwin; then ccl -l \\*[pca-eval:file] -e '(ccl:quit)'; \
-   else clisp \\*[pca-eval:file]; \
+   elif test "$LISP" = gcl; then gcl -load \\*[pca-eval:file] -eval '(sys:quit)'; \
+   else sbcl --script \\*[pca-eval:file]; \
    fi
 ..
 .
