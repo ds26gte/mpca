@@ -368,6 +368,9 @@ defined feature to take effect. Furthermore, the first run of
 
 == Using only some of mpca’s features
 
+TIP: You may ignore this section if you don’t mind loading all of
+     the `mpca` features.
+
 You may pick and choose individual features of `mpca`
 without committing to the rest of it.
 To do this source one or more of the following
