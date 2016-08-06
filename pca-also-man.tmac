@@ -1,0 +1,39 @@
+.\" last modified 2016-08-06
+.\" Dorai Sitaram
+.
+.\" this allows mpca to process man files too
+.
+.ie \n[.troff2page] .if d SS .nx
+.el .if !d par@init .nx
+.
+.if !d TH \{\
+.de TH
+.tm no original definition for TH
+..
+.\}
+.
+.rn TH pca-manly-sh:orig-TH
+.
+.de TH
+.pca-manly-sh:set-up-SH-and-SS
+.TL
+\&\\$1
+.nr pca:next-graf-without-indent 1
+..
+.
+.de pca-manly-sh:set-up-SH-and-SS
+.
+.rn @SH pca-manly-sh:orig-ms-@SH
+.
+.de @SH !!
+.pca-manly-sh:orig-ms-@SH 1
+\&\\\\$*
+.!!
+.
+.als SH @SH
+.
+.de SS !!
+.pca-manly-sh:orig-ms-@SH 2
+\&\\\\$*
+.!!
+..
