@@ -1,4 +1,4 @@
-.\" last modified 2016-02-18
+.\" last modified 2017-08-01
 .\" Dorai Sitaram
 .
 .\" don't load if not groff
@@ -11,12 +11,13 @@
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
-.\" if pca-eval-lang is neither lisp or js, assume lisp
+.\" if pca-eval-lang is neither js, lisp, or lua, assume lua
 .
-.ie '\*[pca-eval-lang]'' .ds pca-eval-lang lisp
-.el .ie '\*[pca-eval-lang]'lisp' .\"
+.ie '\*[pca-eval-lang]'' .ds pca-eval-lang lua
 .el .ie '\*[pca-eval-lang]'js' .\"
-.el .ds pca-eval-lang lisp
+.el .ie '\*[pca-eval-lang]'lisp' .\"
+.el .ie '\*[pca-eval-lang]'lua' .\"
+.el .ds pca-eval-lang lua
 .
 .nr pca-eval:already-set-up 0
 .
@@ -45,7 +46,7 @@
 \" empty line needed here!
 ..
 .
-.de pca-eval:rerun-neeeded
+.de pca-eval:rerun-needed
 .  ds pca-eval:status rerun
 .  if !\\n[.troff2page] .tm Rerun groff with -U
 ..

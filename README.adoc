@@ -86,7 +86,7 @@ column of any line in the display. E.g.,
 
 You can turn the troff escape on and again off within your display with
 calls to `.ec` and `.eo` respectively. The lines containing these
-calls must of course hae `.` in the first column and will not be
+calls must of course have `.` in the first column and will not be
 displayed.
 
 == Image
@@ -203,13 +203,13 @@ documentation].
 
 == Eval
 
-The macro `.eval` allows you to insert Common Lisp or JavaScript
-code in your document to guide its transformation via groff. In
-other words, it lets you you use CL or JS to extend groff instead
-of relying purely on groff macros. We will first describe the
-CL version of `.eval`.
+The macro `.eval` allows you to insert Common Lisp, JavaScript,
+or Lua code in your document to guide its transformation via
+groff. In other words, it lets you you use CL, JS, or Lua to
+extend groff instead of relying purely on groff macros. We will
+first describe the Lua version of `.eval`.
 
-=== Common Lisp
+=== Lua
 
 `.eval` does only one thing: It allows you to place arbitrary
 Lisp code until the following `.endeval`, and the text written to
@@ -220,10 +220,8 @@ example. Consider the following document, `tau.ms`:
   The ratio of the circumference of a circle to
   its radius is \(*t \(~=
   .eval
-  ;following prints tau, because cos(tau/2) = -1
-  (princ (* 2 (acos -1)))
-  (princ ".")
-  (terpri)
+  // following prints tau, because cos(tau/2) = -1
+  troff:write(2*math.acos(-1), '.\n')
   .endeval
 
 Run it through `mpca`:
@@ -234,31 +232,28 @@ The `-z` avoids generating ouput, because we’re not ready for it
 yet. The `-U` runs `groff` in “unsafe” mode, i.e., it allows the
 writing of aux files.
 
-You will find that the `groff` call produces a message like the
-following
+You will find that the `groff` call produces the following
+message:
 
-  .trofftemp.lisp missing for this run
   Rerun groff with -U
 
 Call `groff` again as folows:
 
   groff -U -mpca tau.ms > tau.ps
 
-`tau.ps` will now look like
+`tau.ps` will now look like:
 
-❧❧❧
-
+====
 The ratio of the circumference of a circle to
 its radius is τ ≈ 6.2831855.
+====
 
-❧❧❧
-
-Here’s how it works. The first `groff` call produces a Lisp file
-`\*[AUXF].lisp` that collects all the `.eval` code in the
-document. The second `groff` call invokes Lisp to create an aux
+Here’s how it works. The first `groff` call produces a Lua file
+`\*[AUXF].lua` that collects all the `.eval` code in the
+document. The second `groff` call invokes Lua to create an aux
 file for each `.eval` and sources it back into the document.
 
-It should be clear that Lisp code via `.eval` can serve as a very
+It should be clear that Lua code via `.eval` can serve as a very
 powerful _second extension language_ for groff.  Here is a more
 substantial example of `.eval`’s use: Consider defining
 color names using the HSL (Hue/Saturation/Lightness) scheme rather than the
@@ -271,51 +266,67 @@ While there is an
 link:http://en.wikipedia.org/wiki/HSL_color_space[algorithm] to convert HSL to RGB,
 implementing it using groff’s limited arithmetic is tedious.  Instead,
 we’ll define a
-much easier Lisp procedure to do the same, and put it inside an
+much easier Lua procedure to do the same, and put it inside an
 `.eval`:
 
 ----
   .eval
-  (defun between-0-and-1 (n)
-    (cond ((< n 0) (+ n 1))
-          ((> n 1) (- n 1))
-          (t n)))
+  do
+    local function between_0_and_1(n)
+      if n < 0 then
+        return n + 1
+      elseif n > 1 then
+        return n - 1
+      else
+        return n
+      end
+    end
 
-  (defun tc-to-c (tc p q)
-    (cond ((< tc 1/6)
-           (+ p (* (- q p) 6 tc)))
-          ((and (<= 1/6 tc) (< tc 1/2))
-           q)
-          ((and (<= 1/2 tc) (< tc 2/3))
-           (+ p (* (- q p) 6 (- 2/3 tc))))
-          (t p)))
+    local function tc_to_c(tc, p, q)
+      if tc < 1/6 then
+        return p + (q - p)*6*tc
+      elseif 1/6 <= tc and tc < 1/2 then
+        return q
+      elseif 1/2 <= tc and tc < 2/3 then
+        return p + (q - p)*6*(2/3 - tc)
+      else
+        return p
+      end
+    end
 
-  (defun hsl-to-rgb (h s l)
-    (setq h (/ (mod h 360) 360))
-    (let* ((q (cond ((< l 1/2) (* l (+ 1 s)))
-                    (t (+ l s (* -1 l s)))))
-           (p (- (* 2 l) q))
-           (tr (between-0-and-1 (+ h 1/3)))
-           (tg (between-0-and-1 h))
-           (tb (between-0-and-1 (- h 1/3))))
-      (values (tc-to-c tr p q)
-              (tc-to-c tg p q)
-              (tc-to-c tb p q))))
+    local function hsl_to_rgb(h, s, l)
+      h = (h % 360) / 360
+      local q
+      if l < 1/2 then
+        q = l * (s + 1)
+      else
+        q = 1 + s - l*s
+      end
+      local p = 2*l - q
+      local tr = between_0_and_1(h + 1/3)
+      local tg = between_0_and_1(h)
+      local tb = between_0_and_1(h - 1/3)
+      return tc_to_c(tr, p, q),
+        tc_to_c(tg, p, q),
+        tc_to_c(tb, p, q)
+    end
 
-  (defun def-hsl-color (name h s l)
-    (multiple-value-bind (r g b) (hsl-to-rgb h s l)
-      (format t ".defcolor ~a rgb ~a ~a ~a~%" name r g b)))
+    function def_hsl_color(name, h, s, l)
+      local r, g, b = hsl_to_rgb(h, s, l)
+      troff:write(string.format('.defcolor %s rgb %s %s %s', name, r, g, b), '\n')
+    end
+  end
   .endeval
 ----
 
-Here, the Lisp procedure `def-hsl-color` takes an HSL spec and
+Here, the Lua procedure `def_hsl_color` takes an HSL spec and
 writes out the equivalent RGB groff definition.
 
-We can call this Lisp procedure inside another `.eval` to define
+We can call this Lua procedure inside another `.eval` to define
 `venetianred` using its HSL spec:
 
   .eval
-  (def-hsl-color "venetianred" 357 .49 .24)
+  def_hsl_color('venetianred', 357, .49, .24)
   .endeval
 
 The color name `venetianred` can now be used like any other groff
@@ -327,10 +338,28 @@ color name, e.g.,
 
 This will set the text “Venetian red” _in_ Venetian red.
 
+=== Common Lisp
+
+To use Common Lisp inside `.eval`, set
+
+  .ds pca-eval-lang lisp
+
+in your document before the first use of `.eval`.  Thus, the
+`tau.ms` file, translated to Common Lisp, will now read:
+
+  .ds pca-eval-lang lisp
+  The ratio of the circumference of a circle to
+  its radius is \(*t \(~=
+  .eval
+  ;following prints tau, because cos(tau/2) = -1
+  (princ (* 2 (acos -1)) *troff*)
+  (princ "." *troff*)
+  (terpri *troff*)
+  .endeval
+
 === JavaScript
 
-You can use JavaScript instead of Common Lisp inside `.eval`. To
-do this, set
+To use JavaScript inside `.eval`, set
 
   .ds pca-eval-lang js
 
@@ -345,8 +374,6 @@ in your document before the first use of `.eval`.  Thus, the
   troff.write('' + 2*Math.acos(-1));
   troff.write('.\n');
   .endeval
-
-We write to the stream `troff` rather than to standard output.
 
 == Aux files
 
