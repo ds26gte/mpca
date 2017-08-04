@@ -1,4 +1,4 @@
-.\" last modified 2016-02-16
+.\" last modified 2017-08-19
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -19,6 +19,7 @@
 .if !\n[.U] .nx
 .
 .de pca-toc:sec-with-toc-entry
+.nr pca:inside-section-p 1
 .ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
 .el .nr pca-toc:header-level \\$1
 .nr pca-toc:create-toc-entry 1
@@ -26,7 +27,6 @@
 .el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
 .ie \\n[pca-toc:create-toc-entry] \{\
 .nr pca-toc:count +1
-.nr pca:inside-section-p 1
 .di pca-toc:header-text
 .\}
 .el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
@@ -62,7 +62,8 @@
 .
 .de pca:section-postlude
 .nr pca:inside-section-p 0
-.if !\n[.troff2page] .br
+.nr pca:next-graf-without-indent 0
+.if !\\n[pca-toc:create-toc-entry] .return
 .di
 .open pca-toc:snippet-stream \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
 .asciify pca-toc:header-text
@@ -73,7 +74,6 @@
 .if d TAG .TAG __pca_sec_\\n[pca-toc:count]
 .so \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
 .pca-toc:write-toc-line
-.nr pca:next-graf-without-indent 0
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-toc.tmac

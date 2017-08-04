@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<!--
+Generated from index.ms by troff2page, v. 20170816
+Copyright (C) 2017 Dorai Sitaram
+(running on Lua 5.3)
+http://ds26gte.github.io/troff2page/index.html
+-->
+<head>
+<meta charset="utf-8">
+<title>
+mpca
+</title>
+<link rel="stylesheet" href="index-Z-S.css" title=default>
+<meta name=robots content="index,follow">
+</head>
+<body>
+<p>
+<div>
+
+
+</p>
+<p>
+<h1 align=center class=title>mpca</h1>
+</p>
+<p>
+<div align=center class=author<span style="font-style: italic; "><a href="https://ds26gte.github.io"><span class=hreftext>Dorai&#xa0;Sitaram</span></a><Br>
+<a href="https://github.com/ds26gte/mpca"><span class=hreftext>Download</span></a><Br>
+
+</div>
+</p>
+</span><p>
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Introduction</h1>
+</p>
+<p>
+The venerable typesetter groff is ubiquitous. It lets you
+create documents in plain text with your favorite text editor.
+However, there are other factors that chip away at these core
+advantages.
+
+</p>
+<p class=indent>
+To wit: Source documents look very busy, even when one isn’t
+using any special features, most notably because markup is
+required for paragraph separation. Basic features like cross
+references, table of contents and index are not immediately
+available. Writing even relatively simple macros can be
+forbidding.
+
+</p>
+<p class=indent>
+The <span style="font-family: monospace; ">mpca</span> macro package is an extension of the
+standard <span style="font-family: monospace; ">ms</span> package that lets you write fairly clean source
+documents, and provides workable defaults for basic needs that
+can be overridden as needed.
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">mpca</span> is an <span style="font-style: italic; ">unobtrusive</span> extension to <span style="font-family: monospace; ">ms</span>. You only need to
+use features as you need them.
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">mpca</span> may stand for “Macros for the Prevention of Cruelty to
+Authors”.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Installation</h1>
+</p>
+<p>
+Get the <span style="font-family: monospace; ">mpca</span> package from GitHub:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;git&#xa0;clone&#xa0;https://github.com/ds26gte/mpca<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+The directory <span style="font-family: monospace; ">mpca</span> contains the macro file <span style="font-family: monospace; ">pca.tmac</span> and
+several subfiles <span style="font-family: monospace; ">pca-*.tmac</span>. Copy all of them to a directory in
+your <span style="font-family: monospace; ">GROFF_TMAC_PATH</span>. (If you’re just experimenting,
+you could just copy them to your home directory.)
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h2>troff2page</h2>
+</p>
+<p>
+The macro files with prefix <span style="font-family: monospace; ">pca-t2p-</span> are automatically
+loaded when the typesetter is <a href="https://github.com/ds26gte/troff2page"><span class=hreftext>troff2page</span></a> rather than
+<span style="font-family: monospace; ">groff</span> proper. They provide troff2page-specific alterations
+to the <span style="font-family: monospace; ">mpca</span> macros that make the translation efficient
+and/or HTML-relevant. E.g., the ToC, cross-references, and index
+are converted into hyperlinks.
+
+</p>
+<p class=indent>
+<span style="font-style: italic; ">Tip:</span> If you don't intend to use troff2page to convert
+your documents to HTML, you may ignore the <span style="font-family: monospace; ">pca-t2p-*.tmac</span>
+macro files. I.e., you don't need to put them in
+<span style="font-family: monospace; ">GROFF_TMAC_PATH</span>.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Invocation</h1>
+</p>
+<p>
+To use <span style="font-family: monospace; ">mpca</span>, you can simply source <span style="font-family: monospace; ">pca.tmac</span> in your document:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.mso&#xa0;pca.tmac<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+Alternatively, you can use the <span style="font-family: monospace; ">groff</span> command-line option <span style="font-family: monospace; ">-m</span>,
+e.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;%&#xa0;groff&#xa0;-mpca&#xa0;doc.ms&#xa0;&#x3e;&#xa0;doc.ps<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+Other <span style="font-family: monospace; ">groff</span> options can be added as usual.
+
+</p>
+<p class=indent>
+Let’s now go into the <span style="font-family: monospace; ">mpca</span> features that you can use in your document.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Init file</h1>
+</p>
+<p>
+<span style="font-family: monospace; ">mpca</span> will source a macro file <span style="font-family: monospace; ">.groffrc</span> if it can find it in
+your <span style="font-family: monospace; ">GROFF_TMAC_PATH</span> or home directory.
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">~/.groffrc</span> is a good place to put minor customizations that are
+relevant only to your system. (I find I need to slightly tweak
+the page-offset register (<span style="font-family: monospace; ">PO</span>) to suit my printer — this tweak needn’t
+or shouldn’t be enshrined in my document.)
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Blank lines</h1>
+</p>
+<p>
+Stop using <span style="font-family: monospace; ">.PP</span> and <span style="font-family: monospace; ">.LP</span> (unless you really want to)!  Simply
+separate your paragraphs by a blank line.
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">mpca</span> takes care to indent paragraphs only when needed. Thus,
+the first paragraph after a sectioning macro is not indented.
+Also blank lines within code displays don’t cause indentation.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Verbatim display</h1>
+</p>
+<p>
+Use <span style="font-family: monospace; ">.EX</span> to start and <span style="font-family: monospace; ">.EE</span> to end a verbatim display, typically
+used for program listings. Inside the listing, you can use
+the backslash (<span style="font-family: monospace; "></span>\<span style="font-family: monospace; "></span>) without triggering a troff escape. The
+only restriction is you can’t use a period (<span style="font-family: monospace; "></span>.<span style="font-family: monospace; "></span>) in the first
+column of any line in the display. E.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.EX<Br>
+&#xa0;&#xa0;&#xa0;&#xa0;(defun&#xa0;fact&#xa0;(n)<Br>
+&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;(if&#xa0;(=&#xa0;n&#xa0;0)&#xa0;1<Br>
+&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;(*&#xa0;n&#xa0;(fact&#xa0;(-&#xa0;n&#xa0;1)))))<Br>
+&#xa0;&#xa0;.EE<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+You can turn the troff escape on and again off within your display with
+calls to <span style="font-family: monospace; ">.ec</span> and <span style="font-family: monospace; ">.eo</span> respectively. The lines containing these
+calls must of course have <span style="font-family: monospace; ">.</span> in the first column and will not be
+displayed.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Image</h1>
+</p>
+<p>
+The <span style="font-family: monospace; ">.IMG</span> macro can be used to insert image files. The syntax
+follows that of the <span style="font-family: monospace; ">.IMG</span> macro in the <span style="font-family: monospace; ">www.tmac</span>, but (a) isn’t
+restricted to HTML output. E.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.IMG&#xa0;t2p.png<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+sources the image <span style="font-family: monospace; ">t2p.png</span>.
+You can specify the image alignment with an optional first argument: <span style="font-family: monospace; ">-L</span>
+for left, <span style="font-family: monospace; ">-R</span> for right, <span style="font-family: monospace; ">-C</span> for centered. If no alignment is
+specified, <span style="font-family: monospace; ">-C</span> is assumed.
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">.IMG</span> relies on the external programs <span style="font-family: monospace; ">convert</span> (from
+ImageMagick) and <span style="font-family: monospace; ">inkscape</span>. (<span style="font-family: monospace; ">inkscape</span> is needed for SVG
+images.)
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Page cross-references</h1>
+</p>
+<p>
+The <span style="font-family: monospace; ">.TAG</span> macro manages cross-references. E.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.TAG&#xa0;sec_grofflua<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+associates the label <span style="font-family: monospace; ">TAG:sec_grofflua</span> with the number of the
+current page. The <span style="font-style: italic; ">string</span> <span style="font-family: monospace; "></span> is defined to
+typeset as that page number. Thus, in a hand-crafted table of
+contents, you could use
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;Extending&#xa0;groff&#xa0;using&#xa0;Lua,&#xa0;\*[TAG:sec_grofflua]<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+<span style="font-family: monospace; ">.TAG</span> takes an optional second argument. The label is then
+associated with the text of the second argument instead of the
+current page number.
+
+</p>
+<p class=indent>
+<span style="font-style: italic; ">Note:</span> <span style="font-family: monospace; "></span>mpca<span style="font-family: monospace; "></span>’s <span style="font-family: monospace; ">.TAG</span> overrides a similarly named macro in
+the file <span style="font-family: monospace; ">www.tmac</span> in the groff distribution, which only
+allows backward references.
+
+</p>
+<p class=indent>
+<span style="font-style: italic; ">Important:</span> <span style="font-family: monospace; ">.TAG</span> requires two runs of <span style="font-family: monospace; ">groff</span>. Please see the
+section on aux files.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Table of contents</h1>
+</p>
+<p>
+The <span style="font-family: monospace; ">.TOC</span> macro inserts a table of contents (ToC). Add your own header
+(e.g., “Contents”, or “Table of Contents”).
+
+</p>
+<p class=indent>
+<span style="font-family: monospace; ">.TOC</span> does not require
+you to modify how you use your sectioning macros — it automatically
+draws its
+information from the distribution of the <span style="font-family: monospace; ">.NH</span>
+and <span style="font-family: monospace; ">.SH</span> macros within your document. It is thus a solution to
+the following statement from the groff manual:
+
+</p>
+<p class=indent>
+[quote]
+Altering the ‘NH’ macro to automatically build the table of contents
+is perhaps initially more difficult, but would save a great deal of time
+in the long run if you use ‘ms’ regularly.
+
+</p>
+<p class=indent>
+ToC entries are generated for the usual <span style="font-family: monospace; ">ms</span> section headers (<span style="font-family: monospace; ">.SH</span>,
+<span style="font-family: monospace; ">.NH</span>). The <span style="font-style: italic; ">depth</span> of the ToC is governed by the number register
+<span style="font-family: monospace; ">GROWPS</span>: Only those <span style="font-family: monospace; ">.SH</span>/<span style="font-family: monospace; ">.NH</span> headers at a level less than or
+equal to <span style="font-family: monospace; ">GROWPS</span> will go into the ToC.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Index</h1>
+</p>
+<p>
+The <span style="font-family: monospace; ">.IX</span> macro is used to generate index entries:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.IX&#xa0;item&#xa0;to&#xa0;be&#xa0;indexed<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+marks the text “item to be indexed” as an indexable item. The sorted index made
+from these entries can be sourced into the input document via
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.so&#xa0;\*[AUXF].ind<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+Adding a section header on top is up to you.
+
+</p>
+<p class=indent>
+The sorted index is constructed using the external program
+<span style="font-family: monospace; ">makeindex</span>.  <span style="font-family: monospace; ">makeindex</span> is included in TeX distributions, but
+you can also obtain it as
+<a href="http://stuff.mit.edu/afs/sipb/project/tex-dev/src/tar/makeindex.tar.gz"><span class=hreftext>a
+standalone package</span></a>.
+
+</p>
+<p class=indent>
+The syntax for <span style="font-family: monospace; ">.IX</span> calls is essentially the same
+as for LaTeX,
+except that in groff we use
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.IX&#xa0;item<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+where in LaTeX one would use
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;\index{item}<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+The metacharacters <span style="font-family: monospace; ">@</span>, <span style="font-family: monospace; ">!</span>, <span style="font-family: monospace; ">&#x22;</span>, and <span style="font-family: monospace; ">|</span> can be used
+to respectively specify
+
+</p>
+<p class=indent>
+1. alternate alphabetization,
+
+</p>
+<p class=indent>
+2. subitems,
+
+</p>
+<p class=indent>
+3. literal metacharacters, and
+
+</p>
+<p class=indent>
+4. encapsulation of the page number.
+
+</p>
+<p class=indent>
+E.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.IX&#xa0;m@-m,&#xa0;groff&#xa0;option<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+identifies an index entry for “-m, groff option” but alphabetizes
+it as though it were “m” rather than something that starts with a
+hyphen.
+
+</p>
+<p class=indent>
+For full details on the other metacharacters, consult the
+<a href="http://tex.loria.fr/bibdex/makeindex.pdf"><span class=hreftext>makeindex documentation</span></a>.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Eval</h1>
+</p>
+<p>
+The macro <span style="font-family: monospace; ">.eval</span> allows you to insert Common Lisp, JavaScript,
+or Lua code in your document to guide its transformation via
+groff. In other words, it lets you you use Lua, CL, or JS to
+extend groff instead of relying purely on groff macros. We will
+first describe the Lua version of <span style="font-family: monospace; ">.eval</span>.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h2>Lua</h2>
+</p>
+<p>
+<span style="font-family: monospace; ">.eval</span> does only one thing: It allows you to place arbitrary
+Lisp code until the following <span style="font-family: monospace; ">.endeval</span>, and the text written to
+standard output by this Lua code is substituted for the `.eval ...
+example. Consider the following document, <span style="font-family: monospace; ">tau.ms</span>:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;The&#xa0;ratio&#xa0;of&#xa0;the&#xa0;circumference&#xa0;of&#xa0;a&#xa0;circle&#xa0;to<Br>
+&#xa0;&#xa0;its&#xa0;radius&#xa0;is&#xa0;\(*t&#xa0;\(~=<Br>
+&#xa0;&#xa0;.eval<Br>
+&#xa0;&#xa0;//&#xa0;following&#xa0;prints&#xa0;tau,&#xa0;because&#xa0;cos(tau/2)&#xa0;=&#xa0;-1<Br>
+&#xa0;&#xa0;io.write(2*math.acos(-1),&#xa0;'.\n')<Br>
+&#xa0;&#xa0;.endeval<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+Run it through <span style="font-family: monospace; ">mpca</span>:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;groff&#xa0;-z&#xa0;-U&#xa0;-mpca&#xa0;tau.ms<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+The <span style="font-family: monospace; ">-z</span> avoids generating ouput, because we’re not ready for it
+yet. The <span style="font-family: monospace; ">-U</span> runs <span style="font-family: monospace; ">groff</span> in “unsafe” mode, i.e., it allows the
+writing of aux files.
+
+</p>
+<p class=indent>
+You will find that the <span style="font-family: monospace; ">groff</span> call produces the following
+message:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;Rerun&#xa0;groff&#xa0;with&#xa0;-U<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+Call <span style="font-family: monospace; ">groff</span> again as folows:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;groff&#xa0;-U&#xa0;-mpca&#xa0;tau.ms&#xa0;&#x3e;&#xa0;tau.ps<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+<span style="font-family: monospace; ">tau.ps</span> will now look like:
+
+</p>
+<p class=indent>
+</p>
+<p>
+<blockquote>The ratio of the circumference of a circle to
+its radius is τ ≈ 6.2831855.
+</blockquote>
+</p>
+<p>
+
+</p>
+<p class=indent>
+Here’s how it works. The first <span style="font-family: monospace; ">groff</span> call produces a Lua file
+<span style="font-family: monospace; ">.troff2page_temp_index.lua</span> that collects all the <span style="font-family: monospace; ">.eval</span> code in the
+document. The second <span style="font-family: monospace; ">groff</span> call invokes Lua to create an aux
+file for each <span style="font-family: monospace; ">.eval</span> and sources it back into the document.
+
+</p>
+<p class=indent>
+It should be clear that Lua code via <span style="font-family: monospace; ">.eval</span> can serve as a very
+powerful <span style="font-style: italic; ">second extension language</span> for groff.  
+For a more substantial example of <span style="font-family: monospace; ">.eval</span>’s use see 
+<a href="ds26gte.github.io/troff2page"><span class=hreftext>the troff2page manual</span></a>.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h2>Common Lisp</h2>
+</p>
+<p>
+To use Common Lisp inside <span style="font-family: monospace; ">.eval</span>, set
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.ds&#xa0;pca-eval-lang&#xa0;lisp<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+in your document before the first use of <span style="font-family: monospace; ">.eval</span>.  Thus, the
+<span style="font-family: monospace; ">tau.ms</span> file, translated to Common Lisp, will now read:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.ds&#xa0;pca-eval-lang&#xa0;lisp<Br>
+&#xa0;&#xa0;The&#xa0;ratio&#xa0;of&#xa0;the&#xa0;circumference&#xa0;of&#xa0;a&#xa0;circle&#xa0;to<Br>
+&#xa0;&#xa0;its&#xa0;radius&#xa0;is&#xa0;\(*t&#xa0;\(~=<Br>
+&#xa0;&#xa0;.eval<Br>
+&#xa0;&#xa0;;following&#xa0;prints&#xa0;tau,&#xa0;because&#xa0;cos(tau/2)&#xa0;=&#xa0;-1<Br>
+&#xa0;&#xa0;(princ&#xa0;(*&#xa0;2&#xa0;(acos&#xa0;-1)))<Br>
+&#xa0;&#xa0;(princ&#xa0;&#x22;.&#x22;)<Br>
+&#xa0;&#xa0;(terpri)<Br>
+&#xa0;&#xa0;.endeval<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+</p>
+<p>
+<h2>JavaScript</h2>
+</p>
+<p>
+To use JavaScript inside <span style="font-family: monospace; ">.eval</span>, set
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.ds&#xa0;pca-eval-lang&#xa0;js<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+in your document before the first use of <span style="font-family: monospace; ">.eval</span>.  Thus, the
+<span style="font-family: monospace; ">tau.ms</span> file, translated to JavaScript, will now read:
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.ds&#xa0;pca-eval-lang&#xa0;js<Br>
+&#xa0;&#xa0;The&#xa0;ratio&#xa0;of&#xa0;the&#xa0;circumference&#xa0;of&#xa0;a&#xa0;circle&#xa0;to<Br>
+&#xa0;&#xa0;its&#xa0;radius&#xa0;is&#xa0;\(*t&#xa0;\(~=<Br>
+&#xa0;&#xa0;.eval<Br>
+&#xa0;&#xa0;//&#xa0;following&#xa0;prints&#xa0;tau,&#xa0;because&#xa0;cos(tau/2)&#xa0;=&#xa0;-1<Br>
+&#xa0;&#xa0;troff.write(''&#xa0;+&#xa0;2*Math.acos(-1));<Br>
+&#xa0;&#xa0;troff.write('.\n');<Br>
+&#xa0;&#xa0;.endeval<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+<span style="font-style: italic; ">Note:</span> For the JavaScript <span style="font-family: monospace; ">.eval</span>, we write to the stream <span style="font-family: monospace; ">troff</span>
+rather than to standard output.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Aux files</h1>
+</p>
+<p>
+<span style="font-family: monospace; ">mpca</span> uses auxiliary (aux) files to implement its
+cross-referencing, ToC, indexing,
+and eval features.
+
+</p>
+<p class=indent>
+The troff string <span style="font-family: monospace; ">.troff2page_temp_index</span> is used to construct the names of
+these auxiliary files. By default this is quietly set to <span style="font-family: monospace; ">.trofftemp</span>.
+You can change it to something else (provided it satisfies
+file-naming conventions) in your document before the first use of
+any macros that use or write aux files.
+
+</p>
+<p class=indent>
+Aux files are created in one run of <span style="font-family: monospace; ">groff</span> and slurped back in
+during a second run. Thus <span style="font-family: monospace; ">groff</span> needs to be run twice for the
+defined feature to take effect. Furthermore, the first run of
+<span style="font-family: monospace; ">groff</span> must be run in “unsafe” mode (<span style="font-family: monospace; ">groff</span> option <span style="font-family: monospace; ">-U</span>) as
+<span style="font-family: monospace; ">groff</span> won’t create external files in “safe” mode.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Using only some of mpca’s features</h1>
+</p>
+<p>
+<span style="font-style: italic; ">Tip:</span> You may ignore this section if you don’t mind loading all of
+the <span style="font-family: monospace; ">mpca</span> features.
+
+</p>
+<p class=indent>
+You may pick and choose individual features of <span style="font-family: monospace; ">mpca</span>
+without committing to the rest of it.
+To do this source one or more of the following
+macro files: <span style="font-family: monospace; ">pca-img.tmac</span> (for images), <span style="font-family: monospace; ">pca-tag.tmac</span> (cross-references),
+<span style="font-family: monospace; ">pca-toc.tmac</span> (ToC), <span style="font-family: monospace; ">pca-ix.tmac</span> (index), and
+<span style="font-family: monospace; ">pca-eval.tmac</span> (eval).  E.g.,
+
+</p>
+<p class=indent>
+
+</p>
+<p>
+<p >
+<p ><span style="font-family: monospace;&#xa0;">&#xa0;&#xa0;.mso&#xa0;pca-eval.tmac<Br>
+<p>
+</p>
+</span><p>
+
+
+</p>
+<p>
+If the feature uses aux files, you will need to run <span style="font-family: monospace; ">groff</span>
+twice, once in unsafe mode,
+as described in the section on aux files.
+
+</p>
+<p class=indent>
+</p>
+<p>
+<h1>Adding OpenType Fonts to groff</h1>
+</p>
+<p>
+For tips on this, see <a href="./otfgroff.html"><span class=hreftext>./otfgroff.html</span></a>.
+
+</p>
+<p class=indent>
+<p>
+</p>
+<p>
+<div align=right class=colophon>
+Last modified:  2017-08-19 <br>
+<div align=right class=advertisement>
+HTML conversion by <a href="http://ds26gte.github.io/troff2page/index.html"><span class=hreftext>troff2page 20170816</span></a>
+</div>
+</div>
+</p>
+
+</div>
+</body>
+</html>
