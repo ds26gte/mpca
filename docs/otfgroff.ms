@@ -1,10 +1,10 @@
 .mso pca.tmac
-.\" Last modified: 2017-08-19
+.\" Last modified: 2017-08-24
 .SH 1
 Adding OpenType Fonts to groff
 
 The following is summarized from
-\*[url 
+\*[url \
 https://lists.gnu.org/archive/html/groff/2010-09/msg00000.html]posts
 by Pierre-Jean Fichet in 2010 in the groff mailing list\&.
 
@@ -34,7 +34,7 @@ provided zip file and add four of the OTF files, viz.
 .EE
 
 to your \fCgroffonts/devps\fP directory.  These are now to be
-transformed into a four-element _font family_ that is suitable
+transformed into a four-element \fIfont family\fP that is suitable
 for groff.  For this, use the provided script \fCotf2groff.sh\fP,
 which takes two arguments: the name of the OTF font and the name
 preferred for the corresponding groff font.  E.g.,
