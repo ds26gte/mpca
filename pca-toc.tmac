@@ -1,4 +1,4 @@
-.\" last modified 2017-08-24
+.\" last modified 2017-08-26
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -74,7 +74,7 @@
 .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
 .el .pca-toc:orig-@SH \\n[pca-toc:header-level]
 .if d TAG .TAG __pca_sec_\\n[pca-toc:count]
-.so \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
+.pca-toc:header-text
 .pca-toc:write-toc-line
 ..
 .
