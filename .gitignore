@@ -1,9 +1,15 @@
+#last modified 2017-08-27
 *.1
+*.log
+*.lua
 *.pdf
 *.png
 *.ps
 *.sav
+*.tmac.*
 *.txt.so
 *~
 .troff*
 ?.ms
+docs/*[!ls]
+groffonts/*[!h]
