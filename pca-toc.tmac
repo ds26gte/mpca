@@ -1,4 +1,4 @@
-.\" last modified 2017-08-26
+.\" last modified 2017-08-29
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -27,7 +27,7 @@
 .el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
 .ie \\n[pca-toc:create-toc-entry] \{\
 .nr pca-toc:count +1
-.br
+.if !\n[.troff2page] .br
 .di pca-toc:header-text
 .\}
 .el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]

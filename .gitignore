@@ -1,4 +1,4 @@
-#last modified 2017-08-27
+#last modified 2017-08-29
 *.1
 *.log
 *.lua
@@ -11,5 +11,7 @@
 *~
 .troff*
 ?.ms
+[!io]*-Z-*
+[!io]*.html
 docs/*[!ls]
 groffonts/*[!h]
