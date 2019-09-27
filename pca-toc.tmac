@@ -1,4 +1,4 @@
-.\" last modified 2017-08-29
+.\" last modified 2019-09-26
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -76,6 +76,10 @@
 .if d TAG .TAG __pca_sec_\\n[pca-toc:count]
 .pca-toc:header-text
 .pca-toc:write-toc-line
+..
+.
+.am ds@auto-end
+.if \\n[pca:inside-section-p] .pca:section-postlude
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-toc.tmac
