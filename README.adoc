@@ -2,22 +2,15 @@
 
 == Introduction
 
-The venerable typesetter groff is ubiquitous. It lets you
-create documents in plain text with your favorite text editor.
-However, there are other factors that chip away at these core
-advantages.
+The venerable typesetter groff is ubiquitous. With the standard
+package `ms`, it lets you create a wide variety of documents in
+plain text with your favorite text editor. It lacks some basic
+features, however, viz., cross references, table of contents, and
+index.
 
-To wit: Source documents look very busy, even when one isn’t
-using any special features, most notably because markup is
-required for paragraph separation. Basic features like cross
-references, table of contents and index are not immediately
-available. Writing even relatively simple macros can be
-forbidding.
-
-The `mpca` macro package is an extension of the
-standard `ms` package that lets you write clean source
-documents, and provides workable defaults for basic needs that
-can be extended or overridden as needed.
+The `mpca` macro package is an extension of the standard `ms`
+package that provides workable defaults for these basic needs
+which can be extended or overridden as needed.
 
 `mpca` is an _unobtrusive_ extension to `ms`. You only need to
 use features as you need them.
@@ -75,15 +68,6 @@ your `GROFF_TMAC_PATH` or home directory.
 relevant only to your system. (I find I need to slightly tweak
 the page-offset register (`PO`) to suit my printer — this tweak needn’t
 or shouldn’t be enshrined in my document.)
-
-== Blank lines
-
-Stop using `.PP` and `.LP` (unless you really want to)!  Simply
-separate your paragraphs by a blank line.
-
-`mpca` takes care to indent paragraphs only when needed. Thus,
-the first paragraph after a sectioning macro is not indented.
-Also blank lines within code displays don’t cause indentation.
 
 == Verbatim display
 
@@ -354,4 +338,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2017-09-04
+// last modified 2019-09-29
