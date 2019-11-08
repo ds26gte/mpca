@@ -1,6 +1,7 @@
-# last change 2014-10-17
+# last change 2019-11-08
+# 2014-10-17
 
-otf2fam.sh ubuntu \
+otf2fam ubuntu \
     Ubuntu-R.otf \
     Ubuntu-RI.otf \
     Ubuntu-B.otf \

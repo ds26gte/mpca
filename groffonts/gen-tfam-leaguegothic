@@ -1,6 +1,7 @@
-# last change 2014-10-01
+# last change 2019-11-08
+# 2014-10-01
 
-otf2fam.sh leaguegothic \
+otf2fam leaguegothic \
     LeagueGothic-CondensedRegular.otf \
     LeagueGothic-CondensedItalic.otf \
     LeagueGothic-Regular.otf \

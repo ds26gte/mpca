@@ -1,6 +1,7 @@
-# last change 2011-11-12
+# last change 2019-11-08
+# 2011-11-12
 
-otf2fam.sh baskervald \
+otf2fam baskervald \
     BaskervaldADFStd.otf \
     BaskervaldADFStd-Italic.otf \
     BaskervaldADFStd-Bold.otf \

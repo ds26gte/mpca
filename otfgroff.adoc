@@ -27,11 +27,11 @@ provided zip file and add four of the OTF files, viz.
 
 to your `groffonts/devps` directory.  These are now to be
 transformed into a four-element _font family_ that is suitable
-for groff.  For this, use the provided script `otf2groff.sh`,
+for groff.  For this, use the provided script `otf2groff`,
 which takes two arguments: the name of the OTF font and the name
 preferred for the corresponding groff font.  E.g.,
 
-  otf2groff.sh BaskervaldADFStd.otf baskervaldR
+  otf2groff BaskervaldADFStd.otf baskervaldR
 
 This creates the groff font `baskervaldR` and adds a line to a
 file `download.addition`, creating it if it doesn’t exist.  Here,
@@ -43,9 +43,9 @@ Similarly, convert the other Baskervald OTFs, taking care to use
 the same prefix (`baskervald`) and the suffixes `I`, `B`, and
 `BI` for the italic, bold and bold-italic styles. I.e.,
 
-  otf2groff.sh BaskervaldADFStd-Italic.otf baskervaldI
-  otf2groff.sh BaskervaldADFStd-Bold.otf baskervaldB
-  otf2groff.sh BaskervaldADFStd-BoldItalic.otf baskervaldBI
+  otf2groff BaskervaldADFStd-Italic.otf baskervaldI
+  otf2groff BaskervaldADFStd-Bold.otf baskervaldB
+  otf2groff BaskervaldADFStd-BoldItalic.otf baskervaldBI
 
 The `download.addition` file should now contain
 
@@ -80,7 +80,7 @@ http://fontsquirrel.com/fonts/eb-garamond.  As above, copy the
 `EBGaramond.otf` to `groffonts/devps` and convert it to the groff
 font `ebgaramondR`:
 
-  otf2groff.sh EBGaramond.otf ebgaramondR
+  otf2groff EBGaramond.otf ebgaramondR
 
 and add the `download.addition` line to `devps/download`.
 
@@ -93,11 +93,12 @@ section headers.  Thus, to use the bold from TeX Gyre Pagella,
 (available at
 http://www.gust.org.pl/projects/e-foundry/tex-gyre/pagella), call
 
-  otf2groff.sh texgyrepagella-bold.otf pagellaB
+  otf2groff texgyrepagella-bold.otf pagellaB
 
 add the corresponding line from `download.addition` to
 `devps/download`, and in your document, call
 
   .ftr B pagellaB
 
-// Last modified: 2017-09-03
+// Last modified: 2019-11-08
+// 2017-09-03
