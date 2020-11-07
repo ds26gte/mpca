@@ -1,13 +1,13 @@
 = Adding OpenType Fonts to groff
 
-The following is summarized from
+The enclosed OTF progams were constructed using info from
 https://lists.gnu.org/archive/html/groff/2010-09/msg00000.html[posts
 by Pierre-Jean Fichet in 2010 in the groff mailing list].
 
 groff comes with a set of fonts in its default font directory,
 which is something like `/usr/share/groff/current/font`.  This
 contains subdirectories `devps`, `devdvi` etc.  In order to add
-your own fonts, it is best to create your own font directory on
+your own fonts, it is best to create your own `font` directory on
 this model, e.g., create a directory `groffonts` somewhere in
 your space, and in it make a subdirectory `devps`.  To inform
 groff of this addition, set the environment variable
@@ -71,6 +71,15 @@ document, using the command
 
   .fam baskervald
 
+NOTE: You can set your groff’s output device to `pdf` rather than
+      `ps` either with the command-line option `-T pdf` or by
+      setting the environment variable `GROFF_TYPESETTER` to
+      `pdf`. This has groff directly create the `pdf` output
+      without need for `ps2pdf`. In this case, you have to ensure
+      that the font files from `groffonts/devps` are visible to
+      groff. This is accomplished by having `groffonts/devpdf` be
+      a soft link to `groffonts/devps`.
+
 == Using single-style fonts
 
 You may prefer to use just one style of an OTF, perhaps because
@@ -100,5 +109,5 @@ add the corresponding line from `download.addition` to
 
   .ftr B pagellaB
 
-// Last modified: 2019-11-08
+// Last modified: 2020-11-07
 // 2017-09-03

@@ -1,16 +1,24 @@
-# last change 2019-11-08
+# last change 2020-11-07
 # 2011-11-19
 
 otfname=$1
+
+if test ! -f "$otfname"; then
+  echo Missing OTF file: $otfname
+  exit
+fi
+
 groffname=$2
 
 otfbasename=${otfname%.otf}
 
-if test -n "$(which fontforge)"
-then otf2pfa $otfname
+export FONTFORGE_LANGUAGE=ff
+
+if test -n "$(which fontforge)"; then
+  otf2pfa $otfname
 else 
-cfftot1 -a $otfname > $otfbasename.pfa
-t1rawafm $otfbasename.pfa > $otfbasename.afm
+  cfftot1 -a $otfname > $otfbasename.pfa
+  t1rawafm $otfbasename.pfa > $otfbasename.afm
 fi
 
 afmtodit -d DESC $otfbasename.afm textmap $groffname

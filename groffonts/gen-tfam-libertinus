@@ -1,0 +1,8 @@
+# last modified 2020-11-07
+# created 2020-11-07
+
+otf2fam LibertinusSerif \
+    LibertinusSerif-Regular.otf \
+    LibertinusSerif-Italic.otf \
+    LibertinusSerif-Bold.otf \
+    LibertinusSerif-BoldItalic.otf

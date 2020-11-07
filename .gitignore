@@ -1,4 +1,4 @@
-#last modified 2017-08-29
+#last modified 2020-11-07
 *.1
 *.log
 *.lua
@@ -14,4 +14,3 @@
 [!io]*-Z-*
 [!io]*.html
 docs/*[!ls]
-groffonts/*[!h]
