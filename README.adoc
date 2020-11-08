@@ -65,7 +65,7 @@ Let’s now go into the `mpca` features that you can use in your document.
 your `GROFF_TMAC_PATH` or home directory.
 
 `~/.groffrc` is a good place to put minor customizations that are
-relevant only to your system. (I find I need to slightly tweak
+relevant only to your system. (E.g., I find I need to slightly tweak
 the page-offset register (`PO`) to suit my printer — this tweak needn’t
 or shouldn’t be enshrined in my document.)
 
@@ -338,4 +338,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2019-09-29
+// last modified 2020-11-07
