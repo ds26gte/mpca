@@ -25,10 +25,10 @@ Get the `mpca` package from GitHub:
   git clone https://github.com/ds26gte/mpca
 
 The directory `mpca` contains the macro file `pca.tmac` and
-several subfiles `pca-*.tmac`. Either include this directory in
-your `GROFF_TMAC_PATH`, or add the `*.tmac` files here to some
+several subfiles `++pca-*.tmac++`. Either include this directory in
+your `GROFF_TMAC_PATH`, or add the `++*.tmac++` files here to some
 directory in your `GROFF_TMAC_PATH`. (If you’re just
-experimenting, you could simply copy the `*.tmac` files to your
+experimenting, you could simply copy the `++*.tmac++` files to your
 home directory.)
 
 == Invocation
