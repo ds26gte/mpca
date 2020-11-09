@@ -29,21 +29,6 @@ several subfiles `pca-*.tmac`. Copy all of them to a directory in
 your `GROFF_TMAC_PATH`. (If you’re just experimenting,
 you could just copy them to your home directory.)
 
-=== troff2page
-
-The macro files with prefix `pca-t2p-` are automatically
-loaded when the typesetter is
-https://github.com/ds26gte/troff2page[troff2page] rather than
-`groff` proper. They provide troff2page-specific alterations
-to the `mpca` macros that make the translation efficient
-and/or HTML-relevant. E.g., the ToC, cross-references, and index
-are converted into hyperlinks.
-
-TIP: If you don't intend to use troff2page to convert your
-     documents to HTML, you may ignore the `pca-t2p-*.tmac` macro
-     files. I.e., you don't need to put them in
-     `GROFF_TMAC_PATH`.
-
 == Invocation
 
 To use `mpca`, you can simply source `pca.tmac` in your document:
@@ -197,6 +182,30 @@ identifies an index entry for “-m, groff option” but alphabetizes
 it as though it were “m” rather than something that starts with a
 hyphen.
 
+  .IX groff!macro packages
+
+makes “macro packages” an indented index subentry under “groff”.
+
+Up to two ``!``s may be used.
+
+  .IX groff!macro packages!ms
+
+produces “ms” as a subsubentry under “macro packages” under
+“groff”.
+
+  .IX troff|see groff
+
+has the index entry for “troff” point to
+“groff” rather than have a page number of its own.
+
+If any of these metacharacters `@`, `!`, `"` and  `|` need to
+appear in the index entry as themselves, precede it with `"`.
+
+  .IX set"!car
+
+creates an index entry for “set!car” rather than creating a
+subentry “car” under “set"”.
+
 For full details on the other metacharacters, consult the
 http://tex.loria.fr/bibdex/makeindex.pdf[makeindex
 documentation].
@@ -338,4 +347,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-11-07
+// last modified 2020-11-09
