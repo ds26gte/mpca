@@ -114,7 +114,9 @@ the image, as a percentage of the text width.
   .IMG -L t2p.png 20
 
 `.IMG` relies on the external programs `convert` (from
-ImageMagick) and `inkscape`. (`inkscape` is needed for SVG
+ImageMagick); `mkbitmap` and `potrace` (both from the `potrace`
+package); and `inkscape`. (`mkbitmap` and `potrace` are needed
+for PNG images. `inkscape` is needed for SVG
 images.)
 
 == Page cross-references
