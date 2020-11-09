@@ -1,4 +1,4 @@
-.\" last modified 2015-10-03
+.\" last modified 2020-11-09
 .\" Dorai Sitaram
 .
 .if \n[.troff2page] .nx
@@ -30,6 +30,11 @@
 .    ds imageFileExt \\*[imageFile]
 .    substring imageFileExt -4
 .    ie '\\*[imageFileExt]'.svg' .sy inkscape -E \\*[imageUniqueName].eps \\*[imageFile]
+.    el .ie '\\*[imageFileExt]'.png' \{\
+.      sy convert \\*[imageFile] \\*[imageUniqueName].bmp
+.      sy mkbitmap \\*[imageUniqueName].bmp -o \\*[imageUniqueName].pgm
+.      sy potrace \\*[imageUniqueName].pgm -e -o \\*[imageUniqueName].eps
+.    \}
 .    el .sy convert \\*[imageFile] \\*[imageUniqueName].eps
 .  \}
 .

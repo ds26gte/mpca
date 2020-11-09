@@ -25,9 +25,11 @@ Get the `mpca` package from GitHub:
   git clone https://github.com/ds26gte/mpca
 
 The directory `mpca` contains the macro file `pca.tmac` and
-several subfiles `pca-*.tmac`. Copy all of them to a directory in
-your `GROFF_TMAC_PATH`. (If you’re just experimenting,
-you could just copy them to your home directory.)
+several subfiles `pca-*.tmac`. Either include this directory in
+your `GROFF_TMAC_PATH`, or add the `*.tmac` files here to some
+directory in your `GROFF_TMAC_PATH`. (If you’re just
+experimenting, you could simply copy the `*.tmac` files to your
+home directory.)
 
 == Invocation
 
@@ -70,10 +72,25 @@ column of any line in the display. E.g.,
   end
   .EE
 
-You can turn the troff escape on and again off within your display with
-calls to `.ec` and `.eo` respectively. The lines containing these
-calls must of course have `.` in the first column and will not be
-displayed.
+You _can_ use a leading period to effect styling changes. For
+example
+
+  .EX
+  function fact(n)
+  .ft CI
+    -- returns the factorial of n
+  .ft C
+    if n == 0 then return 1
+    else return n*fact(n - 1)
+    end
+  end
+  .EE
+
+If you must use a leading dot verbatim on select lines (obviously
+not the last line `.EE`), you can turn its troff effect off and
+again on within your display with calls to `.eo` and `.ec`
+respectively. The lines containing these calls must of course
+have `.` in the first column and will not be displayed.
 
 == Image
 
@@ -87,6 +104,14 @@ sources the image `t2p.png`.
 You can specify the image alignment with an optional first argument: `-L`
 for left, `-R` for right, `-C` for centered. If no alignment is
 specified, `-C` is assumed.
+
+  .IMG -L t2p.png
+
+`.IMG` takes an optional final argument to specify the width of
+the image, as a percentage of the text width.
+
+  .IMG t2p.png 20
+  .IMG -L t2p.png 20
 
 `.IMG` relies on the external programs `convert` (from
 ImageMagick) and `inkscape`. (`inkscape` is needed for SVG
@@ -156,16 +181,6 @@ you can also obtain it as
 http://stuff.mit.edu/afs/sipb/project/tex-dev/src/tar/makeindex.tar.gz[a
 standalone package].
 
-The syntax for `.IX` calls is essentially the same
-as for LaTeX,
-except that in groff we use
-
-  .IX item
-
-where in LaTeX one would use
-
-  \index{item}
-
 The metacharacters `@`, `!`, `"`, and `|` can be used
 to respectively specify
 
@@ -206,22 +221,38 @@ appear in the index entry as themselves, precede it with `"`.
 creates an index entry for “set!car” rather than creating a
 subentry “car” under “set"”.
 
-For full details on the other metacharacters, consult the
-http://tex.loria.fr/bibdex/makeindex.pdf[makeindex
-documentation].
+[TIP]
+--
+The syntax for `.IX` calls is essentially the same as for LaTeX,
+except that in groff we use
+
+  .IX item
+
+where in LaTeX one would use
+
+  \index{item}
+--
+
+NOTE: For full details on index-entry syntax, consult the
+      http://tex.loria.fr/bibdex/makeindex.pdf[makeindex
+      documentation].
 
 == Eval
 
-The macro `.eval` allows you to insert Common Lisp, JavaScript,
-or Lua code in your document to guide its transformation via
+The macro `.eval` allows you to insert Lua, Common Lisp or JavaScript
+code in your document to guide its transformation via
 groff. In other words, it lets you you use Lua, CL, or JS to
-extend groff instead of relying purely on groff macros. We will
-first describe the Lua version of `.eval`.
+_extend_ groff instead of relying purely on groff macros.
+
+The code inside `.eval` is evaluated using the language specified
+by the string `pca-eval-lang`, which by default is `lua`.
+
+We will first describe the Lua version of `.eval`.
 
 === Lua
 
 `.eval` does only one thing: It allows you to place arbitrary
-Lisp code until the following `.endeval`, and the text written to
+Lua code until the following `.endeval`, and the text written to
 standard output by this Lua code is substituted for the `.eval ...
 .endeval`. The usefulness of this tactic will be apparent from an
 example. Consider the following document, `tau.ms`:
@@ -229,7 +260,7 @@ example. Consider the following document, `tau.ms`:
   The ratio of the circumference of a circle to
   its radius is \(*t \(~=
   .eval
-  -- following prints tau, because cos(tau/2) = -1
+  -- the following prints tau, because cos(tau/2) = -1
   io.write(2*math.acos(-1), '.\n')
   .endeval
 
@@ -280,7 +311,7 @@ in your document before the first use of `.eval`.  Thus, the
   The ratio of the circumference of a circle to
   its radius is \(*t \(~=
   .eval
-  ;following prints tau, because cos(tau/2) = -1
+  ;the following prints tau, because cos(tau/2) = -1
   (princ (* 2 (acos -1)))
   (princ ".")
   (terpri)
@@ -299,7 +330,7 @@ in your document before the first use of `.eval`.  Thus, the
   The ratio of the circumference of a circle to
   its radius is \(*t \(~=
   .eval
-  // following prints tau, because cos(tau/2) = -1
+  // the following prints tau, because cos(tau/2) = -1
   troff.write('' + 2*Math.acos(-1));
   troff.write('.\n');
   .endeval
@@ -310,13 +341,12 @@ NOTE: For the JavaScript `.eval`, we write to the stream `troff`
 == Aux files
 
 `mpca` uses auxiliary (aux) files to implement its
-cross-referencing, ToC, indexing,
-and eval features.
+cross-referencing, ToC, indexing, and eval features.
 
 The troff string `\*[AUXF]` is used to construct the names of
 these auxiliary files. By default this is quietly set to `.trofftemp`.
 You can change it to something else (provided it satisfies
-file-naming conventions) in your document before the first use of
+your OS’s file-naming conventions) in your document before the first use of
 any macros that use or write aux files.
 
 Aux files are created in one run of `groff` and slurped back in
@@ -333,9 +363,14 @@ TIP: You may ignore this section if you don’t mind loading all of
 You may pick and choose individual features of `mpca`
 without committing to the rest of it.
 To do this source one or more of the following
-macro files: `pca-img.tmac` (for images), `pca-tag.tmac` (cross-references),
-`pca-toc.tmac` (ToC), `pca-ix.tmac` (index), and
-`pca-eval.tmac` (eval).  E.g.,
+macro files:
+`pca-eval.tmac` (eval),
+`pca-img.tmac` (images),
+`pca-ix.tmac` (index),
+`pca-tag.tmac` (cross-references),
+and
+`pca-toc.tmac` (ToC).
+E.g.,
 
   .mso pca-eval.tmac
 
