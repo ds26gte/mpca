@@ -1,4 +1,4 @@
-.\" last modified 2019-09-26
+.\" last modified 2020-11-10
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -8,7 +8,6 @@
 .de TOC
 .if d pca:toc-hook .pca:toc-hook
 .so \\*[AUXF].toc
-.nr pca:next-graf-without-indent 1
 .nr pca-toc:sec-triggers-toc-entry-p 1
 .if !\\n[pca:toc-stream-open-p] \{\
 .nr pca:toc-stream-open-p 1
@@ -19,15 +18,15 @@
 .if !\n[.U] .nx
 .
 .de pca-toc:sec-with-toc-entry
-.nr pca:inside-section-p 1
+.LP
 .ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
 .el .nr pca-toc:header-level \\$1
 .nr pca-toc:create-toc-entry 1
 .ie !\\n[pca-toc:sec-triggers-toc-entry-p] .nr pca-toc:create-toc-entry 0
 .el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
 .ie \\n[pca-toc:create-toc-entry] \{\
+.nr pca:inside-section-p 1
 .nr pca-toc:count +1
-.if !\n[.troff2page] .br
 .di pca-toc:header-text
 .\}
 .el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
@@ -55,7 +54,6 @@
 .write pca:toc-stream .IP " " \\n[pca-toc:header-level]m
 .if \\n[pca:inside-NH-p] \{\
 .write pca:toc-stream \\*[SN-STYLE]
-.nr pca:inside-NH-p 0
 .\}
 .write pca:toc-stream \\*[pca-toc:header-text]
 .write pca:toc-stream \\&... \\n[%]
@@ -63,23 +61,23 @@
 .
 .de pca:section-postlude
 .nr pca:inside-section-p 0
-.nr pca:next-graf-without-indent 0
-.if !\\n[pca-toc:create-toc-entry] .return
-.br
+.if !\n[.troff2page] .br
 .di
-.open pca-toc:snippet-stream \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
 .asciify pca-toc:header-text
+.chop pca-toc:header-text
+.open pca-toc:snippet-stream \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
 .write pca-toc:snippet-stream \\*[pca-toc:header-text]
 .close pca-toc:snippet-stream
 .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
 .el .pca-toc:orig-@SH \\n[pca-toc:header-level]
-.if d TAG .TAG __pca_sec_\\n[pca-toc:count]
-.pca-toc:header-text
 .pca-toc:write-toc-line
+.if d TAG .TAG __pca_sec_\\n[pca-toc:count]
+\\*[pca-toc:header-text]
 ..
 .
 .am ds@auto-end
 .if \\n[pca:inside-section-p] .pca:section-postlude
+.if \\n[pca:inside-NH-p] .nr pca:inside-NH-p 0
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-toc.tmac

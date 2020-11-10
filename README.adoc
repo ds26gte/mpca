@@ -86,11 +86,11 @@ example
   end
   .EE
 
-If you must use a leading dot verbatim on select lines (obviously
-not the last line `.EE`), you can turn its troff effect off and
-again on within your display with calls to `.eo` and `.ec`
-respectively. The lines containing these calls must of course
-have `.` in the first column and will not be displayed.
+If you wish to turn on the troff escape within a display, use
+`.ec`. To turn it off again, use `.eo`.
+The lines containing these
+calls must of course have `.` in the first column and will not be
+displayed.
 
 == Image
 
@@ -384,4 +384,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-11-09
+// last modified 2020-11-10
