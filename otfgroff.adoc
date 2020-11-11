@@ -27,7 +27,8 @@ provided zip file and add four of the OTF files, viz.
 
 to your `groffonts/devps` directory.  These are now to be
 transformed into a four-element _font family_ that is suitable
-for groff.  For this, use the provided script `otf2groff`,
+for groff.  For this, use the provided script `otf2groff` (inside
+the `bin` subdirectory),
 which takes two arguments: the name of the OTF font and the name
 preferred for the corresponding groff font.  E.g.,
 
@@ -109,5 +110,5 @@ add the corresponding line from `download.addition` to
 
   .ftr B pagellaB
 
-// Last modified: 2020-11-09
+// Last modified: 2020-11-10
 // 2017-09-03

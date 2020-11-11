@@ -24,7 +24,7 @@ Get the `mpca` package from GitHub:
 
   git clone https://github.com/ds26gte/mpca
 
-The directory `mpca` contains the macro file `pca.tmac` and
+Inside the directory `mpca`, the subdirectory `tmac` contains the macro file `pca.tmac` and
 several subfiles `++pca-*.tmac++`. Either include this directory in
 your `GROFF_TMAC_PATH`, or add the `++*.tmac++` files here to some
 directory in your `GROFF_TMAC_PATH`. (If you’re just

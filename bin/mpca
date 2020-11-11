@@ -1,0 +1,18 @@
+# last modified 2020-11-10
+# created 2020-11-08
+
+ARGS=
+
+while test $# -ne 1; do
+  ARGS="$ARGS $1"
+  shift
+done
+
+f=$1
+
+g=${f##*/}
+g=${g%.*}
+
+soelim $f |
+  preconv |
+  groff -U -mpca $ARGS > $g.ps
