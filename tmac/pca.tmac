@@ -1,4 +1,4 @@
-.\" last modified 2020-11-09
+.\" last modified 2020-11-10
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -14,36 +14,36 @@
 .mso .groffrc
 .
 .de IX
-.mso pca-ix.tmac
-.IX \\$*
+.  mso pca-ix.tmac
+.  IX \\$*
 ..
 .
 .de EX
-.mso pca-verb.tmac
-.EX
+.  mso pca-verb.tmac
+.  EX
 ..
 .
 .de eval
-.mso pca-eval.tmac
-.eval
+.  mso pca-eval.tmac
+.  eval
 ..
 .
 .if d @init \{\
-.am @init
-.nr FL \\n[LL]
-..
+.  am @init
+.    nr FL \\n[LL]
+.  .
 .\}
+.
+.de IMG
+.  mso pca-img.tmac
+.  IMG \\$*
+..
 .
 .if !d DC \{\
 .
-.de DC
-.mso pca-dc.tmac
-.DC \\$*
-..
+.  de DC
+.    mso pca-dc.tmac
+.    DC \\$*
+.  .
 .
-.de IMG
-.mso pca-img.tmac
-.IMG \\$*
-..
 .\}
-.
