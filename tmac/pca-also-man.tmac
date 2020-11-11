@@ -1,4 +1,4 @@
-.\" last modified 2020-11-09
+.\" last modified 2020-11-10
 .\" Dorai Sitaram
 .
 .\" this allows mpca to process man files too
@@ -7,32 +7,34 @@
 .if !d par@init .nx
 .
 .if !d TH \{\
-.de TH
-.tm no original definition for TH
+.  de TH
+.  tm no original definition for TH
 ..
 .\}
 .
 .rn TH pca-manly-sh:orig-TH
 .
 .de TH
-.pca-manly-sh:set-up-SH-and-SS
-.TL
+.  pca-manly-sh:set-up-SH-and-SS
+.  TL
 \&\\$1
 ..
 .
 .de pca-manly-sh:set-up-SH-and-SS
 .
-.rn @SH pca-manly-sh:orig-ms-@SH
+.  rn @SH pca-manly-sh:orig-ms-@SH
 .
-.de @SH !!
-.pca-manly-sh:orig-ms-@SH 1
+.  de @SH !!
+.    pca-manly-sh:orig-ms-@SH 1
 \&\\\\$*
-.!!
+.    LP
+.  !!
 .
-.als SH @SH
+.  als SH @SH
 .
-.de SS !!
-.pca-manly-sh:orig-ms-@SH 2
+.  de SS !!
+.    pca-manly-sh:orig-ms-@SH 2
 \&\\\\$*
-.!!
+.    LP
+.  !!
 ..
