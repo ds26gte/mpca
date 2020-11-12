@@ -60,8 +60,8 @@ or shouldn’t be enshrined in my document.)
 
 Use `.EX` to start and `.EE` to end a verbatim display, typically
 used for program listings. Inside the listing, you can use
-the backslash (``\``) without triggering a troff escape. The
-only restriction is you can’t use a period (``.``) in the first
+the backslash (`\`) without triggering a troff escape. The
+only restriction is you can’t use a period (`.`) in the first
 column of any line in the display. E.g.,
 
   .EX
@@ -136,7 +136,7 @@ contents, you could use
 associated with the text of the second argument instead of the
 current page number.
 
-NOTE: ``mpca``’s `.TAG` overrides a similarly named macro in
+NOTE: `mpca`’s `.TAG` overrides a similarly named macro in
       the file `www.tmac` in the groff distribution, which only
       allows backward references.
 
@@ -215,8 +215,8 @@ produces “ms” as a subsubentry under “macro packages” under
 has the index entry for “troff” point to
 “groff” rather than have a page number of its own.
 
-If any of these metacharacters `@`, `!`, `"` and  `|` need to
-appear in the index entry as themselves, precede it with `"`.
+If any of the metacharacters need to
+appear in the index entry as themselves, precede them with `"`.
 
   .IX set"!car
 
@@ -384,4 +384,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-11-10
+// last modified 2020-11-11

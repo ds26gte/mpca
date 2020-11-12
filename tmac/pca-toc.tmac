@@ -1,11 +1,11 @@
-.\" last modified 2020-11-10
+.\" last modified 2020-11-12
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
-.de TOC
+.de ToC
 .  if d pca:toc-hook .pca:toc-hook
 .  so \\*[AUXF].toc
 .  nr pca-toc:sec-triggers-toc-entry-p 1
@@ -70,7 +70,7 @@
 .  pca-toc:write-toc-line
 .  if \\n[pca:inside-NH-p] .nr pca:inside-NH-p 0
 .  if d TAG .TAG __pca_sec_\\n[pca-toc:count]
-\\*[pca-toc:header-text]
+.  nop \\*[pca-toc:header-text]
 ..
 .
 .am ds@auto-end

@@ -1,4 +1,4 @@
-.\" last modified 2020-11-10
+.\" last modified 2020-11-11
 .\" Dorai Sitaram
 .
 .\" this allows mpca to process man files too
@@ -17,7 +17,7 @@
 .de TH
 .  pca-manly-sh:set-up-SH-and-SS
 .  TL
-\&\\$1
+.  nop \&\\$1
 ..
 .
 .de pca-manly-sh:set-up-SH-and-SS
@@ -26,7 +26,7 @@
 .
 .  de @SH !!
 .    pca-manly-sh:orig-ms-@SH 1
-\&\\\\$*
+.    nop \&\\\\$*
 .    LP
 .  !!
 .
@@ -34,7 +34,7 @@
 .
 .  de SS !!
 .    pca-manly-sh:orig-ms-@SH 2
-\&\\\\$*
+.    nop \&\\\\$*
 .    LP
 .  !!
 ..

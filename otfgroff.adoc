@@ -38,11 +38,11 @@ This creates the groff font `baskervaldR` and adds a line to a
 file `download.addition`, creating it if it doesn’t exist.  Here,
 the prefix `baskervald` identifies the family name that will be
 used by groff, and the suffix `R` denotes that it is the
-“regular” (default, normal, upright, roman) style.
+“Regular” (default, noRmal, upRight, Roman) style.
 
 Similarly, convert the other Baskervald OTFs, taking care to use
 the same prefix (`baskervald`) and the suffixes `I`, `B`, and
-`BI` for the italic, bold and bold-italic styles. I.e.,
+`BI` for the Italic, Bold and Bold-Italic styles. I.e.,
 
   otf2groff BaskervaldADFStd-Italic.otf baskervaldI
   otf2groff BaskervaldADFStd-Bold.otf baskervaldB
@@ -110,5 +110,5 @@ add the corresponding line from `download.addition` to
 
   .ftr B pagellaB
 
-// Last modified: 2020-11-10
+// Last modified: 2020-11-11
 // 2017-09-03
