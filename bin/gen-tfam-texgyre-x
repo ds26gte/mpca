@@ -1,5 +1,4 @@
-# last change 2019-11-08
-# 2015-03-02
+# last change 2020-11-17
 
 if test "$1" = ""
 then echo needs one argument; exit

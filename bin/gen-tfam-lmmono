@@ -1,0 +1,7 @@
+# last modified 2020-11-17
+
+otf2fam lmmono \
+  lmmono10-regular.otf \
+  lmmono10-italic.otf \
+  doesnt_exist \
+  doesnt_exist

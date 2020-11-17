@@ -1,0 +1,7 @@
+# last modified 2020-11-17
+
+otf2fam ebgaramond \
+    EBGaramond-Regular.otf \
+    EBGaramond-Italic.otf \
+    EBGaramond-Bold.otf \
+    EBGaramond-BoldItalic.otf
