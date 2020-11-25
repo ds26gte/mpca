@@ -1,4 +1,4 @@
-.\" last modified 2020-11-17
+.\" last modified 2020-11-24
 .\" Dorai Sitaram
 .
 .\" don't source if not groff
@@ -78,15 +78,7 @@
 ..
 .
 .de INDX
-.  nr pca-ix::can-source-ind-p 1
-.  if \\n[.U] \{\
-.    sy test -f \\*[AUXF].ind
-.    if \\n[systat] \{\
-.      tm \\*[AUXF].ind not yet created
-.      nr pca-ix::can-source-ind-p 0
-.    \}
-.  \}
-.  if \\n[pca-ix::can-source-ind-p] .so \\*[AUXF].ind
+.  so \\*[AUXF].ind
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-ix.tmac

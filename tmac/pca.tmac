@@ -1,4 +1,4 @@
-.\" last modified 2020-11-14
+.\" last modified 2020-11-24
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -16,10 +16,13 @@
 .  IX \\$*
 ..
 .
-.de EX
-.  mso pca-verb.tmac
-.  EX
-..
+.if !d EX \{\
+.  de EX
+.    rm EX
+.    mso pca-verb.tmac
+.    EX
+.  .
+.\}
 .
 .de eval
 .  mso pca-eval.tmac
@@ -38,10 +41,8 @@
 ..
 .
 .if !d DC \{\
-.
 .  de DC
 .    mso pca-dc.tmac
 .    DC \\$*
 .  .
-.
 .\}
