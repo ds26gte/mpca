@@ -1,0 +1,18 @@
+.\" last modified 2020-11-26
+.
+.if d pca:leading-spaces-macro .nx
+.
+.am par@reset
+.nr pca:obeylines 0
+..
+.
+.de pca:leading-spaces-macro
+.ie \\n[pca:obeylines] .br
+.el \{\
+.ns
+.LP
+.nr pca:obeylines 1
+.\}
+\h'\\n[lsn]n'
+..
+.lsm pca:leading-spaces-macro
