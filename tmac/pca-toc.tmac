@@ -1,4 +1,4 @@
-.\" last modified 2020-11-24
+.\" last modified 2020-11-28
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -20,6 +20,10 @@
 .de pca-toc:sec-with-toc-entry
 .  LP
 .  ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
+.  el .ie '\\$1'S' \{\ 
+.        nr pca-toc:header-level \\n[.$]
+.        nr pca-toc:header-level -1
+.      \}
 .  el .nr pca-toc:header-level \\$1
 .  nr pca-toc:create-toc-entry 1
 .  ie !\\n[pca-toc:sec-triggers-toc-entry-p] .nr pca-toc:create-toc-entry 0
@@ -29,8 +33,8 @@
 .    nr pca-toc:count +1
 .    di pca-toc:header-text
 .  \}
-.  el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
-.  el .pca-toc:orig-@SH \\n[pca-toc:header-level]
+.  el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\$*
+.  el .pca-toc:orig-@SH \\$*
 ..
 .
 .rn @SH pca-toc:orig-@SH

@@ -1,16 +1,25 @@
-# last change 2020-11-17
+# last change 2020-11-27
 # 2011-11-15
 
 otfname=$1
 
+otfbasename=${otfname%.otf}
+
 if test ! -f "$otfname"; then
   echo Missing OTF file: $otfname
-  exit
+  ttfname="$otfbasename.ttf"
+  if test ! -f "$ttfname"; then
+    echo Missing TTF file too: $ttfname
+    exit
+  else
+    echo Converting $ttfname to $otfname
+    ttf2oft $ttfname
+  fi
 fi
 
-groffname=$2
+echo Converting $otfname to groff font
 
-otfbasename=${otfname%.otf}
+groffname=$2
 
 export FONTFORGE_LANGUAGE=ff
 
