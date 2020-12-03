@@ -24,16 +24,28 @@ Get the `mpca` package from GitHub:
 
   git clone https://github.com/ds26gte/mpca
 
-Inside the directory `mpca`, the subdirectory `tmac` contains the macro file `pca.tmac` and
-several subfiles `++pca-*.tmac++`. Either include this directory in
-your `GROFF_TMAC_PATH`, or add the `++*.tmac++` files here to some
-directory in your `GROFF_TMAC_PATH`. (If you’re just
-experimenting, you could simply copy the `++*.tmac++` files to your
-home directory.)
+Inside the directory `mpca`, the subdirectory `tmac` contains the
+macro file `pca.tmac` and several subfiles `++pca-*.tmac++`.
+Either include this directory in your `GROFF_TMAC_PATH`, or add
+the `++*.tmac++` files here to some directory in your
+`GROFF_TMAC_PATH`.
+
+[TIP]
+--
+If you’re just experimenting, you could simply copy the
+`++*.tmac++` files to your home directory.
+
+The `++pca-t2p-*.tmac++` files are used only if you process your
+documents with http://ds26gte.github.io/troff2page[troff2page].
+They are not needed for `groff`. If you don’t plan to use
+troff2page, you don’t need to put them in `GROFF_TMAC_PATH`. The
+other `++pca*.tmac++` files are used by both groff and troff2page.
+--
 
 == Invocation
 
-To use `mpca`, you can simply source `pca.tmac` in your document:
+To use `mpca`, you can simply source `pca.tmac` at the head of
+your document:
 
   .mso pca.tmac
 
@@ -52,9 +64,10 @@ Let’s now go into the `mpca` features that you can use in your document.
 your `GROFF_TMAC_PATH` or home directory.
 
 `~/.groffrc` is a good place to put minor customizations that are
-relevant only to your system. (E.g., I find I need to slightly tweak
-the page-offset register (`PO`) to suit my printer — this tweak needn’t
-or shouldn’t be enshrined in my document.)
+relevant only to your system. (E.g., I find I sometimes need to
+slightly tweak the page-offset register (`PO`) to suit a
+particular printer — this tweak needn’t or shouldn’t be enshrined
+in my document.)
 
 == Verbatim display
 
@@ -145,10 +158,10 @@ IMPORTANT: `.TAG` requires two runs of `groff`. Please see the
 
 == Table of contents
 
-The `.TOC` macro inserts a table of contents (ToC). Add your own header
+The `.ToC` macro inserts a table of contents (ToC). Add your own header
 (e.g., “Contents”, or “Table of Contents”).
 
-`.TOC` does not require you to modify how you use your sectioning
+`.ToC` does not require you to modify how you use your sectioning
 macros — it automatically draws its information from the
 distribution of the `.NH` and `.SH` macros within your document.
 It is thus a solution to the following statement from the groff
@@ -163,6 +176,23 @@ ToC entries are generated for the usual `ms` section headers (`.SH`,
 `.NH`). The _depth_ of the ToC is governed by the number register
 `GROWPS`: Only those `.SH`/`.NH` headers at a level less than or
 equal to `GROWPS` will go into the ToC.
+
+== Thought break
+
+The `.SC` macro inserts a header-less section break, aka thought
+break.
+
+When text occurs both above and below the break on the same page,
+the thought break is shown as a noticeable vertical space, i.e., more so than
+the a regular paragraph break.
+
+If the break occurs at a page
+boundary, an ornament is inserted on (only) one of the pages, as
+otherwise it is difficult to tell if the break across the
+page was a regular paragraph break or a thought break.
+
+The string `\*[SCO]` can be set to the ornament
+preferred. By default it is §.
 
 == Index
 
@@ -255,7 +285,7 @@ We will first describe the Lua version of `.eval`.
 
 `.eval` does only one thing: It allows you to place arbitrary
 Lua code until the following `.endeval`, and the text written to
-standard output by this Lua code is substituted for the `.eval ...
+the stream `troff` this Lua code is substituted for the `.eval ...
 .endeval`. The usefulness of this tactic will be apparent from an
 example. Consider the following document, `tau.ms`:
 
@@ -263,7 +293,7 @@ example. Consider the following document, `tau.ms`:
   its radius is \(*t \(~=
   .eval
   -- the following prints tau, because cos(tau/2) = -1
-  io.write(2*math.acos(-1), '.\n')
+  troff:write(2*math.acos(-1), '.\n')
   .endeval
 
 Run it through `mpca`:
@@ -287,7 +317,7 @@ Call `groff` again as folows:
 
 ====
 The ratio of the circumference of a circle to
-its radius is τ ≈ 6.2831855.
+its radius is τ ≈ 6.2831853071796.
 ====
 
 Here’s how it works. The first `groff` call produces a Lua file
@@ -314,10 +344,13 @@ in your document before the first use of `.eval`.  Thus, the
   its radius is \(*t \(~=
   .eval
   ;the following prints tau, because cos(tau/2) = -1
-  (princ (* 2 (acos -1)))
-  (princ ".")
-  (terpri)
+  (princ (* 2 (acos -1)) *troff*)
+  (princ "." *troff*)
+  (terpri *troff*)
   .endeval
+
+NOTE: For the Common Lisp `.eval`, we write to the stream
+      `++*troff*++` rather than `troff`.
 
 === JavaScript
 
@@ -336,9 +369,6 @@ in your document before the first use of `.eval`.  Thus, the
   troff.write('' + 2*Math.acos(-1));
   troff.write('.\n');
   .endeval
-
-NOTE: For the JavaScript `.eval`, we write to the stream `troff`
-      rather than to standard output.
 
 == Aux files
 
@@ -369,6 +399,7 @@ macro files:
 `pca-eval.tmac` (eval),
 `pca-img.tmac` (images),
 `pca-ix.tmac` (index),
+`pca-sc.tmac` (thought break),
 `pca-tag.tmac` (cross-references),
 and
 `pca-toc.tmac` (ToC).
@@ -384,4 +415,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-11-11
+// last modified 2020-12-03

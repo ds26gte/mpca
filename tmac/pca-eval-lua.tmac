@@ -1,9 +1,8 @@
-.\" last modified 2017-08-15
+.\" last modified 2020-12-03
 .
 .ds pca-eval:file \\*[AUXF].lua
 .
 .de pca-eval:process-snippets
-.  sy touch \\*[pca-eval:file]
 .  sy if test -f \\*[pca-eval:file]; then lua \\*[pca-eval:file]; fi
 ..
 .
@@ -12,14 +11,12 @@
 .
 .  write pca-eval:stream function pca_eval_lua_preamble(f)
 .  write pca-eval:stream   troff = io.open(f, 'w')
-.  write pca-eval:stream   io.output(troff)
 .  write pca-eval:stream end
 .
 .  write pca-eval:stream function pca_eval_lua_postamble()
 .  write pca-eval:stream   troff:write('\\\\\\\\c\\\\n')
 .  write pca-eval:stream   troff:write('.ds pca-eval:status done\\\\n')
 .  write pca-eval:stream   troff:close()
-.  write pca-eval:stream   io.output(io.stdout)
 .  write pca-eval:stream end
 ..
 .

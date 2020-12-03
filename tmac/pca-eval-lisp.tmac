@@ -1,4 +1,4 @@
-.\" last modified 2017-08-15
+.\" last modified 2020-12-03
 .
 .ds pca-eval:file \\*[AUXF].lisp
 .
@@ -23,14 +23,12 @@
 .
 .  write pca-eval:stream (defun pca-eval-lisp-preamble (f)
 .  write pca-eval:stream   (setq *troff*
-.  write pca-eval:stream     (open f :direction :output :if-exists :supersede))
-.  write pca-eval:stream   (setq *standard-output* *troff*))
+.  write pca-eval:stream     (open f :direction :output :if-exists :supersede)))
 .
 .  write pca-eval:stream (defun pca-eval-lisp-postamble ()
 .  write pca-eval:stream   (format t "\\\\\\\\c~%")
 .  write pca-eval:stream   (format t ".ds pca-eval:status done~%")
-.  write pca-eval:stream   (close *troff*)
-.  write pca-eval:stream   (setq *standard-output* *pca-eval-lisp-stdout*))
+.  write pca-eval:stream   (close *troff*))
 ..
 .
 .de pca-eval:write-snippet
