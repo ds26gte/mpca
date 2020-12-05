@@ -1,4 +1,4 @@
-.\" last modified 2020-12-01
+.\" last modified 2020-12-05
 .\" Dorai Sitaram
 .
 .\" disable for nroff
@@ -25,13 +25,15 @@
 .  in .5i
 ..
 .
-.de pca-ix:set-up-index
-.  if \\n[pca-ix:index-already-set-up] .return
-.  nr pca-ix:index-already-set-up 1
+.de pca-ix:call-makeindex
+.  \" calls makeindex if .idx is present and .ind isn't
 .  sy if test -f \\*[AUXF].idx; then mv \\*[AUXF].idx z\\*[AUXF].idx; fi
 .  sy if test -f z\\*[AUXF].idx -a ! -f \\*[AUXF].ind; then makeindex -s \\*[AUXF].mst -r z\\*[AUXF].idx; fi
 .  sy if test -f z\\*[AUXF].ind; then mv z\\*[AUXF].ind \\*[AUXF].ind; fi
 .  sy rm -f z\\*[AUXF].idx z\\*[AUXF].ilg
+..
+.
+.de pca-ix:make-mst-file
 .  open pca-ix:mst-stream \\*[AUXF].mst
 .  write pca-ix:mst-stream preamble ".
 .  write pca-ix:mst-stream .if n .nx
@@ -65,6 +67,15 @@
 .  write pca-ix:mst-stream encap_infix  " "
 .  write pca-ix:mst-stream encap_suffix "]"
 .  close pca-ix:mst-stream
+..
+.
+.de pca-ix:set-up-index
+.  if \\n[pca-ix:index-already-set-up] .return
+.  nr pca-ix:index-already-set-up 1
+.  if d pca-ix:call-makeindex-pre-hook .pca-ix:call-makeindex-pre-hook
+.  pca-ix:call-makeindex
+.  if d pca-ix:call-makeindex-post-hook .pca-ix:call-makeindex-post-hook
+.  pca-ix:make-mst-file
 .  open pca-ix:idx-stream \\*[AUXF].idx
 ..
 .
