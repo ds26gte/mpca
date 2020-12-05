@@ -1,4 +1,4 @@
-.\" last modified 2020-11-17
+.\" last modified 2020-12-05
 .
 .ig ##
 defrequest('pca-t2p-man:orig-SH', function()
@@ -7,6 +7,22 @@ end)
 
 defrequest('pca-t2p-man:orig-SS', function()
   emit_section_header(2, {man_header_p=true})
+end)
+
+defrequest('EX', function()
+  --print('doing EX')
+  --read_troff_line()
+  start_display('L')
+  emit(switch_font 'C')
+  Turn_off_escape_char_p = true
+end)
+
+defrequest('EE', function()
+  --print('doing EE')
+  --read_troff_line()
+  Escape_char = '\\'
+  Turn_off_escape_char_p = false
+  stop_display()
 end)
 
 nb_macro_package('man')

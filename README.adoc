@@ -8,12 +8,9 @@ plain text with your favorite text editor. It lacks some basic
 features, however, viz., cross references, table of contents, and
 index.
 
-The `mpca` macro package is an extension of the standard `ms`
-package that provides workable defaults for these basic needs
-which can be extended or overridden as needed.
-
-`mpca` is an _unobtrusive_ extension to `ms`. You only need to
-use features as you need them.
+The `mpca` macro package is an unobtrusive extension of the
+standard `ms` package that provides workable defaults for these
+basic needs which can be extended or overridden as needed.
 
 `mpca` may stand for “Macros for the Prevention of Cruelty to
 Authors”.
@@ -192,7 +189,7 @@ otherwise it is difficult to tell if the break across the
 page was a regular paragraph break or a thought break.
 
 The string `\*[SCO]` can be set to the ornament
-preferred. By default it is §.
+preferred. By default it is ++*++.
 
 == Index
 
@@ -415,4 +412,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-12-03
+// last modified 2020-12-04
