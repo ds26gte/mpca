@@ -1,12 +1,15 @@
-.\" last modified 2020-12-05
+.\" last modified 2020-12-06
 .\" Dorai Sitaram
 .
 .if d EX .nx
 .
 .de EX
-.  DS L verbatim
+.  nr __EX_can_cross_page_boundary 0
+.  if !'\\$1'' .nr __EX_can_cross_page_boundary 1
+.  ie \\n[__EX_can_cross_page_boundary] .LD verbatim
+.  el .DS L verbatim
 .  ft C
-.  eo
+.  if !\\n[__EX_can_cross_page_boundary] .eo
 ..
 .
 .de EE

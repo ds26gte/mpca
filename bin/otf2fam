@@ -1,4 +1,4 @@
-# last modified 2020-11-17
+# last modified 2020-12-06
 # 2011-11-12
 
 fam=$1
@@ -7,7 +7,7 @@ ital=$3
 bold=$4
 boldital=$5
 
-test -f "$reg" && otf2groff $reg ${fam}R
-test -f "$ital" && otf2groff $ital ${fam}I
-test -f "$bold" && otf2groff $bold ${fam}B
-test -f "$boldital" && otf2groff $boldital ${fam}BI
+otf2groff $reg ${fam}R
+otf2groff $ital ${fam}I
+otf2groff $bold ${fam}B
+otf2groff $boldital ${fam}BI
