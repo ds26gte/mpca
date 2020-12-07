@@ -1,4 +1,4 @@
-.\" last modified 2020-12-05
+.\" last modified 2020-12-07
 .\" Dorai Sitaram
 .
 .mso ms.tmac
@@ -35,13 +35,17 @@
 .  .
 .\}
 .
-.de IMG
-.  mso pca-img.tmac
-.  IMG \\$*
-..
+.if !d IMG \{\
+.  de IMG
+.    rm IMG
+.    mso pca-img.tmac
+.    IMG \\$*
+.  .
+.\}
 .
 .if !d DC \{\
 .  de DC
+.    rm DC
 .    mso pca-dc.tmac
 .    DC \\$*
 .  .
