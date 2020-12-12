@@ -155,8 +155,9 @@ IMPORTANT: `.TAG` requires two runs of `groff`. Please see the
 
 == Table of contents
 
-The `.ToC` macro inserts a table of contents (ToC). Add your own header
-(e.g., “Contents”, or “Table of Contents”).
+The `.ToC` macro inserts a table of contents (ToC). Add your own
+header, e.g., “Contents”, or “Table of Contents” (which is also
+the default value of the `ms` string `\*[TOC]`).
 
 `.ToC` does not require you to modify how you use your sectioning
 macros — it automatically draws its information from the
@@ -174,6 +175,9 @@ ToC entries are generated for the usual `ms` section headers (`.SH`,
 `GROWPS`: Only those `.SH`/`.NH` headers at a level less than or
 equal to `GROWPS` will go into the ToC.
 
+The number register `\n[pca:DI]` (default: .5 inch) determines
+how much subsections are indented in the ToC.
+
 == Thought break
 
 The `.SC` macro inserts a header-less section break, aka thought
@@ -184,12 +188,12 @@ the thought break is shown as a noticeable vertical space, i.e., more so than
 the a regular paragraph break.
 
 If the break occurs at a page
-boundary, an ornament is inserted on (only) one of the pages, as
+boundary, a centered ornament is inserted on (only) one of the pages, as
 otherwise it is difficult to tell if the break across the
 page was a regular paragraph break or a thought break.
 
 The string `\*[SCO]` can be set to the ornament
-preferred. By default it is ++*++.
+preferred. By default it is an asterisk (++*++).
 
 == Index
 
@@ -412,4 +416,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-12-04
+// last modified 2020-12-12

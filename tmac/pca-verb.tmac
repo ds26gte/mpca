@@ -1,15 +1,15 @@
-.\" last modified 2020-12-06
+.\" last modified 2020-12-12
 .\" Dorai Sitaram
 .
 .if d EX .nx
 .
 .de EX
-.  nr __EX_can_cross_page_boundary 0
-.  if !'\\$1'' .nr __EX_can_cross_page_boundary 1
-.  ie \\n[__EX_can_cross_page_boundary] .LD verbatim
+.  nr pca:EX-can-cross-page-boundary 0
+.  if !'\\$1'' .nr pca:EX-can-cross-page-boundary 1
+.  ie \\n[pca:EX-can-cross-page-boundary] .LD verbatim
 .  el .DS L verbatim
 .  ft C
-.  if !\\n[__EX_can_cross_page_boundary] .eo
+.  if !\\n[pca:EX-can-cross-page-boundary] .eo
 ..
 .
 .de EE

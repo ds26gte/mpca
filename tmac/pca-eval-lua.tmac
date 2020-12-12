@@ -1,31 +1,31 @@
-.\" last modified 2020-12-03
+.\" last modified 2020-12-12
 .
-.ds pca-eval:file \\*[AUXF].lua
+.ds pca:eval-file \\*[AUXF].lua
 .
-.de pca-eval:process-snippets
-.  sy if test -f \\*[pca-eval:file]; then lua \\*[pca-eval:file]; fi
+.de pca:eval-process-snippets
+.  sy if test -f \\*[pca:eval-file]; then lua \\*[pca:eval-file]; fi
 ..
 .
-.de pca-eval:start-snippets
-.  write pca-eval:stream local troff
+.de pca:eval-start-snippets
+.  write pca:eval-stream local troff
 .
-.  write pca-eval:stream function pca_eval_lua_preamble(f)
-.  write pca-eval:stream   troff = io.open(f, 'w')
-.  write pca-eval:stream end
+.  write pca:eval-stream function pca_eval_lua_preamble(f)
+.  write pca:eval-stream   troff = io.open(f, 'w')
+.  write pca:eval-stream end
 .
-.  write pca-eval:stream function pca_eval_lua_postamble()
-.  write pca-eval:stream   troff:write('\\\\\\\\c\\\\n')
-.  write pca-eval:stream   troff:write('.ds pca-eval:status done\\\\n')
-.  write pca-eval:stream   troff:close()
-.  write pca-eval:stream end
+.  write pca:eval-stream function pca_eval_lua_postamble()
+.  write pca:eval-stream   troff:write('\\\\\\\\c\\\\n')
+.  write pca:eval-stream   troff:write('.ds pca:eval-status done\\\\n')
+.  write pca:eval-stream   troff:close()
+.  write pca:eval-stream end
 ..
 .
-.de pca-eval:write-snippet
-.  write  pca-eval:stream pca_eval_lua_preamble('\\*[AUXF]-eval-\\n[pca-eval:count].tmp');
+.de pca:eval-write-snippet
+.  write  pca:eval-stream pca_eval_lua_preamble('\\*[AUXF]-eval-\\n[pca:eval-count].tmp');
 .  eo
-.  writem pca-eval:stream pca-eval:text
+.  writem pca:eval-stream pca:eval-text
 .  ec
-.  write  pca-eval:stream pca_eval_lua_postamble()
+.  write  pca:eval-stream pca_eval_lua_postamble()
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-eval-lua.tmac

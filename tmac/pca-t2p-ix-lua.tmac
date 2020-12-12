@@ -1,7 +1,7 @@
-.\" last change 2020-12-05
+.\" last change 2020-12-12
 .\" Dorai Sitaram
 .
-.de pca-ix:call-makeindex-pre-hook
+.de pca:call-makeindex-pre-hook
 .  ig ##
    do
      local f = String_table.AUXF() .. '.ind'
@@ -14,24 +14,24 @@
      end
    end
 .  ##
-.  nr pca-ix:location 0
+.  nr pca:ix-location 0
 ..
 .
-.de pca-ix:call-makeindex-post-hook
+.de pca:call-makeindex-post-hook
 .  ig ##
    do
      local f = String_table.AUXF()..'.ind'
      if not probe_file(f) then
        with_open_output_file(f, function(o)
          o:write('.TAG __troff2page_index\\n')
-         o:write('.pca-t2p-ix:cant-open-ind-file\\n')
+         o:write('.pca:cant-open-ind-file\\n')
        end)
      end
    end
 .  ##
 ..
 .
-.de pca-t2p-ix:cant-open-ind-file
+.de pca:cant-open-ind-file
 .  ig ##
    flag_missing_piece 'index'
    do
@@ -44,25 +44,25 @@
 .  ##
 ..
 .
-.am pca-ix:item0
+.am pca:ix-item0
 .ig ##
 Pca_t2p_ix_pageno_mention_table = {}
 .##
 ..
 .
-.am pca-ix:item1
+.am pca:ix-item1
 .ig ##
 Pca_t2p_ix_pageno_mention_table = {}
 .##
 ..
 .
-.am pca-ix:item2
+.am pca:ix-item2
 .ig ##
 Pca_t2p_ix_pageno_mention_table = {}
 .##
 ..
 .
-.de pca-ix:hook
+.de pca:ix-hook
 .ig ##
 if Last_page_number>0 and not Node_table['TAG:__troff2page_index'] then
   flag_missing_piece('index-in-nav-bar')
@@ -74,7 +74,7 @@ end
 .ig ##
 Pca_t2p_ix_pageno_mention_table = {}
 
-defstring('pca-t2p-ix:function', function(ixno)
+defstring('pca:ix-function', function(ixno)
   local ix_tag = 'TAG:__troff2page_index_' .. ixno
   local ix_pageno = Node_table[ix_tag]
   local res = link_start(page_node_link(ix_pageno, ix_tag), true) ..

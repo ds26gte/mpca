@@ -1,31 +1,31 @@
-.\" last modified 2020-12-05
+.\" last modified 2020-12-12
 .\" Dorai Sitaram
 .
 .\" disable for nroff
 .if n .nx
 .
 .\" don't source more than once
-.if d pca-ix:set-up-index .nx
+.if d pca:set-up-index .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
 .\" Index
 .
-.nr pca-ix:index-already-set-up 0
+.nr pca:index-already-set-up 0
 .
-.de pca-ix:item0
+.de pca:ix-item0
 .  in 0i
 ..
 .
-.de pca-ix:item1
+.de pca:ix-item1
 .  in .25i
 ..
 .
-.de pca-ix:item2
+.de pca:ix-item2
 .  in .5i
 ..
 .
-.de pca-ix:call-makeindex
+.de pca:call-makeindex
 .  \" calls makeindex if .idx is present and .ind isn't
 .  sy if test -f \\*[AUXF].idx; then mv \\*[AUXF].idx z\\*[AUXF].idx; fi
 .  sy if test -f z\\*[AUXF].idx -a ! -f \\*[AUXF].ind; then makeindex -s \\*[AUXF].mst -r z\\*[AUXF].idx; fi
@@ -33,12 +33,12 @@
 .  sy rm -f z\\*[AUXF].idx z\\*[AUXF].ilg
 ..
 .
-.de pca-ix:make-mst-file
-.  open pca-ix:mst-stream \\*[AUXF].mst
-.  write pca-ix:mst-stream preamble ".
-.  write pca-ix:mst-stream .if n .nx
-.  write pca-ix:mst-stream .if d pca-ix:hook .pca-ix:hook
-.  write pca-ix:mst-stream .de see
+.de pca:make-mst-file
+.  open pca:mst-stream \\*[AUXF].mst
+.  write pca:mst-stream preamble ".
+.  write pca:mst-stream .if n .nx
+.  write pca:mst-stream .if d pca:ix-hook .pca:ix-hook
+.  write pca:mst-stream .de see
 .  \" in the following
 .  \" 8 \s in .de body
 .  \" 4 \s when .write is called
@@ -46,43 +46,43 @@
 .  \" 1 \s when the string is unslashed
 .  \" so use 4 \s when you want a character like newline
 .  \" otherwise use 8 times the required nr of \s
-.  write pca-ix:mst-stream \\\\\\\\fIsee\\\\\\\\fR \\\\\\\\\\\\\\\\$1
-.  write pca-ix:mst-stream ..
-.  write pca-ix:mst-stream .de seealso
-.  write pca-ix:mst-stream \\\\\\\\fIsee also\\\\\\\\fR \\\\\\\\\\\\\\\\$1
-.  write pca-ix:mst-stream .."
-.  \"write pca-ix:mst-stream .ns"
-.  write pca-ix:mst-stream postamble "\\\\n"
-.  write pca-ix:mst-stream group_skip "\\\\n.sp .5v"
-.  write pca-ix:mst-stream item_0  "\\\\n.pca-ix:item0\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_1  "\\\\n.pca-ix:item1\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_01 "\\\\n.pca-ix:item1\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_x1 "\\\\n.pca-ix:item1\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_2  "\\\\n.pca-ix:item2\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_12 "\\\\n.pca-ix:item2\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream item_x2 "\\\\n.pca-ix:item2\\\\n\\\\\\\\&"
-.  write pca-ix:mst-stream delim_r "-"
-.  write pca-ix:mst-stream indent_space ""
-.  write pca-ix:mst-stream encap_prefix "\\\\\\\\*["
-.  write pca-ix:mst-stream encap_infix  " "
-.  write pca-ix:mst-stream encap_suffix "]"
-.  close pca-ix:mst-stream
+.  write pca:mst-stream \\\\\\\\fIsee\\\\\\\\fR \\\\\\\\\\\\\\\\$1
+.  write pca:mst-stream ..
+.  write pca:mst-stream .de seealso
+.  write pca:mst-stream \\\\\\\\fIsee also\\\\\\\\fR \\\\\\\\\\\\\\\\$1
+.  write pca:mst-stream .."
+.  \"write pca:mst-stream .ns"
+.  write pca:mst-stream postamble "\\\\n"
+.  write pca:mst-stream group_skip "\\\\n.sp .5v"
+.  write pca:mst-stream item_0  "\\\\n.pca:ix-item0\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_1  "\\\\n.pca:ix-item1\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_01 "\\\\n.pca:ix-item1\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_x1 "\\\\n.pca:ix-item1\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_2  "\\\\n.pca:ix-item2\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_12 "\\\\n.pca:ix-item2\\\\n\\\\\\\\&"
+.  write pca:mst-stream item_x2 "\\\\n.pca:ix-item2\\\\n\\\\\\\\&"
+.  write pca:mst-stream delim_r "-"
+.  write pca:mst-stream indent_space ""
+.  write pca:mst-stream encap_prefix "\\\\\\\\*["
+.  write pca:mst-stream encap_infix  " "
+.  write pca:mst-stream encap_suffix "]"
+.  close pca:mst-stream
 ..
 .
-.de pca-ix:set-up-index
-.  if \\n[pca-ix:index-already-set-up] .return
-.  nr pca-ix:index-already-set-up 1
-.  if d pca-ix:call-makeindex-pre-hook .pca-ix:call-makeindex-pre-hook
-.  pca-ix:call-makeindex
-.  if d pca-ix:call-makeindex-post-hook .pca-ix:call-makeindex-post-hook
-.  pca-ix:make-mst-file
-.  open pca-ix:idx-stream \\*[AUXF].idx
+.de pca:set-up-index
+.  if \\n[pca:index-already-set-up] .return
+.  nr pca:index-already-set-up 1
+.  if d pca:call-makeindex-pre-hook .pca:call-makeindex-pre-hook
+.  pca:call-makeindex
+.  if d pca:call-makeindex-post-hook .pca:call-makeindex-post-hook
+.  pca:make-mst-file
+.  open pca:idx-stream \\*[AUXF].idx
 ..
 .
 .de IX
 .  if !\\n[.U] .return
-.  pca-ix:set-up-index
-.  write pca-ix:idx-stream \\\\indexentry{\\$*}{\\n[%]}
+.  pca:set-up-index
+.  write pca:idx-stream \\\\indexentry{\\$*}{\\n[%]}
 ..
 .
 .de INDX

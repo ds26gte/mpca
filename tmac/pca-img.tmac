@@ -1,49 +1,48 @@
-.\" last modified 2020-11-24
+.\" last modified 2020-12-12
 .\" Dorai Sitaram
 .
 .if \n[.troff2page] .nx
 .
 .de IMG
-.  ds imageAlign -C\"
+.  ds pca:image-align -C\"
 .  ie '\\$1'-R' \{\
-.    ds imageAlign -R\"
+.    ds pca:image-align -R\"
 .    shift
 .  \}
 .  el \{\
 .    if '\\$1'-L' \{\
-.      ds imageAlign -L\"
+.      ds pca:image-align -L\"
 .      shift
 .    \}
 .  \}
 .  if '\\$1'-C' .shift
 .
-.  ds imageFile \\$1\"
+.  ds pca:image-file \\$1\"
 .  shift
 .
-.  ie '\\$1'' .nr imageWidth (\\n[LL] * 4 / 5)
-.  el .nr imageWidth (\\$1 * \\n[LL] / 100)
+.  ie '\\$1'' .nr pca:image-width (\\n[LL] * 4 / 5)
+.  el .nr pca:image-width (\\$1 * \\n[LL] / 100)
 .
-.  nr imageCount +1
-.  ds imageUniqueName .troff_image_\\n[imageCount]\"
+.  nr pca:image-count +1
+.  ds pca:image-unique-name .troff_image-\\n[pca:image-count]\"
 .
 .  if \\n[.U] \{\
-.    ds imageFileExt \\*[imageFile]
-.    substring imageFileExt -4
-.    ie '\\*[imageFileExt]'.svg' .sy inkscape \\*[imageFile] -o \\*[imageUniqueName].eps
-.    el .ie '\\*[imageFileExt]'.png' \{\
-.      sy convert \\*[imageFile] \\*[imageUniqueName].bmp
-.      sy mkbitmap \\*[imageUniqueName].bmp -o \\*[imageUniqueName].pgm
-.      sy potrace \\*[imageUniqueName].pgm -e -o \\*[imageUniqueName].eps
+.    ds pca:image-file-ext \\*[pca:image-file]
+.    substring pca:image-file-ext -4
+.    ie '\\*[pca:image-file-ext]'.svg' .sy inkscape \\*[pca:image-file] -o \\*[pca:image-unique-name].eps
+.    el .ie '\\*[pca:image-file-ext]'.png' \{\
+.      sy convert \\*[pca:image-file] \\*[pca:image-unique-name].bmp
+.      sy mkbitmap \\*[pca:image-unique-name].bmp -o \\*[pca:image-unique-name].pgm
+.      sy potrace \\*[pca:image-unique-name].pgm -e -o \\*[pca:image-unique-name].eps
 .    \}
-.    el .ie '\\*[imageFileExt]'.jpg' \{\
-.      sy convert \\*[imageFile] \\*[imageUniqueName].bmp
-.      sy mkbitmap \\*[imageUniqueName].bmp -o \\*[imageUniqueName].pgm
-.      sy potrace \\*[imageUniqueName].pgm -e -o \\*[imageUniqueName].eps
+.    el .ie '\\*[pca:image-file-ext]'.jpg' \{\
+.      sy convert \\*[pca:image-file] \\*[pca:image-unique-name].bmp
+.      sy mkbitmap \\*[pca:image-unique-name].bmp -o \\*[pca:image-unique-name].pgm
+.      sy potrace \\*[pca:image-unique-name].pgm -e -o \\*[pca:image-unique-name].eps
 .    \}
-.    el .sy convert \\*[imageFile] \\*[imageUniqueName].eps
+.    el .sy convert \\*[pca:image-file] \\*[pca:image-unique-name].eps
 .  \}
 .
 .  in 0
-.  PSPIC \\*[imageAlign] \\*[imageUniqueName].eps \\n[imageWidth]u
-.  nr nextGrafWithoutIndent 1
+.  PSPIC \\*[pca:image-align] \\*[pca:image-unique-name].eps \\n[pca:image-width]u
 ..

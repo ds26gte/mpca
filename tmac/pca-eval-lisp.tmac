@@ -1,42 +1,42 @@
-.\" last modified 2020-12-03
+.\" last modified 2020-12-12
 .
-.ds pca-eval:file \\*[AUXF].lisp
+.ds pca:eval-file \\*[AUXF].lisp
 .
-.de pca-eval:process-snippets
+.de pca:eval-process-snippets
 .  \" change this to suit your Common Lisp implementation
-.  sy touch \\*[pca-eval:file]
-.  sy if test ! -f \\*[pca-eval:file]; then :; \
-   elif test "$LISP" = abcl; then abcl --batch --noinform --load \\*[pca-eval:file]; \
-   elif test "$LISP" = allegro; then alisp -L \\*[pca-eval:file] -kill; \
-   elif test "$LISP" = clisp; then clisp -q \\*[pca-eval:file]; \
-   elif test "$LISP" = clozure; then ccl -l \\*[pca-eval:file] -e '(ccl:quit)'; \
-   elif test "$LISP" = cmucl; then lisp -quiet -load \\*[pca-eval:file] -eval '(ext:quit)'; \
-   elif test "$LISP" = ecl; then ecl -shell \\*[pca-eval:file]; \
-   elif test "$LISP" = gcl; then gcl -load \\*[pca-eval:file] -eval '(sys:quit)'; \
-   else sbcl --script \\*[pca-eval:file]; \
+.  sy touch \\*[pca:eval-file]
+.  sy if test ! -f \\*[pca:eval-file]; then :; \
+   elif test "$LISP" = abcl; then abcl --batch --noinform --load \\*[pca:eval-file]; \
+   elif test "$LISP" = allegro; then alisp -L \\*[pca:eval-file] -kill; \
+   elif test "$LISP" = clisp; then clisp -q \\*[pca:eval-file]; \
+   elif test "$LISP" = clozure; then ccl -l \\*[pca:eval-file] -e '(ccl:quit)'; \
+   elif test "$LISP" = cmucl; then lisp -quiet -load \\*[pca:eval-file] -eval '(ext:quit)'; \
+   elif test "$LISP" = ecl; then ecl -shell \\*[pca:eval-file]; \
+   elif test "$LISP" = gcl; then gcl -load \\*[pca:eval-file] -eval '(sys:quit)'; \
+   else sbcl --script \\*[pca:eval-file]; \
    fi
 ..
 .
-.de pca-eval:start-snippets
-.  write pca-eval:stream (defvar *pca-eval-lisp-stdout* *standard-output*)
-.  write pca-eval:stream (defvar *troff*)
+.de pca:eval-start-snippets
+.  write pca:eval-stream (defvar *pca-eval-lisp-stdout* *standard-output*)
+.  write pca:eval-stream (defvar *troff*)
 .
-.  write pca-eval:stream (defun pca-eval-lisp-preamble (f)
-.  write pca-eval:stream   (setq *troff*
-.  write pca-eval:stream     (open f :direction :output :if-exists :supersede)))
+.  write pca:eval-stream (defun pca-eval-lisp-preamble (f)
+.  write pca:eval-stream   (setq *troff*
+.  write pca:eval-stream     (open f :direction :output :if-exists :supersede)))
 .
-.  write pca-eval:stream (defun pca-eval-lisp-postamble ()
-.  write pca-eval:stream   (format t "\\\\\\\\c~%")
-.  write pca-eval:stream   (format t ".ds pca-eval:status done~%")
-.  write pca-eval:stream   (close *troff*))
+.  write pca:eval-stream (defun pca-eval-lisp-postamble ()
+.  write pca:eval-stream   (format t "\\\\\\\\c~%")
+.  write pca:eval-stream   (format t ".ds pca:eval-status done~%")
+.  write pca:eval-stream   (close *troff*))
 ..
 .
-.de pca-eval:write-snippet
-.  write  pca-eval:stream (pca-eval-lisp-preamble "\\*[AUXF]-eval-\\n[pca-eval:count].tmp")
+.de pca:eval-write-snippet
+.  write  pca:eval-stream (pca-eval-lisp-preamble "\\*[AUXF]-eval-\\n[pca:eval-count].tmp")
 .  eo
-.  writem pca-eval:stream pca-eval:text
+.  writem pca:eval-stream pca:eval-text
 .  ec
-.  write  pca-eval:stream (pca-eval-lisp-postamble)
+.  write  pca:eval-stream (pca-eval-lisp-postamble)
 ..
 .
 .if \n[.troff2page] .mso pca-t2p-eval-lisp.tmac

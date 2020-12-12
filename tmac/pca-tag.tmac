@@ -1,4 +1,4 @@
-.\" last change 2020-12-01
+.\" last change 2020-12-12
 .\" Dorai Sitaram
 .
 .\" Generalization of .TAG in groff's www.tmac, in order
@@ -8,11 +8,11 @@
 .if \n[.troff2page] .nx
 .
 .\" don't load more than once
-.if d pca-tag:set-up .nx
+.if d pca:tag-set-up .nx
 .
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
-.nr pca-tag:already-set-up 0
+.nr pca:tag-already-set-up 0
 .
 .ie \n[.U] \{\
 .  sy test -f \*[AUXF].aux
@@ -20,20 +20,20 @@
 .  \}
 .el .so \*[AUXF].aux
 .
-.de pca-tag:set-up
-.  if \\n[pca-tag:already-set-up] .return
-.  nr pca-tag:already-set-up 1
+.de pca:tag-set-up
+.  if \\n[pca:tag-already-set-up] .return
+.  nr pca:tag-already-set-up 1
 .  if !\\n[.U] .return
-.  open pca-tag:stream \\*[AUXF].aux
+.  open pca:tag-stream \\*[AUXF].aux
 ..
 .
 .de TAG
-.  pca-tag:set-up
+.  pca:tag-set-up
 .  \" if 2nd arg present, use that value instead of current pageno
-.  ie '\\$2'' .ds pca-tag:value \\n[PN]
-.  el .ds pca-tag:value \\$2
-.  ds TAG:\\$1 \\*[pca-tag:value]
+.  ie '\\$2'' .ds pca:tag-value \\n[PN]
+.  el .ds pca:tag-value \\$2
+.  ds TAG:\\$1 \\*[pca:tag-value]
 .  \" continue only in unsafe mode
 .  if !\\n[.U] .return
-.  write pca-tag:stream .ds TAG:\\$1 \\*[pca-tag:value]
+.  write pca:tag-stream .ds TAG:\\$1 \\*[pca:tag-value]
 ..

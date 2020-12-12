@@ -1,4 +1,4 @@
-.\" last modified 2020-11-28
+.\" last modified 2020-12-12
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -8,7 +8,7 @@
 .de ToC
 .  if d pca:toc-hook .pca:toc-hook
 .  so \\*[AUXF].toc
-.  nr pca-toc:sec-triggers-toc-entry-p 1
+.  nr pca:sec-triggers-tocentry-p 1
 .  if !\\n[pca:toc-stream-open-p] \{\
 .    nr pca:toc-stream-open-p 1
 .    open pca:toc-stream \\*[AUXF].toc
@@ -17,46 +17,51 @@
 .
 .if !\n[.U] .nx
 .
-.de pca-toc:sec-with-toc-entry
+.de pca:sec-with-tocentry
 .  LP
-.  ie '\\$1'' .nr pca-toc:header-level \\n[GROWPS]
+.  ie '\\$1'' .nr pca:toc-header-level \\n[GROWPS]
 .  el .ie '\\$1'S' \{\ 
-.        nr pca-toc:header-level \\n[.$]
-.        nr pca-toc:header-level -1
+.        nr pca:toc-header-level \\n[.$]
+.        nr pca:toc-header-level -1
 .      \}
-.  el .nr pca-toc:header-level \\$1
-.  nr pca-toc:create-toc-entry 1
-.  ie !\\n[pca-toc:sec-triggers-toc-entry-p] .nr pca-toc:create-toc-entry 0
-.  el .if (\\n[pca-toc:header-level] > \\n[GROWPS]) .nr pca-toc:create-toc-entry 0
-.  ie \\n[pca-toc:create-toc-entry] \{\
+.  el .nr pca:toc-header-level \\$1
+.  nr pca:create-tocentry 1
+.  ie !\\n[pca:sec-triggers-tocentry-p] .nr pca:create-tocentry 0
+.  el .if (\\n[pca:toc-header-level] > \\n[GROWPS]) .nr pca:create-tocentry 0
+.  ie \\n[pca:create-tocentry] \{\
 .    nr pca:inside-section-p 1
-.    nr pca-toc:count +1
-.    di pca-toc:header-text
+.    nr pca:toc-count +1
+.    di pca:toc-header-text
 .  \}
-.  el .ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\$*
-.  el .pca-toc:orig-@SH \\$*
+.  el .ie \\n[pca:inside-NH-p] .pca:toc-orig-@NH \\$*
+.  el .pca:toc-orig-@SH \\$*
 ..
 .
-.rn @SH pca-toc:orig-@SH
-.rn @NH pca-toc:orig-@NH
+.rn @SH pca:toc-orig-@SH
+.rn @NH pca:toc-orig-@NH
 .
 .de @SH
 .  nr pca:inside-NH-p 0
-.  pca-toc:sec-with-toc-entry \\$*
+.  pca:sec-with-tocentry \\$*
 ..
 .
 .de @NH
 .  nr pca:inside-NH-p 1
-.  pca-toc:sec-with-toc-entry \\$*
+.  pca:sec-with-tocentry \\$*
 ..
 .
 .als SH @SH
 .als NH @NH
 .
-.de pca-toc:write-toc-line
-.  write pca:toc-stream .IP " " \\n[pca-toc:header-level]m
+.nr pca:DI \n(DI
+.
+.de pca:write-toc-line
+.  nr pca:this-indent \\n[pca:DI]u
+.  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:toc-header-level])
+.  tm indenting tocentry by \\n[pca:this-indent]
+.  write pca:toc-stream .IP " " \\n[pca:this-indent]u
 .  if \\n[pca:inside-NH-p] .write pca:toc-stream \\*[SN-STYLE]
-.  write pca:toc-stream \\*[pca-toc:header-text]
+.  write pca:toc-stream \\*[pca:toc-header-text]
 .  write pca:toc-stream \\&... \\n[%]
 ..
 .
@@ -64,17 +69,17 @@
 .  nr pca:inside-section-p 0
 .  br
 .  di
-.  asciify pca-toc:header-text
-.  chop pca-toc:header-text
-.  open pca-toc:snippet-stream \\*[AUXF]-snippet-\\n[pca-toc:count].tmp
-.  write pca-toc:snippet-stream \\*[pca-toc:header-text]
-.  close pca-toc:snippet-stream
-.  ie \\n[pca:inside-NH-p] .pca-toc:orig-@NH \\n[pca-toc:header-level]
-.  el .pca-toc:orig-@SH \\n[pca-toc:header-level]
-.  pca-toc:write-toc-line
+.  asciify pca:toc-header-text
+.  chop pca:toc-header-text
+.  open pca:toc-snippet-stream \\*[AUXF]-snippet-\\n[pca:toc-count].tmp
+.  write pca:toc-snippet-stream \\*[pca:toc-header-text]
+.  close pca:toc-snippet-stream
+.  ie \\n[pca:inside-NH-p] .pca:toc-orig-@NH \\n[pca:toc-header-level]
+.  el .pca:toc-orig-@SH \\n[pca:toc-header-level]
+.  pca:write-toc-line
 .  if \\n[pca:inside-NH-p] .nr pca:inside-NH-p 0
-.  if d TAG .TAG __pca_sec_\\n[pca-toc:count]
-.  nop \\*[pca-toc:header-text]
+.  if d TAG .TAG __pca_sec_\\n[pca:toc-count]
+.  nop \\*[pca:toc-header-text]
 ..
 .
 .am ds@auto-end

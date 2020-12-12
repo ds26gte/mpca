@@ -1,26 +1,26 @@
-.\" last modified 2020-12-05
+.\" last modified 2020-12-12
 .\" created 2020-12-02
 .\" Dorai Sitaram
 .
 .de SC
-.  nr secbreak_x \\n[nl]
-.  nr secbreak_min \n[HM]
-.  nr secbreak_max \n[.p]
-.  nr secbreak_max -\n[HM]
-.  nr secbreak_max -(\n[FM]/2)
-.  if \\n[secbreak_debug] \{\
+.  nr pca:secbreak-y \\n[nl]
+.  nr pca:secbreak-ymin \n[HM]
+.  nr pca:secbreak-ymax \n[.p]
+.  nr pca:secbreak-ymax -\n[HM]
+.  nr pca:secbreak-ymax -(\n[FM]/2)
+.  if \\n[pca:secbreak-debug] \{\
 .    tm .p is \\n[.p]
-.    tm secbreak_x is \\n[secbreak_x]
-.    tm secbreak_min is \\n[secbreak_min]
-.    tm secbreak_max is \\n[secbreak_max]
+.    tm pca:secbreak-y is \\n[pca:secbreak-y]
+.    tm pca:secbreak-ymin is \\n[pca:secbreak-ymin]
+.    tm pca:secbreak-ymax is \\n[pca:secbreak-ymax]
 .  \}
-.  ie ((\\n[secbreak_x]>0)&(\\n[secbreak_x]<=\\n[secbreak_min])) \{\
+.  ie ((\\n[pca:secbreak-y]>0)&(\\n[pca:secbreak-y]<=\\n[pca:secbreak-ymin])) \{\
 .    ce 1
 .    nop \\*[SCO]
 .    ce 0
 .    sp .4v
 .  \}
-.  el .ie ((\\n[secbreak_x]>0)&(\\n[secbreak_x]>\\n[secbreak_max])) \{\
+.  el .ie ((\\n[pca:secbreak-y]>0)&(\\n[pca:secbreak-y]>\\n[pca:secbreak-ymax])) \{\
 .    sp .4v
 .    ce 1
 .    nop \\*[SCO]

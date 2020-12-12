@@ -1,4 +1,4 @@
-.\" last modified 2020-11-08
+.\" last modified 2020-12-12
 .\" Dorai Sitaram
 .
 .if !\n[.troff2page] .nx
@@ -17,10 +17,10 @@ end
 ..
 .
 .ig ##
-defstring('pca-toc:create-link', function(n)
+defstring('pca:toc-create-link', function(n)
   local f = String_table['AUXF']() .. '-snippet-' .. n .. '.tmp'
   local o = make_string_output_stream()
-  --print('pca-toc:create-link writing', f)
+  --print('pca:toc-create-link writing', f)
   with_open_input_file(f, function(i)
     while true do
       local x = i:read '*line'
