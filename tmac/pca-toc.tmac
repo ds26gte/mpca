@@ -1,4 +1,4 @@
-.\" last modified 2020-12-12
+.\" last modified 2020-12-13
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -58,7 +58,6 @@
 .de pca:write-toc-line
 .  nr pca:this-indent \\n[pca:DI]u
 .  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:toc-header-level])
-.  tm indenting tocentry by \\n[pca:this-indent]
 .  write pca:toc-stream .IP " " \\n[pca:this-indent]u
 .  if \\n[pca:inside-NH-p] .write pca:toc-stream \\*[SN-STYLE]
 .  write pca:toc-stream \\*[pca:toc-header-text]
@@ -66,11 +65,14 @@
 ..
 .
 .de pca:section-postlude
+.\"  tm doing pca:section-postlude
 .  nr pca:inside-section-p 0
 .  br
 .  di
+.\"  tm toc-header-text 0 is \\*[pca:toc-header-text]
 .  asciify pca:toc-header-text
 .  chop pca:toc-header-text
+.\"  tm toc-header-text 1 is \\*[pca:toc-header-text]
 .  open pca:toc-snippet-stream \\*[AUXF]-snippet-\\n[pca:toc-count].tmp
 .  write pca:toc-snippet-stream \\*[pca:toc-header-text]
 .  close pca:toc-snippet-stream
