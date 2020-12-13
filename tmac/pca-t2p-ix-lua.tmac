@@ -1,4 +1,4 @@
-.\" last change 2020-12-12
+.\" last change 2020-12-13
 .\" Dorai Sitaram
 .
 .de pca:call-makeindex-pre-hook
@@ -65,7 +65,7 @@ Pca_t2p_ix_pageno_mention_table = {}
 .de pca:ix-hook
 .ig ##
 if Last_page_number>0 and not Node_table['TAG:__troff2page_index'] then
-  flag_missing_piece('index-in-nav-bar')
+  flag_missing_piece 'index-in-nav-bar'
 end
 .##
 .TAG __troff2page_index

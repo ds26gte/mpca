@@ -1,4 +1,4 @@
-.\" last change 2020-12-12
+.\" last change 2020-12-13
 .
 .if !\n[.troff2page] .nx
 .
@@ -13,7 +13,7 @@ defrequest('pca:eval-load-snippet-if-poss', function()
   read_troff_line()
   local f = String_table['pca:eval-snippet-file']()
   if probe_file(f) then troff2page_file(f)
-  else flag_missing_piece('eval')
+  else flag_missing_piece 'eval'
   end
 end)
 .##
