@@ -1,4 +1,4 @@
-.\" last modified 2020-12-12
+.\" last modified 2020-12-13
 .\" Dorai Sitaram
 .
 .if \n[.troff2page] .nx
@@ -20,8 +20,8 @@
 .  ds pca:image-file \\$1\"
 .  shift
 .
-.  ie '\\$1'' .nr pca:image-width (\\n[LL] * 4 / 5)
-.  el .nr pca:image-width (\\$1 * \\n[LL] / 100)
+.  ie '\\$1'' .nr pca:image-width 1i
+.  el .nr pca:image-width \\$1
 .
 .  nr pca:image-count +1
 .  ds pca:image-unique-name .troff_image-\\n[pca:image-count]\"

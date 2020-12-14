@@ -118,10 +118,10 @@ specified, `-C` is assumed.
   .IMG -L t2p.png
 
 `.IMG` takes an optional final argument to specify the width of
-the image, as a percentage of the text width.
+the image. The default is 1 inch.
 
-  .IMG t2p.png 20
-  .IMG -L t2p.png 20
+  .IMG t2p.png 3i
+  .IMG -L t2p.png 4i
 
 `.IMG` relies on the external programs `convert` (from
 ImageMagick); `mkbitmap` and `potrace` (both from the `potrace`
@@ -416,4 +416,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-12-12
+// last modified 2020-12-13
