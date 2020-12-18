@@ -1,0 +1,13 @@
+.\" last modified 2020-12-17
+.\" created 2020-12-17
+.
+.if d BIB .nx
+.
+.de BIB
+.ie !\\n[BIBnum] .nr BIBnum 1
+.el .nr BIBnum \\n[BIBnum]+1
+.sp .5v
+.TAG \\$1 \\n[BIBnum]
+.LP
+[\\n[BIBnum]]
+..

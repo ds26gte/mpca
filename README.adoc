@@ -270,6 +270,24 @@ NOTE: For full details on index-entry syntax, consult the
       http://tex.loria.fr/bibdex/makeindex.pdf[makeindex
       documentation].
 
+== Bibliography
+
+The `.BIB` macro is used to introduce a paragraph that is a simple bibliographic
+reference, e.g.,
+
+  .BIB utp
+  David S. Landes, \fIRevolutions in Time: Clocks and the
+  Making of the Modern World\fP, Belknap Press, 1983.
+
+If it is the __n__th such reference in the document, it is prefixed
+with “[_n_]” in the output. Furthermore, the label `TAG:utp` is
+associated with _n_, using the cross-reference mechanism
+described earlier, and can be used to cite the reference. E.g.,
+
+  For a history of the first portable device that, for better or
+  worse, completely changed how we live, see Landes
+  [\*[TAG:landes_clock]].
+
 == Eval
 
 The macro `.eval` allows you to insert Lua, Common Lisp or JavaScript
@@ -416,4 +434,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-12-13
+// last modified 2020-12-19
