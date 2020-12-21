@@ -124,9 +124,9 @@ the image. The default is 1 inch.
   .IMG -L t2p.png 4i
 
 `.IMG` relies on the external programs `convert` (from
-ImageMagick); `mkbitmap` and `potrace` (both from the `potrace`
-package); and `inkscape`. (`mkbitmap` and `potrace` are needed
-for PNG images. `inkscape` is needed for SVG
+ImageMagick); `mkbitmap` and `potrace` (both from the Potrace
+package); and Inkscape. (`mkbitmap` and `potrace` are needed
+for PNG images. Inkscape is needed for SVG
 images.)
 
 == Page cross-references
@@ -434,4 +434,4 @@ as described in the section on aux files.
 
 For tips on this, see link:otfgroff.adoc[].
 
-// last modified 2020-12-19
+// last modified 2020-12-21
