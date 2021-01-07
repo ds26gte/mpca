@@ -1,4 +1,4 @@
-.\" last modified 2020-12-13
+.\" last modified 2021-01-07
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -6,6 +6,8 @@
 .if '\*[AUXF]'' .ds AUXF .trofftemp
 .
 .de ToC
+.  nr pca:DI \\n(DI
+.  if !\n[.troff2page] .nr pca:DI \\n[pca:DI]/2u
 .  if d pca:toc-hook .pca:toc-hook
 .  so \\*[AUXF].toc
 .  nr pca:sec-triggers-tocentry-p 1
@@ -53,12 +55,10 @@
 .als SH @SH
 .als NH @NH
 .
-.nr pca:DI \n(DI
-.
 .de pca:write-toc-line
 .  nr pca:this-indent \\n[pca:DI]u
 .  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:toc-header-level])
-.  write pca:toc-stream .IP " " \\n[pca:this-indent]u
+.  write pca:toc-stream .IP "" \\n[pca:this-indent]u
 .  if \\n[pca:inside-NH-p] .write pca:toc-stream \\*[SN-STYLE]
 .  write pca:toc-stream \\*[pca:toc-header-text]
 .  write pca:toc-stream \\&... \\n[%]
