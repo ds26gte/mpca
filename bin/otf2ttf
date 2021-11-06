@@ -1,7 +1,0 @@
-#!/usr/bin/fontforge
-
-# last modified 2019-11-08
-# 2016-08-09
-
-Open($1)
-Generate($1:r + ".ttf")

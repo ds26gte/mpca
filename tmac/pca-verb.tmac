@@ -1,18 +1,18 @@
-.\" last modified 2020-12-12
+.\" last modified 2021-02-09
 .\" Dorai Sitaram
 .
 .if d EX .nx
 .
 .de EX
-.  nr pca:EX-can-cross-page-boundary 0
-.  if !'\\$1'' .nr pca:EX-can-cross-page-boundary 1
-.  ie \\n[pca:EX-can-cross-page-boundary] .LD verbatim
-.  el .DS L verbatim
+.  nr pca:EX-keep-within-page 0
+.  if !'\\$1'' .nr pca:EX-keep-within-page 1
+.  ie \\n[pca:EX-keep-within-page] .DS L verbatim
+.  el .LD verbatim
 .  ft C
-.  if !\\n[pca:EX-can-cross-page-boundary] .eo
+.  if \\n[pca:EX-keep-within-page] .eo
 ..
 .
 .de EE
-.  ec
+.  if \\n[pca:EX-keep-within-page] .ec
 .  DE
 ..

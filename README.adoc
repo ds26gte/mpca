@@ -415,6 +415,6 @@ as described in the section on aux files.
 
 == Adding OpenType Fonts to groff
 
-For tips on this, see link:otfgroff.adoc[].
+See https://github.com/ds26gte/otf2groff.
 
-// last modified 2020-12-25
+// last modified 2021-11-06

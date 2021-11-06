@@ -1,7 +1,0 @@
-# last modified 2020-11-17
-
-otf2fam lmroman \
-    lmroman10-regular.otf \
-    lmroman10-italic.otf \
-    lmroman10-bold.otf \
-    lmroman10-bolditalic.otf

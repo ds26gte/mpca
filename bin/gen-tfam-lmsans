@@ -1,7 +1,0 @@
-# last modified 2020-11-17
-
-otf2fam lmsans \
-    lmsans10-regular.otf \
-    lmsans10-oblique.otf \
-    lmsans10-bold.otf \
-    lmsans10-boldoblique.otf
