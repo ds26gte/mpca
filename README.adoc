@@ -57,10 +57,10 @@ Let’s now go into the `mpca` features that you can use in your document.
 
 == Init file
 
-`mpca` will source a macro file `.groffrc` if it can find it in
+`mpca` will source a macro file `.groffrc.tmac` if it can find it in
 your `GROFF_TMAC_PATH` or home directory.
 
-`~/.groffrc` is a good place to put minor customizations that are
+`~/.groffrc.tmac` is a good place to put minor customizations that are
 relevant only to your system. (E.g., I find I sometimes need to
 slightly tweak the page-offset register (`PO`) to suit a
 particular printer — this tweak needn’t or shouldn’t be enshrined
