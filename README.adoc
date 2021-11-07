@@ -69,10 +69,7 @@ in my document.)
 == Verbatim display
 
 Use `.EX` to start and `.EE` to end a verbatim display, typically
-used for program listings. Inside the listing, you can use
-the backslash (`\`) without triggering a troff escape. The
-only restriction is you can’t use a period (`.`) in the first
-column of any line in the display. E.g.,
+used for program listings, e.g.,
 
   .EX
   function fact(n)
@@ -81,6 +78,13 @@ column of any line in the display. E.g.,
     end
   end
   .EE
+
+In this style of call, a display is allowed to cross page
+boundaries. You can't use the backslash (`\`) without triggering
+a troff escape. You also can't use a period (`.`) in the first
+column of any line in the display. This is typically not a
+problem if you consistently indent the body of your displays
+anyway. (Periods in the middle of lines are ok.)
 
 You _can_ use a leading period to effect styling changes. For
 example
@@ -96,11 +100,16 @@ example
   end
   .EE
 
-If you wish to turn on the troff escape within a display, use
-`.ec`. To turn it off again, use `.eo`.
-The lines containing these
-calls must of course have `.` in the first column and will not be
-displayed.
+Adding an argument to `.EX` (doesn't matter what, say `1`) lets
+you use backslash verbatim in the display, however this requires
+the display to fit in one page. (The reason is that groff's page boundary
+traps require the troff escape enabled.)
+
+In the general `.EX` (without argument), you can briefly
+turn off the troff escape with `.eo`, as long as you quickly
+(before danger of a page boundary) turn
+it back on with `.ec`. These lines of course use `.` in the
+first column and will not be themselves displayed.
 
 == Image
 
@@ -417,4 +426,4 @@ as described in the section on aux files.
 
 See https://github.com/ds26gte/otf2groff.
 
-// last modified 2021-11-06
+// last modified 2021-11-07
