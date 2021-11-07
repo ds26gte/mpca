@@ -1,4 +1,4 @@
-.\" last modified 2020-12-12
+.\" last modified 2021-11-07
 .\" Dorai Sitaram
 .
 .if !\n[.troff2page] .nx
@@ -8,29 +8,15 @@
 ..
 .
 .de pca:write-toc-line
-.  ie \\n[pca:inside-NH-p] \{\
-.    write pca:toc-stream .TOCLINE-NH \\n[pca:toc-header-level] \\n[pca:toc-count] \\*[SN-STYLE]
-.    nr pca:inside-NH-p 0
-.  \}
-.  el .write pca:toc-stream .TOCLINE-SH \\n[pca:toc-header-level] \\n[pca:toc-count]
+.  write pca:toc-stream .TOCLINE \\n[pca:toc-header-level] \\n[pca:toc-count] \\*[SN-STYLE]
 ..
 .
-.de TOCLINE-NH
+.de TOCLINE
 .  nr pca:this-tocentry-level \\$1
 .  nr pca:this-tocentry-level -1
 .  nr pca:toc-snippet-count \\$2
-.  nr pca:this-indent \\n[pca:DI]u
-.  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:this-tocentry-level])
-.  nop \h'\\n[pca:this-indent]u'
-.  nop \\$3
-.  nop \\*[pca:toc-create-link \\n[pca:toc-snippet-count]]
-.  br
-..
-.
-.de TOCLINE-SH
-.  nr pca:this-tocentry-level \\$1
-.  nr pca:this-tocentry-level -1
-.  nr pca:toc-snippet-count \\$2
+.  shift 2
+.  ds pca:sec-num "\\$@
 .  nr pca:this-indent \\n[pca:DI]u
 .  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:this-tocentry-level])
 .  nop \h'\\n[pca:this-indent]u'

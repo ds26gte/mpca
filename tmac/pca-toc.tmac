@@ -1,4 +1,4 @@
-.\" last modified 2021-01-07
+.\" last modified 2021-11-07
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -7,6 +7,7 @@
 .
 .de ToC
 .  nr pca:DI \\n(DI
+.  if !\\n[pca:DI] .nr pca:DI 1.5m
 .  if !\n[.troff2page] .nr pca:DI \\n[pca:DI]/2u
 .  if d pca:toc-hook .pca:toc-hook
 .  so \\*[AUXF].toc
@@ -20,13 +21,7 @@
 .if !\n[.U] .nx
 .
 .de pca:sec-with-tocentry
-.  LP
-.  ie '\\$1'' .nr pca:toc-header-level \\n[GROWPS]
-.  el .ie '\\$1'S' \{\ 
-.        nr pca:toc-header-level \\n[.$]
-.        nr pca:toc-header-level -1
-.      \}
-.  el .nr pca:toc-header-level \\$1
+.  nr pca:toc-header-level \\n[nh*hl]
 .  nr pca:create-tocentry 1
 .  ie !\\n[pca:sec-triggers-tocentry-p] .nr pca:create-tocentry 0
 .  el .if (\\n[pca:toc-header-level] > \\n[GROWPS]) .nr pca:create-tocentry 0
@@ -35,21 +30,22 @@
 .    nr pca:toc-count +1
 .    di pca:toc-header-text
 .  \}
-.  el .ie \\n[pca:inside-NH-p] .pca:toc-orig-@NH \\$*
-.  el .pca:toc-orig-@SH \\$*
 ..
 .
 .rn @SH pca:toc-orig-@SH
 .rn @NH pca:toc-orig-@NH
 .
 .de @SH
-.  nr pca:inside-NH-p 0
-.  pca:sec-with-tocentry \\$*
+.  ds SN-STYLE \"
+.  pca:toc-orig-@SH \\$*
+.  ie '\\$1'' .nr nh*hl \\n[GROWPS]
+.  el .nr nh*hl \\$1
+.  pca:sec-with-tocentry
 ..
 .
 .de @NH
-.  nr pca:inside-NH-p 1
-.  pca:sec-with-tocentry \\$*
+.  pca:toc-orig-@NH \\$*
+.  pca:sec-with-tocentry
 ..
 .
 .als SH @SH
@@ -59,29 +55,25 @@
 .  nr pca:this-indent \\n[pca:DI]u
 .  nr pca:this-indent (\\n[pca:this-indent]*\\n[pca:toc-header-level])
 .  write pca:toc-stream .IP "" \\n[pca:this-indent]u
-.  if \\n[pca:inside-NH-p] .write pca:toc-stream \\*[SN-STYLE]
 .  write pca:toc-stream \\*[pca:toc-header-text]
 .  write pca:toc-stream \\&... \\n[%]
 ..
 .
 .de pca:section-postlude
-.\"  tm doing pca:section-postlude
 .  nr pca:inside-section-p 0
-.  br
+.  if !\n[.troff2page] .br
 .  di
-.\"  tm toc-header-text 0 is \\*[pca:toc-header-text]
 .  asciify pca:toc-header-text
 .  chop pca:toc-header-text
-.\"  tm toc-header-text 1 is \\*[pca:toc-header-text]
-.  open pca:toc-snippet-stream \\*[AUXF]-snippet-\\n[pca:toc-count].tmp
-.  write pca:toc-snippet-stream \\*[pca:toc-header-text]
-.  close pca:toc-snippet-stream
-.  ie \\n[pca:inside-NH-p] .pca:toc-orig-@NH \\n[pca:toc-header-level]
-.  el .pca:toc-orig-@SH \\n[pca:toc-header-level]
+.  if \n[.troff2page] \{\
+.    open pca:toc-snippet-stream \\*[AUXF]-snippet-\\n[pca:toc-count].tmp
+.    write pca:toc-snippet-stream \\*[pca:toc-header-text]
+.    close pca:toc-snippet-stream
+.  \}
 .  pca:write-toc-line
-.  if \\n[pca:inside-NH-p] .nr pca:inside-NH-p 0
 .  if d TAG .TAG __pca_sec_\\n[pca:toc-count]
-.  nop \\*[pca:toc-header-text]
+.  ie \n[.troff2page] .so \\*[AUXF]-snippet-\\n[pca:toc-count].tmp
+.  el .nop \\*[pca:toc-header-text]
 ..
 .
 .am ds@auto-end
