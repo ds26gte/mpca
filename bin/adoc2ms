@@ -1,0 +1,97 @@
+# convert .adoc to .ms
+# Dorai Sitaram
+# last modified 2021-11-08
+# created < 2016-02-11
+
+f=
+
+if test $# -ne 1; then
+  echo adoc2ms needs exactly one arg
+  exit 1
+else
+  f=$1
+fi
+
+f_dir=${f%/*}
+
+if test "$f_dir" = "$f"; then
+  f_dir=""
+else
+  f_dir=$f_dir/
+fi
+
+f_without_dir=${f##*/}
+
+f_basename=${f_without_dir%.*}
+
+f_dir_basename=$f_dir$f_basename
+
+asciidoctor $f
+
+cp $f_dir_basename.html $f_dir.dbg.html
+
+sed -i \
+  -e 's/<img src="\([^"]*\)".*width="\([^"]*\)".*>/%ImageForGroff% \1 \2/' \
+  $f_dir_basename.html
+
+sed -i \
+  -e 's/^<div class="verseblock">/\0%%VERSEBLOCK%%/' \
+  $f_dir_basename.html
+
+vi -es $f_dir_basename.html <<EOF
+g/^<div id="footer-text">$/ +1s/^.*$//
+x
+EOF
+
+pandoc $f_dir_basename.html -t man -o $f_dir_basename.ms
+
+cp $f_dir_basename.ms $f_dir.dbg.ms
+
+# inside vi heredoc, mostly double backslashes,
+# exceptions: \( \) \< \>
+
+vi -es $f_dir_basename.ms <<EOF
+
+"g/^\.nf$/ .,/^\.fi$/ s/^$/\\\\ /
+g/^\.nf$/ -1s/^\.IP$/.IP\r.sp \\\\n[DD]u/
+g/^\.fi$/ +1s/^.PP$/.sp \\\\n[DD]u\r.LP/
+"%s/\\\\-/-/g
+g/^\.S[HS]\s/ .,+1s/^.PP$/.LP/
+g/%%VERSEBLOCK%%/+4 s/\\\\f\\[C\\]/\\\\fR/
+g/%ImageForGroff%.* *\([[:digit:].]\+\)\s*$/ s/\([[:digit:].]\+\)\s*$/\=(str2nr(submatch(1))*0.014)/
+g/%ImageForGroff%.* *\([[:digit:].]\+\)%\s*$/ s/\([[:digit:].]\+\)%\s*$/\=(str2nr(submatch(1))*0.065)/
+%s/\(%ImageForGroff%.* *[[:digit:].]\+\)$/\1i/
+%s/%ImageForGroff%\(.*\)/.LP\r.IMG\1\r.LP/g
+
+g/^%%VERSEBLOCK%%/d
+%s/\\\\\\[u200B\\]//g
+%s/\\\\\\[u2009\\]/ /g
+%s/^lw(35.*/lw(8n) lw(75)./g
+%s/^tab(@);/center allbox \0/g
+%s/^\.SH\s/\01\r/
+1,5s/^\.SH 1\>/.TL/
+1,5 g/^\.TL/+1 s/$/\r.LP/
+%s/^\.SS\s/.SH 2\r/
+%s/\\f\[\(.\)\]/\\f\1/g
+%s/\\fR\>/\\fP/g
+
+x
+EOF
+
+# heredoc above doesn't seem to like outputting Unicode chars
+
+sed -i \
+  -e 's/\\\[cq\]/’/g' \
+  -e 's/\\\[lq\]/“/g' \
+  -e 's/\\\[rq\]/”/g' \
+  -e 's/\\\[em\]/—/g' \
+  $f_dir_basename.ms
+
+if test $ADOC2MS2PS; then
+  # if $ADOC2MS2PS is set, further convert the ms file to pdf
+  test "$f_dir" != "" && cd $f_dir
+  soelim $f_basename.ms |
+    tbl |
+    preconv |
+    groff -U -mpca > $f_basename.ps
+fi

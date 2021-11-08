@@ -1,18 +1,14 @@
-# last modified 2020-11-10
+# last modified 2021-11-08
 # created 2020-11-08
 
-ARGS=
+f=${@:$(($#)):1}
 
-while test $# -ne 1; do
-  ARGS="$ARGS $1"
-  shift
-done
+all_but_final_arg=${@:1:$(($#-1))}
 
-f=$1
+f_without_dir=${f##*/}
 
-g=${f##*/}
-g=${g%.*}
+f_basename=${f_without_dir%.*}
 
 soelim $f |
   preconv |
-  groff -U -mpca $ARGS > $g.ps
+  groff -U -mpca $all_but_final_arg > $f_basename.ps
