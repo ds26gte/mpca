@@ -66,6 +66,9 @@ g/%ImageForGroff%.* *\([[:digit:].]\+\)%\s*$/ s/\([[:digit:].]\+\)%\s*$/\=(str2n
 g/^%%VERSEBLOCK%%/d
 %s/\\\\\\[u200B\\]//g
 %s/\\\\\\[u2009\\]/ /g
+%s/\\\\\\[aq\\]/\\\\[cq]/g
+%s/\\\\\\[dq\\]\</\\\\[lq]/g
+%s/\>\\\\\\[dq\\]/\\\\[rq]/g
 %s/^lw(35.*/lw(8n) lw(75)./g
 %s/^tab(@);/center allbox \0/g
 %s/^\.SH\s/\01\r/
