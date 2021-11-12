@@ -78,6 +78,11 @@ g/^%%VERSEBLOCK%%/d
 %s/\\\\f\[\(.\)\]/\\\\f\1/g
 %s/\\\\fR\>/\\\\fP/g
 
+set para&
+set sect&
+
+g/^\.[LP]P$/ norm gqip
+
 x
 EOF
 
