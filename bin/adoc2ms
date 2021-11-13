@@ -1,6 +1,6 @@
 # convert .adoc to .ms
 # Dorai Sitaram
-# last modified 2021-11-11
+# last modified 2021-11-12
 # created < 2016-02-11
 
 f=
@@ -58,9 +58,17 @@ g/^\.fi$/ +1s/^.PP$/.sp \\\\n[DD]u\r.LP/
 "%s/\\\\-/-/g
 g/^\.S[HS]\s/ .,+1s/^.PP$/.LP/
 g/%%VERSEBLOCK%%/+4 s/\\\\f\\[C\\]/\\\\fR/
+
+" convert image width to inches:
+"  100% = 6.5in, so multiply percentage by 6.5/100 = 0.065
+"  1px ~= 1/72 in, so multiply #pixels by 1/72 ~= 0.014
+
 g/%ImageForGroff%.* *\([[:digit:].]\+\)\s*$/ s/\([[:digit:].]\+\)\s*$/\=(str2nr(submatch(1))*0.014)/
 g/%ImageForGroff%.* *\([[:digit:].]\+\)%\s*$/ s/\([[:digit:].]\+\)%\s*$/\=(str2nr(submatch(1))*0.065)/
 %s/\(%ImageForGroff%.* *[[:digit:].]\+\)$/\1i/
+
+" unindent .PP immediately surrounding image
+
 %s/%ImageForGroff%\(.*\)/.LP\r.IMG\1\r.LP/g
 
 g/^%%VERSEBLOCK%%/d
@@ -68,7 +76,7 @@ g/^%%VERSEBLOCK%%/d
 %s/\\\\\\[u2009\\]/ /g
 %s/\\\\\\[aq\\]/\\\\[cq]/g
 %s/\\\\\\[dq\\]\</\\\\[lq]/g
-%s/\>\\\\\\[dq\\]/\\\\[rq]/g
+%s/\\\\\\[dq\\]/\\\\[rq]/g
 %s/^lw(35.*/lw(8n) lw(75)./g
 %s/^tab(@);/center allbox \0/g
 %s/^\.SH\s/\01\r/
@@ -80,6 +88,10 @@ g/^%%VERSEBLOCK%%/d
 
 set para&
 set sect&
+
+set para+=TS
+
+" don't really want newlines inserted at sentence ends
 
 g/^\.[LP]P$/ norm gqip
 
