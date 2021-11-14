@@ -1,6 +1,6 @@
 # convert .adoc to .ms
 # Dorai Sitaram
-# last modified 2021-11-12
+# last modified 2021-11-14
 # created < 2016-02-11
 
 f=
@@ -43,7 +43,7 @@ g/^<div id="footer-text">$/ +1s/^.*$//
 x
 EOF
 
-pandoc $f_dir_basename.html -t man -o $f_dir_basename.ms
+pandoc $f_dir_basename.html -t ms -o $f_dir_basename.ms
 
 cp $f_dir_basename.ms $f_dir.dbg.ms
 
@@ -52,11 +52,25 @@ cp $f_dir_basename.ms $f_dir.dbg.ms
 
 vi -es $f_dir_basename.ms <<EOF
 
+%s/^\.LP/.PP/
+
+"/^\.TL/,/^\.pdfhref/d
+
+g/^\.pdfhref/+1 s/^\.PP/.LP/
+
+g/^\.TS/-1 s/^\.PP/.LP/
+
+g/^\.TE/+1 s/^\.PP/.LP/
+
+g/^\.TS/ .,/^\.TE/ s/^\.\([LP]P\)$/.%verbatim%\1/
+
+g/^\.nf$/ .+1,/^\.fi$/-1 s/^\./\\\\\\&\0/
+
 "g/^\.nf$/ .,/^\.fi$/ s/^$/\\\\ /
 g/^\.nf$/ -1s/^\.IP$/.IP\r.sp \\\\n[DD]u/
 g/^\.fi$/ +1s/^.PP$/.sp \\\\n[DD]u\r.LP/
 "%s/\\\\-/-/g
-g/^\.S[HS]\s/ .,+1s/^.PP$/.LP/
+"g/^\.S[HS]\s/ .,+1s/^\.PP$/.LP/
 g/%%VERSEBLOCK%%/+4 s/\\\\f\\[C\\]/\\\\fR/
 
 " convert image width to inches:
@@ -79,21 +93,23 @@ g/^%%VERSEBLOCK%%/d
 %s/\\\\\\[dq\\]/\\\\[rq]/g
 %s/^lw(35.*/lw(8n) lw(75)./g
 %s/^tab(@);/center allbox \0/g
-%s/^\.SH\s/\01\r/
-1,5s/^\.SH 1\>/.TL/
-1,5 g/^\.TL/+1 s/$/\r.LP/
-%s/^\.SS\s/.SH 2\r/
+"%s/^\.SH\s/\01\r/
+"1,5s/^\.SH 1\>/.TL/
+"1,5 g/^\.TL/+1 s/$/\r.LP/
+"%s/^\.SS\s/.SH 2\r/
 %s/\\\\f\[\(.\)\]/\\\\f\1/g
 %s/\\\\fR\>/\\\\fP/g
 
 set para&
 set sect&
 
-set para+=TS
+set para+=TSpd
 
 " don't really want newlines inserted at sentence ends
 
 g/^\.[LP]P$/ norm gqip
+
+%s/^\.%verbatim%/./
 
 x
 EOF
@@ -105,6 +121,8 @@ sed -i \
   -e 's/\\\[lq\]/“/g' \
   -e 's/\\\[rq\]/”/g' \
   -e 's/\\\[em\]/—/g' \
+  -e 's/ / /g' \
+  -e 's/​//g' \
   $f_dir_basename.ms
 
 if test $ADOC2MS2PS; then

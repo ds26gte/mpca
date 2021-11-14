@@ -1,4 +1,4 @@
-.\" last modified 2021-11-07
+.\" last modified 2021-11-14
 .\" Dorai Sitaram
 .
 .if d pca:section-postlude .nx
@@ -21,11 +21,12 @@
 .if !\n[.U] .nx
 .
 .de pca:sec-with-tocentry
+.  nr pca:inside-section-p 0
 .  nr pca:toc-header-level \\n[nh*hl]
 .  nr pca:create-tocentry 1
 .  ie !\\n[pca:sec-triggers-tocentry-p] .nr pca:create-tocentry 0
 .  el .if (\\n[pca:toc-header-level] > \\n[GROWPS]) .nr pca:create-tocentry 0
-.  ie \\n[pca:create-tocentry] \{\
+.  if \\n[pca:create-tocentry] \{\
 .    nr pca:inside-section-p 1
 .    nr pca:toc-count +1
 .    di pca:toc-header-text
